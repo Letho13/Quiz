@@ -1,0 +1,39 @@
+# IntelliJ / JetBrains
+.idea/
+*.iml
+out/
+
+# Java / Spring Boot
+target/
+*.class
+*.jar
+*.war
+*.log
+
+# Eclipse / NetBeans (au cas où)
+*.classpath
+*.project
+*.settings/
+
+# Node.js / React (Vite)
+node_modules/
+dist/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Vite cache
+.vite/
+
+# Logs
+*.log
+
+# PostgreSQL files (si tu as des dumps ou fichiers locaux)
+*.sql
+*.dump
+
+# OS spécifiques
+.DS_Store
+Thumbs.db
