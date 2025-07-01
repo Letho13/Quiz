@@ -1,0 +1,224 @@
+services:
+
+  questionnaire-db:
+    container_name: question_base_de_donnee
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: question_db
+    volumes:
+      - questionnaire-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - quizz-net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  questionnaire-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: ./questionnaire-service
+      dockerfile: Dockerfile
+    container_name: questionnaire-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      config-server:
+        condition: service_healthy
+        discovery-service:
+          condition: service_healthy
+        questionnaire-db:
+          condition: service_healthy
+        networks:
+          - quizz-net
+
+  user-db:
+    container_name: user_base_de_donnee
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_db
+    volumes:
+      - user-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - quizz-net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: ./User-Service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      config-server:
+        condition: service_healthy
+        discovery-service:
+          condition: service_healthy
+        user-db:
+          condition: service_healthy
+        networks:
+          - quizz-net
+
+
+  ranking-db:
+    container_name: ranking_base_de_donnee
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ranking_db
+    volumes:
+      - ranking-data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - quizz-net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ranking-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: ./Ranking-Service
+      dockerfile: Dockerfile
+    container_name: ranking-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      config-server:
+        condition: service_healthy
+        discovery-service:
+          condition: service_healthy
+        ranking-db:
+          condition: service_healthy
+        networks:
+          - quizz-net
+
+  reward-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: ./reward-service
+      dockerfile: Dockerfile
+    container_name: ranking-service
+    ports:
+      - "8083:8083"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+          condition: service_healthy
+    networks:
+      - quizz-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8083/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+
+
+  discovery-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - quizz-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  gateway-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    container_name: gateway-service
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+    ports:
+      - "8222:8222"
+    networks:
+      - quizz-net
+
+    config-server:
+      environment:
+        SPRING_PROFILES_ACTIVE: native
+      build:
+        context: ./config-server
+        dockerfile: Dockerfile
+      container_name: config-server
+      ports:
+        - "8888:8888"
+      networks:
+        - quizz-net
+      healthcheck:
+        test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+        interval: 5s
+        timeout: 3s
+        retries: 5
+
+    zipkin:
+      container_name: zipkin
+      image: openzipkin/zipkin
+      ports:
+        - "9411:9411"
+      networks:
+        - quizz-net
+
+networks:
+  quizz-net:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:
