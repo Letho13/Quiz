@@ -12,7 +12,7 @@ services:
     ports:
       - "5432:5432"
     networks:
-      - quizz-net
+      - quiz-net
     restart: unless-stopped
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
@@ -34,12 +34,12 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
-        discovery-service:
-          condition: service_healthy
-        questionnaire-db:
-          condition: service_healthy
-        networks:
-          - quizz-net
+      discovery-service:
+        condition: service_healthy
+      questionnaire-db:
+        condition: service_healthy
+    networks:
+      - quiz-net
 
   user-db:
     container_name: user_base_de_donnee
@@ -53,7 +53,7 @@ services:
     ports:
       - "5433:5432"
     networks:
-      - quizz-net
+      - quiz-net
     restart: unless-stopped
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
@@ -67,7 +67,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./User-Service
+      context: ./user-service
       dockerfile: Dockerfile
     container_name: user-service
     ports:
@@ -75,12 +75,12 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
-        discovery-service:
-          condition: service_healthy
-        user-db:
-          condition: service_healthy
-        networks:
-          - quizz-net
+      discovery-service:
+        condition: service_healthy
+      user-db:
+        condition: service_healthy
+    networks:
+        - quiz-net
 
 
   ranking-db:
@@ -95,7 +95,7 @@ services:
     ports:
       - "5434:5432"
     networks:
-      - quizz-net
+      - quiz-net
     restart: unless-stopped
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U postgres" ]
@@ -109,7 +109,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./Ranking-Service
+      context: ./reward-service
       dockerfile: Dockerfile
     container_name: ranking-service
     ports:
@@ -117,12 +117,12 @@ services:
     depends_on:
       config-server:
         condition: service_healthy
-        discovery-service:
-          condition: service_healthy
-        ranking-db:
-          condition: service_healthy
-        networks:
-          - quizz-net
+      discovery-service:
+        condition: service_healthy
+      ranking-db:
+        condition: service_healthy
+    networks:
+      - quiz-net
 
   reward-service:
     environment:
@@ -132,23 +132,21 @@ services:
     build:
       context: ./reward-service
       dockerfile: Dockerfile
-    container_name: ranking-service
+    container_name: reward-service
     ports:
       - "8083:8083"
     depends_on:
       config-server:
         condition: service_healthy
       discovery-service:
-          condition: service_healthy
+        condition: service_healthy
     networks:
-      - quizz-net
+      - quiz-net
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8083/actuator/health" ]
       interval: 5s
       timeout: 3s
       retries: 5
-
-
 
   discovery-service:
     environment:
@@ -164,7 +162,7 @@ services:
       config-server:
         condition: service_healthy
     networks:
-      - quizz-net
+      - quiz-net
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
       interval: 5s
@@ -188,37 +186,38 @@ services:
     ports:
       - "8222:8222"
     networks:
-      - quizz-net
+      - quiz-net
 
-    config-server:
-      environment:
-        SPRING_PROFILES_ACTIVE: native
-      build:
-        context: ./config-server
-        dockerfile: Dockerfile
-      container_name: config-server
-      ports:
-        - "8888:8888"
-      networks:
-        - quizz-net
-      healthcheck:
-        test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-        interval: 5s
-        timeout: 3s
-        retries: 5
+  config-server:
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+    build:
+      context: ./config-server
+      dockerfile: Dockerfile
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - quiz-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
 
-    zipkin:
-      container_name: zipkin
-      image: openzipkin/zipkin
-      ports:
-        - "9411:9411"
-      networks:
-        - quizz-net
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - quiz-net
 
 networks:
-  quizz-net:
+  quiz-net:
     driver: bridge
 
 volumes:
-  postgres:
-  pgadmin:
+  questionnaire-data:
+  user-data:
+  ranking-data:

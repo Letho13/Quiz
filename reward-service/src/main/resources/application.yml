@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: reward-service
+
+  config:
+    import: "optional:configserver:"
+
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
+server:
+  port: 8083
+
+eureka:
+  instance:
+    hostname: reward-service
+    prefer-ip-address: true
+    health-check-url-path: /actuator/health
+    status-page-url-path: /actuator/info
+    metadata-map:
+      management:
+        port: 8082
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      noteService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: docker
+    import: "optional:configserver:http://config-server:8888"
+
+
+#eureka:
+#  client:
+#    service-url:
+#      defaultZone: "http://discovery-service:8761/eureka"

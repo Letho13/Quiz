@@ -1,9 +1,9 @@
 spring:
   application:
-    name: questionnaire-service
+    name: ranking-service
 
   datasource:
-    url: ${DB_URL:jdbc:postgresql://localhost:5432/question_db}
+    url: ${DB_URL:jdbc:postgresql://localhost:5434/ranking_db}
     username: ${DB_USER:postgres}
     password: ${DB_PASS:password}
     driver-class-name: org.postgresql.Driver
@@ -20,7 +20,7 @@ spring:
         dialect: org.hibernate.dialect.PostgreSQLDialect
 
 server:
-  port: 8080
+  port: 8082
 
 eureka:
   client:
@@ -33,7 +33,7 @@ eureka:
     status-page-url-path: /actuator/info
     metadata-map:
       management:
-        port: 8080
+        port: 8082
 
 logging:
   level:
