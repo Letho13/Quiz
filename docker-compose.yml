@@ -109,7 +109,7 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./reward-service
+      context: ./ranking-service
       dockerfile: Dockerfile
     container_name: ranking-service
     ports:

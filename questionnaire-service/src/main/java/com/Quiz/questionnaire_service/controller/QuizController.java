@@ -36,10 +36,10 @@ public class QuizController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateQuiz(
-            @PathVariable Integer id,
+            @PathVariable("id") Integer id,
             @RequestBody @Valid QuizDto quizDto) {
         quizDto.setId (id);
-        quizService.updateQuiz (quizDto);
+        quizService.updateQuiz(quizDto);
         return ResponseEntity.ok().build();
     }
 
