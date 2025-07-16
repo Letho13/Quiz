@@ -1,9 +1,33 @@
 server:
-  port: 8083
+  port: 8082
 
 spring:
   application:
     name: reward-service
+
+  datasource:
+    url: jdbc:postgresql://reward_base_de_donnee:5434/reward_db
+    username: postgres
+    password: password
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      initialization-fail-timeout: 0
+      connection-timeout: 30000
+      maximum-pool-size: 10
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+
+  cloud:
+    config:
+      fail-fast: true
+      retry:
+        max-attempts: 10
+        initial-interval: 1000
+        multiplier: 1.5
 
 eureka:
   client:
@@ -15,8 +39,3 @@ eureka:
   instance:
     prefer-ip-address: false
     hostname: reward-service
-
-logging:
-  level:
-    root: INFO
-    com.Quiz.reward: DEBUG
