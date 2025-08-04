@@ -20,15 +20,15 @@ services:
       timeout: 5s
       retries: 5
 
-  questionnaire-service:
+  quiz-service:
     environment:
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./questionnaire-service
+      context: ./quiz-service
       dockerfile: Dockerfile
-    container_name: questionnaire-service
+    container_name: quiz-service
     ports:
       - "8080:8080"
     depends_on:
@@ -179,6 +179,19 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
+
+  front-service:
+    build:
+      context: ./quiz-front
+      dockerfile: Dockerfile
+    container_name: front-service
+    ports:
+      - "4200:80"
+    depends_on:
+      - gateway-service
+    networks:
+      - quiz-net
+
 
   zipkin:
     container_name: zipkin

@@ -1,12 +1,12 @@
 server:
-  port: 8081
+  port: 8080
 
 spring:
   application:
-    name: user-service
+    name: quiz-service
 
   datasource:
-    url: jdbc:postgresql://user_base_de_donnee:5432/user_db
+    url: jdbc:postgresql://question_base_de_donnee:5432/question_db
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver
@@ -38,4 +38,4 @@ eureka:
     registry-fetch-interval-seconds: 5
   instance:
     prefer-ip-address: false
-    hostname: user-service
+    hostname: quiz-service
