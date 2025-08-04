@@ -30,10 +30,10 @@ spring:
   cloud:
     config:
       uri: http://config-server:8888
-#    gateway:
-#      discovery:
-#        locator:
-#          enabled: true
+    gateway:
+      discovery:
+        locator:
+          enabled: true
 #security:
 #  jwt:
 #    secret: "test_clef_longue_pour_securiser_18_06_2025__forte!"

@@ -6,7 +6,7 @@ spring:
     name: reward-service
 
   datasource:
-    url: jdbc:postgresql://reward_base_de_donnee:5434/reward_db
+    url: jdbc:postgresql://reward_base_de_donnee:5432/reward_db
     username: postgres
     password: password
     driver-class-name: org.postgresql.Driver

@@ -1,10 +1,11 @@
 package com.Quiz.user_service.service;
 
-import com.Quiz.user_service.dto.UserDto;
+
 import com.Quiz.user_service.exception.UserNotFoundException;
 import com.Quiz.user_service.mapper.UserMapper;
 import com.Quiz.user_service.model.User;
 import com.Quiz.user_service.repository.UserRepository;
+import com.quiz.shared.dto.UserDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

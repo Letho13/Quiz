@@ -1,7 +1,8 @@
 package com.Quiz.user_service.mapper;
 
-import com.Quiz.user_service.dto.UserDto;
+
 import com.Quiz.user_service.model.User;
+import com.quiz.shared.dto.UserDto;
 
 
 public class UserMapper {
