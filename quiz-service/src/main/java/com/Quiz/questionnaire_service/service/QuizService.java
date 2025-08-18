@@ -10,6 +10,7 @@ import com.Quiz.questionnaire_service.model.Quiz;
 
 import com.Quiz.questionnaire_service.repository.QuizRepository;
 import com.quiz.shared.dto.QuizDto;
+import com.quiz.shared.dto.QuizType;
 import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RequiredArgsConstructor
@@ -37,6 +39,19 @@ public class QuizService {
                 .orElseThrow(() -> new QuizNotFoundException(String.format("Le quiz %s n'existe pas!", id)));
         return  QuizMapper.toDto(quiz);
     }
+
+    public List<QuizDto> findByType(QuizType type) {
+       List<Quiz> quizzes = quizRepository.findByType(type);
+
+        if (quizzes.isEmpty()) {
+            throw new QuizNotFoundException(String.format("Pas de quiz associé au type : %s", type));
+        }
+
+        return quizzes.stream()
+                .map(QuizMapper::toDto)
+                .collect(Collectors.toList());
+    }
+
 
     public QuizDto createQuiz(QuizDto quizDto) {
 

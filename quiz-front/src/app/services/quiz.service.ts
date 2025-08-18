@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {environment} from '../../environements/environement';
 
 
+
 export interface Reponse {
   id: number;
   reponse: string;
@@ -33,4 +34,13 @@ export class QuizService {
   getQuizById(id: number): Observable<Quiz> {
     return this.http.get<Quiz>(`${this.apiUrl}/${id}`);
   }
+
+  getQuizzesByType(type: string): Observable<Quiz[]> {
+    return this.http.get<Quiz[]>(`${this.apiUrl}/type/${type}`);
+  }
+
+  getTypes(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/quiz/types`);
+  }
+
 }
