@@ -1,0 +1,87 @@
+/* ===========================
+   🎯 LAYOUT DU QUIZ
+   =========================== */
+.quiz-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+}
+
+/* ===========================
+   🏁 HEADER DU QUIZ
+   =========================== */
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.quiz-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+/* ===========================
+   📝 QUESTION
+   =========================== */
+.quiz-question {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   🔲 LISTE DES RÉPONSES
+   =========================== */
+.answers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.answer-card {
+  background: #ecf0f1;
+  padding: 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  text-align: center;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.answer-card:hover:not(:disabled) {
+  background: #dcdde1;
+  transform: translateY(-2px);
+}
+
+.answer-card.correct {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+
+.answer-card.wrong {
+  background: #ffcdd2;
+  color: #c62828;
+}
+
+/* ===========================
+   🎯 FEEDBACK
+   =========================== */
+.correct-msg {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.wrong-msg {
+  background-color: #ffcdd2;
+  color: #c62828;
+  padding: 0.5rem;
+  border-radius: 6px;
+}

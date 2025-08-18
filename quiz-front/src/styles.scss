@@ -1,0 +1,167 @@
+/* ===========================
+   🌍 RESET + BASE
+   =========================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f7f7f7;
+  color: #2C3E50;
+  line-height: 1.5;
+}
+
+/* ===========================
+   📝 TYPOGRAPHIE
+   =========================== */
+h1, h2, h3, h4 {
+  font-weight: 600;
+  color: #2C3E50;
+}
+
+p {
+  margin-bottom: 1rem;
+  color: #34495E;
+}
+
+/* ===========================
+   🎨 COULEURS GLOBALES
+   =========================== */
+:root {
+  --primary-color: #2C3E50;
+  --secondary-color: #34495E;
+  --success-color: #4CAF50;
+  --warning-color: #FFC107;
+  --danger-color: #F44336;
+  --light-bg: #f7f7f7;
+  --card-bg: #fff;
+}
+
+/* ===========================
+   💳 CARTES GÉNÉRIQUES
+   =========================== */
+.card {
+  background: var(--card-bg);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+}
+
+/* ===========================
+   🔘 BOUTONS GLOBAUX
+   =========================== */
+button {
+  padding: 0.8rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: var(--secondary-color);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: #ecf0f1;
+  color: var(--primary-color);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #dcdde1;
+  transform: translateY(-2px);
+}
+
+/* ===========================
+   ⏳ TIMER CIRCULAIRE
+   =========================== */
+.timer-wrapper {
+  position: relative;
+  width: 60px;
+  height: 60px;
+}
+
+.timer-svg {
+  transform: rotate(-90deg);
+  width: 100%;
+  height: 100%;
+}
+
+.timer-bg {
+  fill: none;
+  stroke: #eee;
+  stroke-width: 3;
+}
+
+.timer-progress {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.5s ease, stroke 0.5s ease;
+}
+
+.timer-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+/* ===========================
+   📊 BARRE DE PROGRESSION
+   =========================== */
+.progress-bar {
+  height: 6px;
+  background: #ecf0f1;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress {
+  height: 100%;
+  background: var(--primary-color);
+  transition: width 0.3s ease;
+}
+
+/* ===========================
+   📦 LAYOUT DE BASE
+   =========================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+/* ===========================
+   🎯 FEEDBACK GLOBAL
+   =========================== */
+.correct-msg {
+  color: var(--success-color);
+  font-weight: bold;
+}
+
+.wrong-msg {
+  color: var(--danger-color);
+  font-weight: bold;
+}

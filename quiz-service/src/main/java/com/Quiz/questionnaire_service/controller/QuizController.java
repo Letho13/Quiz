@@ -3,6 +3,7 @@ package com.Quiz.questionnaire_service.controller;
 
 import com.Quiz.questionnaire_service.service.QuizService;
 import com.quiz.shared.dto.QuizDto;
+import com.quiz.shared.dto.QuizType;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,16 @@ public class QuizController {
         Page<QuizDto> quizDtoPage = quizService.findAllQuiz(page, size);
         List<QuizDto> quizDtoList = quizDtoPage.getContent();
         return new ResponseEntity<>(quizDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/type/{type}")
+    public List <QuizDto> getQuizByType(@PathVariable("type") QuizType type) {
+        return quizService.findByType(type);
+    }
+
+    @GetMapping("/quiz/types")
+    public ResponseEntity<QuizType[]> getQuizTypes() {
+        return ResponseEntity.ok(QuizType.values());
     }
 
     @GetMapping("/{id}")
