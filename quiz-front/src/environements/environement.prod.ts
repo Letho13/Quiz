@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://localhost:8222/QUIZ-SERVICE/api/quiz'  // reste le même si Docker + reverse proxy
+  gatewayUrl: 'http://localhost:8222',
+  quizApi: '/QUIZ-SERVICE/api/quiz',
+  userApi: '/USER-SERVICE/api/auth'
 };

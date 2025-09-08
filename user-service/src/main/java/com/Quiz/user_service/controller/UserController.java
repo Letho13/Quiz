@@ -1,9 +1,6 @@
 package com.Quiz.user_service.controller;
 
 
-import com.Quiz.user_service.mapper.UserMapper;
-import com.Quiz.user_service.model.User;
-import com.Quiz.user_service.repository.UserRepository;
 import com.Quiz.user_service.service.UserService;
 import com.quiz.shared.dto.UserDto;
 import jakarta.validation.Valid;
@@ -11,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

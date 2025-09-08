@@ -1,5 +1,7 @@
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8222/QUIZ-SERVICE/api/quiz'  // proxy passera par Angular en local
+  gatewayUrl: 'http://localhost:8222',
+  quizApi: '/QUIZ-SERVICE/api/quiz',
+  userApi: '/USER-SERVICE/api/auth'  // proxy passera par Angular en local
 };
 

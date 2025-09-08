@@ -60,6 +60,7 @@ public class QuizController {
         return ResponseEntity.ok(quizService.createQuiz(quizDto));
     }
 
+
     @DeleteMapping("/{id}")
     public void deleteQuiz (@PathVariable ("id") Integer id) {
         quizService.deleteQuiz (id);

@@ -1,7 +1,6 @@
 package com.Quiz.questionnaire_service.service;
 
 
-import com.Quiz.questionnaire_service.exception.QuestionNotFoundException;
 import com.Quiz.questionnaire_service.exception.QuizNotFoundException;
 import com.Quiz.questionnaire_service.mapper.QuestionMapper;
 import com.Quiz.questionnaire_service.mapper.QuizMapper;
@@ -11,7 +10,6 @@ import com.Quiz.questionnaire_service.model.Quiz;
 import com.Quiz.questionnaire_service.repository.QuizRepository;
 import com.quiz.shared.dto.QuizDto;
 import com.quiz.shared.dto.QuizType;
-import io.micrometer.common.util.StringUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

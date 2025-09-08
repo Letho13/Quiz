@@ -1,7 +1,13 @@
 {
-  "/api": {
+  "/QUIZ-SERVICE": {
+    "target": "http://localhost:8222",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/USER-SERVICE": {
     "target": "http://localhost:8222",
     "secure": false,
     "changeOrigin": true
   }
 }
+
