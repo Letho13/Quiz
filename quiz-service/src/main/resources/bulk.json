@@ -1,0 +1,964 @@
+{
+  "quizzes": [
+    {
+      "title": "Histoire Mondiale",
+      "type": "SCOLAIRE",
+      "questions": [
+        {
+          "question": "Quel événement a marqué la fin de la Guerre froide en 1991 ?",
+          "reponses": [
+            { "reponse": "Dissolution de l'URSS", "status": "VRAI" },
+            { "reponse": "Chute du Mur de Berlin", "status": "FAUX" },
+            { "reponse": "Fin de la Guerre du Vietnam", "status": "FAUX" },
+            { "reponse": "Indépendance de l'Inde", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Qui était le pharaon lors de la construction de la Grande Pyramide de Gizeh ?",
+          "reponses": [
+            { "reponse": "Khéops", "status": "VRAI" },
+            { "reponse": "Ramsès II", "status": "FAUX" },
+            { "reponse": "Toutankhamon", "status": "FAUX" },
+            { "reponse": "Cléopâtre", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle bataille a conduit à la défaite de Napoléon en 1815 ?",
+          "reponses": [
+            { "reponse": "Waterloo", "status": "VRAI" },
+            { "reponse": "Austerlitz", "status": "FAUX" },
+            { "reponse": "Trafalgar", "status": "FAUX" },
+            { "reponse": "Leipzig", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel empire a conquis Constantinople en 1453 ?",
+          "reponses": [
+            { "reponse": "Empire Ottoman", "status": "VRAI" },
+            { "reponse": "Empire Byzantin", "status": "FAUX" },
+            { "reponse": "Empire Mongol", "status": "FAUX" },
+            { "reponse": "Empire Romain", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Qui a signé la Magna Carta en 1215 ?",
+          "reponses": [
+            { "reponse": "Jean sans Terre", "status": "VRAI" },
+            { "reponse": "Henri VIII", "status": "FAUX" },
+            { "reponse": "Guillaume le Conquérant", "status": "FAUX" },
+            { "reponse": "Édouard III", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle dynastie a régné sur la Chine de 1368 à 1644 ?",
+          "reponses": [
+            { "reponse": "Ming", "status": "VRAI" },
+            { "reponse": "Qing", "status": "FAUX" },
+            { "reponse": "Han", "status": "FAUX" },
+            { "reponse": "Tang", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel explorateur a atteint l'Inde par la route du Cap en 1498 ?",
+          "reponses": [
+            { "reponse": "Vasco de Gama", "status": "VRAI" },
+            { "reponse": "Christophe Colomb", "status": "FAUX" },
+            { "reponse": "Ferdinand Magellan", "status": "FAUX" },
+            { "reponse": "Marco Polo", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle guerre a opposé la Grande-Bretagne et la Chine au XIXe siècle concernant l'opium ?",
+          "reponses": [
+            { "reponse": "Guerres de l'Opium", "status": "VRAI" },
+            { "reponse": "Révolution Boxer", "status": "FAUX" },
+            { "reponse": "Guerre Sino-Japonaise", "status": "FAUX" },
+            { "reponse": "Taiping Rébellion", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Qui était le leader de l'Indépendance indienne en 1947 ?",
+          "reponses": [
+            { "reponse": "Mahatma Gandhi", "status": "VRAI" },
+            { "reponse": "Jawaharlal Nehru", "status": "FAUX" },
+            { "reponse": "Subhas Chandra Bose", "status": "FAUX" },
+            { "reponse": "Bhagat Singh", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle conférence a redessiné la carte de l'Europe après Napoléon en 1815 ?",
+          "reponses": [
+            { "reponse": "Congrès de Vienne", "status": "VRAI" },
+            { "reponse": "Traité de Versailles", "status": "FAUX" },
+            { "reponse": "Conférence de Yalta", "status": "FAUX" },
+            { "reponse": "Congrès de Berlin", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Physique Quantique",
+      "type": "SCOLAIRE",
+      "questions": [
+        {
+          "question": "Quel physicien a formulé le principe d'incertitude en 1927 ?",
+          "reponses": [
+            { "reponse": "Werner Heisenberg", "status": "VRAI" },
+            { "reponse": "Niels Bohr", "status": "FAUX" },
+            { "reponse": "Albert Einstein", "status": "FAUX" },
+            { "reponse": "Erwin Schrödinger", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle particule est responsable de la force nucléaire faible ?",
+          "reponses": [
+            { "reponse": "Boson W", "status": "VRAI" },
+            { "reponse": "Gluon", "status": "FAUX" },
+            { "reponse": "Photon", "status": "FAUX" },
+            { "reponse": "Graviton", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel effet décrit la courbure de la lumière par un champ gravitationnel ?",
+          "reponses": [
+            { "reponse": "Lentille gravitationnelle", "status": "VRAI" },
+            { "reponse": "Effet Doppler", "status": "FAUX" },
+            { "reponse": "Effet photoélectrique", "status": "FAUX" },
+            { "reponse": "Diffraction", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle équation relie l'énergie et la masse ?",
+          "reponses": [
+            { "reponse": "E=mc²", "status": "VRAI" },
+            { "reponse": "F=ma", "status": "FAUX" },
+            { "reponse": "E=hf", "status": "FAUX" },
+            { "reponse": "p=mv", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel phénomène quantique permet aux électrons de traverser une barrière énergétique ?",
+          "reponses": [
+            { "reponse": "Effet tunnel", "status": "VRAI" },
+            { "reponse": "Superposition", "status": "FAUX" },
+            { "reponse": "Entrelacement", "status": "FAUX" },
+            { "reponse": "Décohérence", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel scientifique a proposé le modèle de l'atome avec des orbites quantifiées ?",
+          "reponses": [
+            { "reponse": "Niels Bohr", "status": "VRAI" },
+            { "reponse": "Ernest Rutherford", "status": "FAUX" },
+            { "reponse": "J.J. Thomson", "status": "FAUX" },
+            { "reponse": "Louis de Broglie", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle est la charge du quark up ?",
+          "reponses": [
+            { "reponse": "+2/3", "status": "VRAI" },
+            { "reponse": "-1/3", "status": "FAUX" },
+            { "reponse": "+1", "status": "FAUX" },
+            { "reponse": "0", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel boson est associé au champ de Higgs ?",
+          "reponses": [
+            { "reponse": "Boson de Higgs", "status": "VRAI" },
+            { "reponse": "Boson Z", "status": "FAUX" },
+            { "reponse": "Neutrino", "status": "FAUX" },
+            { "reponse": "Muon", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle théorie unifie la relativité générale et la mécanique quantique dans certains contextes ?",
+          "reponses": [
+            { "reponse": "Théorie des cordes", "status": "VRAI" },
+            { "reponse": "Théorie du chaos", "status": "FAUX" },
+            { "reponse": "Mécanique classique", "status": "FAUX" },
+            { "reponse": "Électrodynamique", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel effet quantique est utilisé dans les lasers ?",
+          "reponses": [
+            { "reponse": "Émission stimulée", "status": "VRAI" },
+            { "reponse": "Absorption", "status": "FAUX" },
+            { "reponse": "Réflexion", "status": "FAUX" },
+            { "reponse": "Dispersion", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Géographie Avancée",
+      "type": "SCOLAIRE",
+      "questions": [
+        {
+          "question": "Quel est le plus long fleuve d'Afrique ?",
+          "reponses": [
+            { "reponse": "Nil", "status": "VRAI" },
+            { "reponse": "Congo", "status": "FAUX" },
+            { "reponse": "Niger", "status": "FAUX" },
+            { "reponse": "Zambeze", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle est la capitale de la Mongolie ?",
+          "reponses": [
+            { "reponse": "Oulan-Bator", "status": "VRAI" },
+            { "reponse": "Ulaanbaatar", "status": "FAUX" },
+            { "reponse": "Astana", "status": "FAUX" },
+            { "reponse": "Bichkek", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel pays a la plus grande superficie forestière au monde ?",
+          "reponses": [
+            { "reponse": "Russie", "status": "VRAI" },
+            { "reponse": "Brésil", "status": "FAUX" },
+            { "reponse": "Canada", "status": "FAUX" },
+            { "reponse": "Indonésie", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle mer sépare l'Europe de l'Afrique ?",
+          "reponses": [
+            { "reponse": "Méditerranée", "status": "VRAI" },
+            { "reponse": "Rouge", "status": "FAUX" },
+            { "reponse": "Noire", "status": "FAUX" },
+            { "reponse": "Baltique", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel est le point culminant de l'Amérique du Sud ?",
+          "reponses": [
+            { "reponse": "Aconcagua", "status": "VRAI" },
+            { "reponse": "Chimborazo", "status": "FAUX" },
+            { "reponse": "Cotopaxi", "status": "FAUX" },
+            { "reponse": "Kilimandjaro", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle île est partagée entre l'Indonésie, la Malaisie et Brunei ?",
+          "reponses": [
+            { "reponse": "Bornéo", "status": "VRAI" },
+            { "reponse": "Sumatra", "status": "FAUX" },
+            { "reponse": "Java", "status": "FAUX" },
+            { "reponse": "Nouvelle-Guinée", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel désert est le plus grand du monde en termes de superficie ?",
+          "reponses": [
+            { "reponse": "Antarctique", "status": "VRAI" },
+            { "reponse": "Sahara", "status": "FAUX" },
+            { "reponse": "Gobi", "status": "FAUX" },
+            { "reponse": "Atacama", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle ville est traversée par le fleuve Tigre ?",
+          "reponses": [
+            { "reponse": "Bagdad", "status": "VRAI" },
+            { "reponse": "Damas", "status": "FAUX" },
+            { "reponse": "Téhéran", "status": "FAUX" },
+            { "reponse": "Amman", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel pays enclavé est entouré par l'Afrique du Sud ?",
+          "reponses": [
+            { "reponse": "Lesotho", "status": "VRAI" },
+            { "reponse": "Swaziland", "status": "FAUX" },
+            { "reponse": "Botswana", "status": "FAUX" },
+            { "reponse": "Namibie", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle est la plus grande île du monde ?",
+          "reponses": [
+            { "reponse": "Groenland", "status": "VRAI" },
+            { "reponse": "Madagascar", "status": "FAUX" },
+            { "reponse": "Baffin", "status": "FAUX" },
+            { "reponse": "Sumatra", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Biologie Moléculaire",
+      "type": "SCOLAIRE",
+      "questions": [
+        {
+          "question": "Quel processus cellulaire copie l'ADN en ARN ?",
+          "reponses": [
+            { "reponse": "Transcription", "status": "VRAI" },
+            { "reponse": "Traduction", "status": "FAUX" },
+            { "reponse": "Réplication", "status": "FAUX" },
+            { "reponse": "Mutation", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle molécule transporte l'oxygène dans le sang ?",
+          "reponses": [
+            { "reponse": "Hémoglobine", "status": "VRAI" },
+            { "reponse": "Myoglobine", "status": "FAUX" },
+            { "reponse": "Insuline", "status": "FAUX" },
+            { "reponse": "Albumine", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel organite cellulaire est responsable de la photosynthèse ?",
+          "reponses": [
+            { "reponse": "Chloroplaste", "status": "VRAI" },
+            { "reponse": "Mitochondrie", "status": "FAUX" },
+            { "reponse": "Ribosome", "status": "FAUX" },
+            { "reponse": "Lysosome", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle enzyme coupe l'ADN à des sites spécifiques ?",
+          "reponses": [
+            { "reponse": "Enzyme de restriction", "status": "VRAI" },
+            { "reponse": "Polymérase", "status": "FAUX" },
+            { "reponse": "Ligase", "status": "FAUX" },
+            { "reponse": "Helicase", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel est le nombre de chromosomes chez l'humain ?",
+          "reponses": [
+            { "reponse": "46", "status": "VRAI" },
+            { "reponse": "23", "status": "FAUX" },
+            { "reponse": "48", "status": "FAUX" },
+            { "reponse": "44", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle vitamine est synthétisée par les bactéries intestinales ?",
+          "reponses": [
+            { "reponse": "Vitamine K", "status": "VRAI" },
+            { "reponse": "Vitamine C", "status": "FAUX" },
+            { "reponse": "Vitamine D", "status": "FAUX" },
+            { "reponse": "Vitamine A", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel type de liaison relie les bases azotées dans l'ADN ?",
+          "reponses": [
+            { "reponse": "Liaison hydrogène", "status": "VRAI" },
+            { "reponse": "Liaison covalente", "status": "FAUX" },
+            { "reponse": "Liaison ionique", "status": "FAUX" },
+            { "reponse": "Liaison peptidique", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle maladie est causée par une mutation dans le gène CFTR ?",
+          "reponses": [
+            { "reponse": "Mucoviscidose", "status": "VRAI" },
+            { "reponse": "Hémophilie", "status": "FAUX" },
+            { "reponse": "Drépanocytose", "status": "FAUX" },
+            { "reponse": "Phénylcétonurie", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel processus divise une cellule en deux cellules filles identiques ?",
+          "reponses": [
+            { "reponse": "Mitose", "status": "VRAI" },
+            { "reponse": "Méiose", "status": "FAUX" },
+            { "reponse": "Apoptose", "status": "FAUX" },
+            { "reponse": "Fission binaire", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle structure de l'ADN a été découverte par Watson et Crick ?",
+          "reponses": [
+            { "reponse": "Double hélice", "status": "VRAI" },
+            { "reponse": "Triple hélice", "status": "FAUX" },
+            { "reponse": "Hélice simple", "status": "FAUX" },
+            { "reponse": "Structure linéaire", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Cinéma Classique",
+      "type": "LOISIR",
+      "questions": [
+        {
+          "question": "Quel réalisateur a dirigé 'Citizen Kane' en 1941 ?",
+          "reponses": [
+            { "reponse": "Orson Welles", "status": "VRAI" },
+            { "reponse": "Alfred Hitchcock", "status": "FAUX" },
+            { "reponse": "Charlie Chaplin", "status": "FAUX" },
+            { "reponse": "Frank Capra", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel film a remporté l'Oscar du meilleur film en 1959 ?",
+          "reponses": [
+            { "reponse": "Ben-Hur", "status": "VRAI" },
+            { "reponse": "Gigi", "status": "FAUX" },
+            { "reponse": "West Side Story", "status": "FAUX" },
+            { "reponse": "The Apartment", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel acteur a joué dans 'The Godfather' comme Vito Corleone ?",
+          "reponses": [
+            { "reponse": "Marlon Brando", "status": "VRAI" },
+            { "reponse": "Al Pacino", "status": "FAUX" },
+            { "reponse": "Robert De Niro", "status": "FAUX" },
+            { "reponse": "James Caan", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel mouvement cinématographique italien des années 1940-1950 est connu pour son réalisme ?",
+          "reponses": [
+            { "reponse": "Néoréalisme", "status": "VRAI" },
+            { "reponse": "Expressionnisme", "status": "FAUX" },
+            { "reponse": "Nouvelle Vague", "status": "FAUX" },
+            { "reponse": "Film noir", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel film de Hitchcock met en scène une attaque d'oiseaux ?",
+          "reponses": [
+            { "reponse": "Les Oiseaux", "status": "VRAI" },
+            { "reponse": "Psychose", "status": "FAUX" },
+            { "reponse": "Vertigo", "status": "FAUX" },
+            { "reponse": "Fenêtre sur cour", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel compositeur a écrit la musique pour 'Star Wars' ?",
+          "reponses": [
+            { "reponse": "John Williams", "status": "VRAI" },
+            { "reponse": "Hans Zimmer", "status": "FAUX" },
+            { "reponse": "Ennio Morricone", "status": "FAUX" },
+            { "reponse": "Jerry Goldsmith", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel film muet de 1927 est considéré comme le premier long-métrage sonore ?",
+          "reponses": [
+            { "reponse": "The Jazz Singer", "status": "VRAI" },
+            { "reponse": "Metropolis", "status": "FAUX" },
+            { "reponse": "Nosferatu", "status": "FAUX" },
+            { "reponse": "The Cabinet of Dr. Caligari", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel réalisateur français est associé à la Nouvelle Vague ?",
+          "reponses": [
+            { "reponse": "Jean-Luc Godard", "status": "VRAI" },
+            { "reponse": "Federico Fellini", "status": "FAUX" },
+            { "reponse": "Ingmar Bergman", "status": "FAUX" },
+            { "reponse": "Akira Kurosawa", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel film de 1994 met en scène un boxeur et un gangster ?",
+          "reponses": [
+            { "reponse": "Pulp Fiction", "status": "VRAI" },
+            { "reponse": "Forrest Gump", "status": "FAUX" },
+            { "reponse": "The Shawshank Redemption", "status": "FAUX" },
+            { "reponse": "Schindler's List", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel actrice a remporté quatre Oscars ?",
+          "reponses": [
+            { "reponse": "Katharine Hepburn", "status": "VRAI" },
+            { "reponse": "Meryl Streep", "status": "FAUX" },
+            { "reponse": "Bette Davis", "status": "FAUX" },
+            { "reponse": "Audrey Hepburn", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Musique Rock",
+      "type": "LOISIR",
+      "questions": [
+        {
+          "question": "Quel groupe a sorti l'album 'Sgt. Pepper's Lonely Hearts Club Band' ?",
+          "reponses": [
+            { "reponse": "The Beatles", "status": "VRAI" },
+            { "reponse": "The Rolling Stones", "status": "FAUX" },
+            { "reponse": "The Who", "status": "FAUX" },
+            { "reponse": "The Kinks", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Qui est le chanteur principal de Led Zeppelin ?",
+          "reponses": [
+            { "reponse": "Robert Plant", "status": "VRAI" },
+            { "reponse": "Jimmy Page", "status": "FAUX" },
+            { "reponse": "John Bonham", "status": "FAUX" },
+            { "reponse": "John Paul Jones", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel album de Pink Floyd explore la folie ?",
+          "reponses": [
+            { "reponse": "The Dark Side of the Moon", "status": "VRAI" },
+            { "reponse": "Wish You Were Here", "status": "FAUX" },
+            { "reponse": "Animals", "status": "FAUX" },
+            { "reponse": "The Wall", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel guitariste est connu pour avoir joué de la guitare avec les dents ?",
+          "reponses": [
+            { "reponse": "Jimi Hendrix", "status": "VRAI" },
+            { "reponse": "Eric Clapton", "status": "FAUX" },
+            { "reponse": "Jimmy Page", "status": "FAUX" },
+            { "reponse": "Eddie Van Halen", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel festival rock de 1969 a attiré des centaines de milliers de personnes ?",
+          "reponses": [
+            { "reponse": "Woodstock", "status": "VRAI" },
+            { "reponse": "Monterey Pop", "status": "FAUX" },
+            { "reponse": "Altamont", "status": "FAUX" },
+            { "reponse": "Isle of Wight", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel groupe a chanté 'Bohemian Rhapsody' ?",
+          "reponses": [
+            { "reponse": "Queen", "status": "VRAI" },
+            { "reponse": "ABBA", "status": "FAUX" },
+            { "reponse": "Bee Gees", "status": "FAUX" },
+            { "reponse": "Fleetwood Mac", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Qui est le bassiste des Rolling Stones ?",
+          "reponses": [
+            { "reponse": "Bill Wyman", "status": "VRAI" },
+            { "reponse": "Mick Jagger", "status": "FAUX" },
+            { "reponse": "Keith Richards", "status": "FAUX" },
+            { "reponse": "Ronnie Wood", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel album de Nirvana a popularisé le grunge ?",
+          "reponses": [
+            { "reponse": "Nevermind", "status": "VRAI" },
+            { "reponse": "In Utero", "status": "FAUX" },
+            { "reponse": "Bleach", "status": "FAUX" },
+            { "reponse": "Unplugged in New York", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel musicien rock est mort à 27 ans en 1970 ?",
+          "reponses": [
+            { "reponse": "Jimi Hendrix", "status": "VRAI" },
+            { "reponse": "Jim Morrison", "status": "FAUX" },
+            { "reponse": "Janis Joplin", "status": "FAUX" },
+            { "reponse": "Kurt Cobain", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel groupe a sorti 'Back in Black' après la mort de son chanteur ?",
+          "reponses": [
+            { "reponse": "AC/DC", "status": "VRAI" },
+            { "reponse": "Black Sabbath", "status": "FAUX" },
+            { "reponse": "Deep Purple", "status": "FAUX" },
+            { "reponse": "Judas Priest", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Sports Extrêmes",
+      "type": "LOISIR",
+      "questions": [
+        {
+          "question": "Quel sport extrême implique de sauter d'une falaise avec un parachute ?",
+          "reponses": [
+            { "reponse": "BASE jumping", "status": "VRAI" },
+            { "reponse": "Skydiving", "status": "FAUX" },
+            { "reponse": "Bungee jumping", "status": "FAUX" },
+            { "reponse": "Paragliding", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel athlète a remporté quatre médailles d'or en ski alpin aux JO ?",
+          "reponses": [
+            { "reponse": "Alberto Tomba", "status": "VRAI" },
+            { "reponse": "Lindsey Vonn", "status": "FAUX" },
+            { "reponse": "Bode Miller", "status": "FAUX" },
+            { "reponse": "Mikaela Shiffrin", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel est le record du monde du saut en hauteur masculin actuel ?",
+          "reponses": [
+            { "reponse": "2,45 m", "status": "VRAI" },
+            { "reponse": "2,50 m", "status": "FAUX" },
+            { "reponse": "2,40 m", "status": "FAUX" },
+            { "reponse": "2,35 m", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel sport combine ski et tir à la carabine ?",
+          "reponses": [
+            { "reponse": "Biathlon", "status": "VRAI" },
+            { "reponse": "Pentathlon", "status": "FAUX" },
+            { "reponse": "Triathlon", "status": "FAUX" },
+            { "reponse": "Decathlon", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel grimpeur a escaladé l'Everest sans oxygène en 1978 ?",
+          "reponses": [
+            { "reponse": "Reinhold Messner", "status": "VRAI" },
+            { "reponse": "Edmund Hillary", "status": "FAUX" },
+            { "reponse": "Tenzing Norgay", "status": "FAUX" },
+            { "reponse": "Maurice Herzog", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel événement sportif est connu comme le 'Super Bowl' du surf ?",
+          "reponses": [
+            { "reponse": "Pipeline Masters", "status": "VRAI" },
+            { "reponse": "US Open", "status": "FAUX" },
+            { "reponse": "Rip Curl Pro", "status": "FAUX" },
+            { "reponse": "Billabong Pro", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel sport extrême se pratique dans des canyons avec de l'eau ?",
+          "reponses": [
+            { "reponse": "Canyoning", "status": "VRAI" },
+            { "reponse": "Rafting", "status": "FAUX" },
+            { "reponse": "Spéléologie", "status": "FAUX" },
+            { "reponse": "Escalade", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel cycliste a remporté le Tour de France sept fois consécutives ?",
+          "reponses": [
+            { "reponse": "Lance Armstrong", "status": "VRAI" },
+            { "reponse": "Eddy Merckx", "status": "FAUX" },
+            { "reponse": "Miguel Indurain", "status": "FAUX" },
+            { "reponse": "Chris Froome", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel est le plus haut saut en parachute enregistré ?",
+          "reponses": [
+            { "reponse": "41 435 m", "status": "VRAI" },
+            { "reponse": "30 000 m", "status": "FAUX" },
+            { "reponse": "50 000 m", "status": "FAUX" },
+            { "reponse": "20 000 m", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel sport implique de descendre des rapides en kayak ?",
+          "reponses": [
+            { "reponse": "Kayak extrême", "status": "VRAI" },
+            { "reponse": "Canoë", "status": "FAUX" },
+            { "reponse": "Stand-up paddle", "status": "FAUX" },
+            { "reponse": "Hydrospeed", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Jeux Vidéo Historiques",
+      "type": "LOISIR",
+      "questions": [
+        {
+          "question": "Quel jeu vidéo a introduit le personnage de Mario en 1981 ?",
+          "reponses": [
+            { "reponse": "Donkey Kong", "status": "VRAI" },
+            { "reponse": "Super Mario Bros", "status": "FAUX" },
+            { "reponse": "Mario Kart", "status": "FAUX" },
+            { "reponse": "Mario Party", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel studio a développé la série 'The Legend of Zelda' ?",
+          "reponses": [
+            { "reponse": "Nintendo", "status": "VRAI" },
+            { "reponse": "Sega", "status": "FAUX" },
+            { "reponse": "Sony", "status": "FAUX" },
+            { "reponse": "Microsoft", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel jeu de 1996 a popularisé les FPS avec un mode multijoueur ?",
+          "reponses": [
+            { "reponse": "Quake", "status": "VRAI" },
+            { "reponse": "Doom", "status": "FAUX" },
+            { "reponse": "Half-Life", "status": "FAUX" },
+            { "reponse": "Counter-Strike", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel personnage est le protagoniste de 'Final Fantasy VII' ?",
+          "reponses": [
+            { "reponse": "Cloud Strife", "status": "VRAI" },
+            { "reponse": "Sephiroth", "status": "FAUX" },
+            { "reponse": "Tifa Lockhart", "status": "FAUX" },
+            { "reponse": "Aerith Gainsborough", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel jeu de stratégie en temps réel a été lancé par Blizzard en 1998 ?",
+          "reponses": [
+            { "reponse": "StarCraft", "status": "VRAI" },
+            { "reponse": "Warcraft", "status": "FAUX" },
+            { "reponse": "Diablo", "status": "FAUX" },
+            { "reponse": "Overwatch", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel console a introduit les cartouches en 1976 ?",
+          "reponses": [
+            { "reponse": "Atari 2600", "status": "VRAI" },
+            { "reponse": "NES", "status": "FAUX" },
+            { "reponse": "Sega Genesis", "status": "FAUX" },
+            { "reponse": "PlayStation", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel jeu de Rockstar met en scène la ville de Vice City ?",
+          "reponses": [
+            { "reponse": "Grand Theft Auto: Vice City", "status": "VRAI" },
+            { "reponse": "Grand Theft Auto: San Andreas", "status": "FAUX" },
+            { "reponse": "Grand Theft Auto V", "status": "FAUX" },
+            { "reponse": "Red Dead Redemption", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel MMO a été lancé en 2004 par Blizzard ?",
+          "reponses": [
+            { "reponse": "World of Warcraft", "status": "VRAI" },
+            { "reponse": "EverQuest", "status": "FAUX" },
+            { "reponse": "Final Fantasy XIV", "status": "FAUX" },
+            { "reponse": "The Elder Scrolls Online", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel jeu de 1980 implique de manger des points et des fantômes ?",
+          "reponses": [
+            { "reponse": "Pac-Man", "status": "VRAI" },
+            { "reponse": "Space Invaders", "status": "FAUX" },
+            { "reponse": "Asteroids", "status": "FAUX" },
+            { "reponse": "Pong", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel développeur est derrière la série 'Assassin's Creed' ?",
+          "reponses": [
+            { "reponse": "Ubisoft", "status": "VRAI" },
+            { "reponse": "EA", "status": "FAUX" },
+            { "reponse": "Activision", "status": "FAUX" },
+            { "reponse": "Square Enix", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Politique Internationale 2020-2025",
+      "type": "ACTUALITE",
+      "questions": [
+        {
+          "question": "Quel pays a accueilli les Jeux Olympiques d'été en 2024 ?",
+          "reponses": [
+            { "reponse": "France", "status": "VRAI" },
+            { "reponse": "Japon", "status": "FAUX" },
+            { "reponse": "États-Unis", "status": "FAUX" },
+            { "reponse": "Brésil", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Qui est le président de l'Ukraine en 2025 ?",
+          "reponses": [
+            { "reponse": "Volodymyr Zelensky", "status": "VRAI" },
+            { "reponse": "Petro Porochenko", "status": "FAUX" },
+            { "reponse": "Viktor Ianoukovytch", "status": "FAUX" },
+            { "reponse": "Leonid Kravtchouk", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel accord climatique a été renforcé en 2023 à Dubaï ?",
+          "reponses": [
+            { "reponse": "COP28", "status": "VRAI" },
+            { "reponse": "COP21", "status": "FAUX" },
+            { "reponse": "COP15", "status": "FAUX" },
+            { "reponse": "COP26", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel leader nord-coréen a rencontré plusieurs fois Donald Trump ?",
+          "reponses": [
+            { "reponse": "Kim Jong-un", "status": "VRAI" },
+            { "reponse": "Moon Jae-in", "status": "FAUX" },
+            { "reponse": "Xi Jinping", "status": "FAUX" },
+            { "reponse": "Shinzo Abe", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle crise migratoire a affecté l'Europe en 2022-2023 ?",
+          "reponses": [
+            { "reponse": "Guerre en Ukraine", "status": "VRAI" },
+            { "reponse": "Brexit", "status": "FAUX" },
+            { "reponse": "Pandémie COVID-19", "status": "FAUX" },
+            { "reponse": "Crise en Syrie", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel pays a rejoint l'OTAN en 2023 ?",
+          "reponses": [
+            { "reponse": "Finlande", "status": "VRAI" },
+            { "reponse": "Suède", "status": "FAUX" },
+            { "reponse": "Ukraine", "status": "FAUX" },
+            { "reponse": "Géorgie", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle élection présidentielle française a eu lieu en 2022 ?",
+          "reponses": [
+            { "reponse": "Réélection d'Emmanuel Macron", "status": "VRAI" },
+            { "reponse": "Élection de Marine Le Pen", "status": "FAUX" },
+            { "reponse": "Élection de Jean-Luc Mélenchon", "status": "FAUX" },
+            { "reponse": "Élection de Valérie Pécresse", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel conflit oppose Israël et le Hamas depuis 2023 ?",
+          "reponses": [
+            { "reponse": "Guerre de Gaza", "status": "VRAI" },
+            { "reponse": "Guerre du Liban", "status": "FAUX" },
+            { "reponse": "Conflit syrien", "status": "FAUX" },
+            { "reponse": "Intifada", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Qui est le Premier ministre du Royaume-Uni en 2025 ?",
+          "reponses": [
+            { "reponse": "Keir Starmer", "status": "VRAI" },
+            { "reponse": "Boris Johnson", "status": "FAUX" },
+            { "reponse": "Rishi Sunak", "status": "FAUX" },
+            { "reponse": "Liz Truss", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle alliance économique inclut la Chine et la Russie ?",
+          "reponses": [
+            { "reponse": "Organisation de Coopération de Shanghai", "status": "VRAI" },
+            { "reponse": "BRICS", "status": "FAUX" },
+            { "reponse": "G7", "status": "FAUX" },
+            { "reponse": "ASEAN", "status": "FAUX" }
+          ]
+        }
+      ]
+    },
+    {
+      "title": "Économie Globale Récente",
+      "type": "ACTUALITE",
+      "questions": [
+        {
+          "question": "Quelle cryptomonnaie a connu un crash majeur en 2022 ?",
+          "reponses": [
+            { "reponse": "Terra", "status": "VRAI" },
+            { "reponse": "Bitcoin", "status": "FAUX" },
+            { "reponse": "Ethereum", "status": "FAUX" },
+            { "reponse": "Ripple", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel pays a la plus grande dette publique en 2024 ?",
+          "reponses": [
+            { "reponse": "États-Unis", "status": "VRAI" },
+            { "reponse": "Japon", "status": "FAUX" },
+            { "reponse": "Chine", "status": "FAUX" },
+            { "reponse": "Allemagne", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle entreprise a acquis Twitter en 2022 ?",
+          "reponses": [
+            { "reponse": "Elon Musk", "status": "VRAI" },
+            { "reponse": "Mark Zuckerberg", "status": "FAUX" },
+            { "reponse": "Jeff Bezos", "status": "FAUX" },
+            { "reponse": "Larry Page", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel indice boursier représente les 500 plus grandes entreprises US ?",
+          "reponses": [
+            { "reponse": "S&P 500", "status": "VRAI" },
+            { "reponse": "Dow Jones", "status": "FAUX" },
+            { "reponse": "NASDAQ", "status": "FAUX" },
+            { "reponse": "FTSE 100", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle inflation record a frappé l'Europe en 2022 ?",
+          "reponses": [
+            { "reponse": "Plus de 10%", "status": "VRAI" },
+            { "reponse": "Moins de 5%", "status": "FAUX" },
+            { "reponse": "Environ 2%", "status": "FAUX" },
+            { "reponse": "Zéro", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel accord commercial a remplacé l'ALENA en 2020 ?",
+          "reponses": [
+            { "reponse": "USMCA", "status": "VRAI" },
+            { "reponse": "TPP", "status": "FAUX" },
+            { "reponse": "NAFTA", "status": "FAUX" },
+            { "reponse": "CPTPP", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle banque centrale gère l'euro ?",
+          "reponses": [
+            { "reponse": "Banque centrale européenne", "status": "VRAI" },
+            { "reponse": "Federal Reserve", "status": "FAUX" },
+            { "reponse": "Banque d'Angleterre", "status": "FAUX" },
+            { "reponse": "Banque du Japon", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel scandale financier a impliqué FTX en 2022 ?",
+          "reponses": [
+            { "reponse": "Faillite et fraude", "status": "VRAI" },
+            { "reponse": "Hausse record", "status": "FAUX" },
+            { "reponse": "Acquisition par Binance", "status": "FAUX" },
+            { "reponse": "Régulation par la SEC", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quelle ressource a causé une hausse des prix en 2022 due à la guerre ?",
+          "reponses": [
+            { "reponse": "Gaz naturel", "status": "VRAI" },
+            { "reponse": "Charbon", "status": "FAUX" },
+            { "reponse": "Uranium", "status": "FAUX" },
+            { "reponse": "Or", "status": "FAUX" }
+          ]
+        },
+        {
+          "question": "Quel pays est le plus grand exportateur de pétrole en 2024 ?",
+          "reponses": [
+            { "reponse": "Arabie saoudite", "status": "VRAI" },
+            { "reponse": "États-Unis", "status": "FAUX" },
+            { "reponse": "Russie", "status": "FAUX" },
+            { "reponse": "Iran", "status": "FAUX" }
+          ]
+        }
+      ]
+    }
+  ]
+}

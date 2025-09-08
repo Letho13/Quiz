@@ -34,9 +34,17 @@ spring:
       discovery:
         locator:
           enabled: true
-#security:
-#  jwt:
-#    secret: "test_clef_longue_pour_securiser_18_06_2025__forte!"
-#    expiration: 3600000
+  security:
+    user:
+      name: ""
+      password: ""
+
+
+security:
+  jwt:
+    secret: "MaCleSuperSecreteQuiFaitPlusDe32Caractères1234"
+    expiration: 3600000
+
+
 
 

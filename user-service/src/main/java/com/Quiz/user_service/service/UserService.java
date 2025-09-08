@@ -5,19 +5,27 @@ import com.Quiz.user_service.exception.UserNotFoundException;
 import com.Quiz.user_service.mapper.UserMapper;
 import com.Quiz.user_service.model.User;
 import com.Quiz.user_service.repository.UserRepository;
+import com.Quiz.user_service.security.UserDetailsImpl;
 import com.quiz.shared.dto.UserDto;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserService implements UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -85,6 +93,17 @@ public class UserService {
             throw new UserNotFoundException(String.format("Le user %s n'existe pas!", id));
         }
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.getUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
+
+//        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
+
+        log.info("Utilisateur trouvé : {} avec le rôle {}", user.getUsername(), user.getRole());
+        return new UserDetailsImpl(user);
     }
 
     private boolean isValidPassword(String password) {
