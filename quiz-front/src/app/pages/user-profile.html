@@ -1,0 +1,32 @@
+<div class="profile-container">
+  <h2>👤 Mon Profil</h2>
+
+  <!-- Infos utilisateur -->
+  <section class="user-info">
+    <p><strong>Nom d’utilisateur :</strong> {{ userUsername$ | async }}</p>
+    <p><strong>Email :</strong> {{ userEmail$ | async }}</p>
+    <button class="btn-primary">Modifier mes infos</button>
+  </section>
+
+  <!-- Scores -->
+  <section class="user-scores">
+    <h3>📊 Mes Scores</h3>
+    <table>
+      <thead>
+      <tr>
+        <th>Quiz</th>
+        <th>Score</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let s of scores$ | async">
+        <td>{{ s.quizTitle }}</td>
+        <td>{{ s.score }}</td>
+      </tr>
+      <tr *ngIf="(scores$ | async)?.length === 0">
+        <td colspan="2">Aucun score</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</div>

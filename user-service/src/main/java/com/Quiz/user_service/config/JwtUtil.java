@@ -1,5 +1,6 @@
 package com.Quiz.user_service.config;
 
+import com.Quiz.user_service.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -41,9 +42,10 @@ public class JwtUtil {
      * @param username le nom d'utilisateur à inclure dans le token
      * @return le token JWT signé
      */
-    public String generateToken(String username) {
+    public String generateToken(User user) {
         return Jwts.builder()
-                .subject(username)
+                .subject(user.getUsername())
+                .claim("userId", user.getId())
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(secretKey)

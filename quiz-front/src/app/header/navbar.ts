@@ -8,7 +8,8 @@ import { CommonModule } from '@angular/common';
   imports: [RouterLink, CommonModule],
   template: `
     <nav class="navbar">
-      <a routerLink="/" class="brand">🏠 Accueil</a>
+      <a routerLink="/home" class="brand">🏠 Accueil</a>
+      <a routerLink="/profile" class="brand">👤 Profile</a>
     </nav>
   `,
   styleUrls: ['./navbar.scss']

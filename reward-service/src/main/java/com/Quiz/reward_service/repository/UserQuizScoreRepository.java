@@ -18,4 +18,6 @@ public interface UserQuizScoreRepository extends JpaRepository<UserQuizScore,Int
     Optional<Integer> findMaxAttemptNumberByUserIdAndQuizId(@Param("userId") Integer userId, @Param("quizId") Integer quizId);
 
     List<UserQuizScore> findTop10ByQuizIdAndCompletedAtIsNotNullOrderByScoreDesc(Integer quizId);
+
+    List<UserQuizScore> findByUserIdAndCompletedAtIsNotNullOrderByCompletedAtDesc(Integer userId);
 }

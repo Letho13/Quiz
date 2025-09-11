@@ -40,25 +40,6 @@ public class SecurityConfig {
      * @param jwtAuthenticationFilter filtre d'authentification JWT
      * @return la chaîne de filtres de sécurité
      */
-//    @Bean
-//    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) {
-//
-//        http
-//                .exceptionHandling(exceptionHandling -> exceptionHandling
-//                        .authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED))
-//                )
-//                .csrf(ServerHttpSecurity.CsrfSpec::disable)
-//                .authorizeExchange(exchange -> exchange
-//                        .pathMatchers(HttpMethod.OPTIONS,"/**").permitAll()
-//                        .pathMatchers("/USER-SERVICE/api/auth/login", "/actuator/health/*").permitAll()
-//                        .pathMatchers(HttpMethod.POST, "/api/user").hasRole("ADMIN") // seul l'admin peut créer
-//                        .anyExchange().authenticated()
-//                )
-//                .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
-//                .addFilterBefore(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHORIZATION);
-//
-//        return http.build();
-//    }
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) {

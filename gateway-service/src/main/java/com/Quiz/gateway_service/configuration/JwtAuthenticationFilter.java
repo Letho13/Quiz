@@ -47,7 +47,7 @@ public class JwtAuthenticationFilter implements WebFilter {
         String path = exchange.getRequest().getPath().value();
 
         // Ignorer les endpoints publics
-        if (path.equals("/USER-SERVICE/api/auth/login") || path.startsWith("/actuator/health")) {
+        if (path.contains("/api/auth/login") || path.startsWith("/actuator/health")) {
             return chain.filter(exchange);
         }
 

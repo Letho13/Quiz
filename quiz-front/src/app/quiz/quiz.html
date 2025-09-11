@@ -33,7 +33,7 @@
   @if (isQuizFinished()) {
     <h3>Quiz terminé ✅</h3>
     @if (quiz()) {
-      <p>Score final : {{ score() }} / {{ quiz()!.questions.length }}</p>
+      <p>Score final : {{ score() }} / {{ quiz()!.questions.length * 5 }}</p>
     }
   } @else {
 
@@ -50,7 +50,7 @@
             [disabled]="selectedReponse()"
             (click)="selectReponse(rep)"
             [ngClass]="{
-              correct: feedback() === 'VRAI' && rep === selectedReponse(),
+              correct: (feedback() === 'VRAI' && rep === selectedReponse())|| (feedback() === 'FAUX' && rep.status === 'VRAI'),
               wrong: feedback() === 'FAUX' && rep === selectedReponse()
             }"
           >
@@ -60,14 +60,20 @@
       }
     </ul>
 
+    @if (feedback()) {
+      <button class="btn-primary" (click)="isLastQuestion() ? finalizeQuiz() : nextQuestion()">
+        {{ isLastQuestion() ? 'Terminer le quiz' : 'Question suivante' }}
+      </button>
+    }
+
     @if (feedback() === 'VRAI') {
       <div class="correct-msg">✅ Bonne réponse !</div>
     } @else if (feedback() === 'FAUX') {
       <div class="wrong-msg">❌ Mauvaise réponse !</div>
     }
 
-    @if (feedback()) {
-      <button class="btn-primary" (click)="nextQuestion()">Question suivante</button>
-    }
+<!--    @if (feedback()) {-->
+<!--      <button class="btn-primary" (click)="nextQuestion()">Question suivante</button>-->
+<!--    }-->
   }
 </div>

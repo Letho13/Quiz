@@ -28,47 +28,54 @@ public class UserQuizScoreService {
         return 5;
     }
 
-    public UserQuizScore calculatePointLive(Integer userId, Integer quizId, Status status, int nbQuestionsRepondues) {
+//    public UserQuizScore calculatePointLive(Integer userId, Integer quizId, Status status, int nbQuestionsRepondues) {
+//
+//        QuizDto quizDto = quizClient.getQuizById(quizId);
+//        int totalQuestions = quizDto.getQuestions().size();
+//
+//        if (nbQuestionsRepondues < totalQuestions) {
+//            UserQuizScore currentAttempt = userQuizScoreRepository
+//                    .findByUserIdAndQuizIdAndCompletedAtIsNull(userId, quizId)
+//                    .orElseGet(() -> {
+//                        int nextAttemptNumber = userQuizScoreRepository
+//                                .findMaxAttemptNumberByUserIdAndQuizId(userId, quizId)
+//                                .orElse(0) + 1;
+//                        UserQuizScore newAttempt = new UserQuizScore();
+//                        newAttempt.setUserId(userId);
+//                        newAttempt.setQuizId(quizId);
+//                        newAttempt.setScore(0);
+//                        newAttempt.setAttemptNumber(nextAttemptNumber);
+//                        newAttempt.setCompletedAt(null);
+//                        return userQuizScoreRepository.save(newAttempt);
+//                    });
+//
+//            if (status == Status.VRAI) {
+//                currentAttempt.setScore(currentAttempt.getScore() + pointReponseVrai());
+//            }
+//
+//            return userQuizScoreRepository.save(currentAttempt);
+//        }
+//        return finalizeCurrentAttempt(userId, quizId);
+//    }
 
-        QuizDto quizDto = quizClient.getQuizById(quizId);
-        int totalQuestions = quizDto.getQuestions().size();
-
-        if (nbQuestionsRepondues < totalQuestions) {
-            UserQuizScore currentAttempt = userQuizScoreRepository
-                    .findByUserIdAndQuizIdAndCompletedAtIsNull(userId, quizId)
-                    .orElseGet(() -> {
-                        int nextAttemptNumber = userQuizScoreRepository
-                                .findMaxAttemptNumberByUserIdAndQuizId(userId, quizId)
-                                .orElse(0) + 1;
-                        UserQuizScore newAttempt = new UserQuizScore();
-                        newAttempt.setUserId(userId);
-                        newAttempt.setQuizId(quizId);
-                        newAttempt.setScore(0);
-                        newAttempt.setAttemptNumber(nextAttemptNumber);
-                        newAttempt.setCompletedAt(null);
-                        return userQuizScoreRepository.save(newAttempt);
-                    });
-
-            if (status == Status.VRAI) {
-                currentAttempt.setScore(currentAttempt.getScore() + pointReponseVrai());
-            }
-
-            return userQuizScoreRepository.save(currentAttempt);
-        }
-        return finalizeCurrentAttempt(userId, quizId);
-    }
-
-    public UserQuizScore finalizeCurrentAttempt(Integer userId, Integer quizId) {
-
-
+    public UserQuizScore finalizeCurrentAttempt(Integer userId, Integer quizId, List<Status> userAnswers) {
         UserQuizScore currentAttempt = userQuizScoreRepository
                 .findByUserIdAndQuizIdAndCompletedAtIsNull(userId, quizId)
                 .orElseThrow(() -> new RuntimeException("Aucune tentative en cours"));
 
+        QuizDto quizDto = quizClient.getQuizById(quizId);
+        int score = 0;
+
+        // Calcule le score
+        for (Status answer : userAnswers) {
+            if (answer == Status.VRAI) {
+                score += pointReponseVrai();
+            }
+        }
+
+        currentAttempt.setScore(score);
         currentAttempt.setCompletedAt(LocalDateTime.now());
-       return userQuizScoreRepository.save(currentAttempt);
-
-
+        return userQuizScoreRepository.save(currentAttempt);
     }
 
     public UserQuizScore createNewAttempt(Integer userId, Integer quizId) {
@@ -96,10 +103,28 @@ public class UserQuizScoreService {
 
         for(UserQuizScore score : topScores) {
             String username = userClient.getUserById(score.getUserId()).getUsername();
-            ranking.add(new UserQuizScoreDto(username, score.getScore()));
+            String quizTitle = quizClient.getQuizById(score.getQuizId()).getTitle();
+            ranking.add(new UserQuizScoreDto(username, score.getScore(), quizTitle));
         }
 
         return ranking;
+    }
+
+    public List<UserQuizScoreDto> getScoresByUser(Integer userId) {
+        List<UserQuizScore> scores = userQuizScoreRepository
+                .findByUserIdAndCompletedAtIsNotNullOrderByCompletedAtDesc(userId);
+
+        List<UserQuizScoreDto> dtos = new ArrayList<>();
+        for (UserQuizScore s : scores) {
+            String quizTitle = quizClient.getQuizById(s.getQuizId()).getTitle();
+            String username = userClient.getUserById(s.getUserId()).getUsername();
+            UserQuizScoreDto dto = new UserQuizScoreDto();
+            dto.setUsername(username);
+            dto.setScore(s.getScore());
+            dto.setQuizTitle(quizTitle);
+            dtos.add(dto);
+        }
+        return dtos;
     }
 
 }

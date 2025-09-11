@@ -2,6 +2,9 @@ import { Component, computed, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuizService, Reponse, Quiz, Question } from '../services/quiz.service';
 import { ActivatedRoute } from '@angular/router';
+import {RewardService} from '../services/reward.service';
+import {AuthService} from '../services/auth.service';
+import {Status} from '../models/status.model';
 
 @Component({
   selector: 'app-quiz',
@@ -13,9 +16,12 @@ import { ActivatedRoute } from '@angular/router';
 export class QuizComponent {
 
   private quizService = inject(QuizService);
+  private rewardService = inject(RewardService);
+  private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
 
   quizId = Number(this.route.snapshot.paramMap.get('quizId'));
+
 
   quiz = signal<Quiz | null>(null);
   currentQuestionIndex = signal(0);
@@ -31,11 +37,21 @@ export class QuizComponent {
   private timerInterval: any;
 
   constructor() {
+
+    const userId = this.authService.getUserId();
+    if (userId) {
+      this.rewardService.createAttempt(userId, this.quizId).subscribe({
+        next: (attempt) => console.log('Nouvelle tentative créée', attempt),
+        error: (err) => console.error('Erreur création tentative', err)
+      });
+    }
+
     this.quizService.getQuizById(this.quizId).subscribe((data) => {
       this.quiz.set(data);
       this.startTimer(); // démarre au chargement
     });
   }
+
 
   getCurrentQuestion(): Question | null {
     const qz = this.quiz();
@@ -43,17 +59,23 @@ export class QuizComponent {
     return qz.questions[this.currentQuestionIndex()];
   }
 
+  private answers = new Map<number, Reponse | null>();
+
   selectReponse(rep: Reponse | null) {
-    clearInterval(this.timerInterval); // stop timer quand réponse
+    clearInterval(this.timerInterval);
     if (!rep) {
       this.feedback.set('FAUX');
-      return;
+    } else {
+      this.feedback.set(rep.status);
+      if (rep.status === 'VRAI') {
+        this.score.update((s) => s + 5);
+      }
     }
+
+    const q = this.getCurrentQuestion();
+    if (q) this.answers.set(q.id, rep);
+
     this.selectedReponse.set(rep);
-    this.feedback.set(rep.status);
-    if (rep.status === 'VRAI') {
-      this.score.update((s) => s + 5);
-    }
   }
 
   nextQuestion() {
@@ -63,9 +85,32 @@ export class QuizComponent {
     this.startTimer(); // redémarre timer à chaque question
   }
 
+  finalizeQuiz() {
+    const userId = this.authService.getUserId();
+    if (userId === null) {
+      console.error("Utilisateur non connecté");
+      return;
+    }
+
+    const userAnswers: Status[] =
+      this.quiz()?.questions
+        .map(q => this.answers.get(q.id)?.status)
+        .filter((s): s is Status => s !== undefined) || [];
+
+    this.rewardService.finalizeQuiz(userId, this.quizId, userAnswers).subscribe({
+      next: (result) => console.log('Quiz finalisé', result),
+      error: (err) => console.error('Erreur lors de la finalisation', err)
+    });
+  }
+
   isQuizFinished = computed(() => {
     const qz = this.quiz();
     return qz && this.currentQuestionIndex() >= qz.questions.length;
+  });
+
+  isLastQuestion = computed(() => {
+    const qz = this.quiz();
+    return qz ? this.currentQuestionIndex() === qz.questions.length - 1 : false;
   });
 
   // ⏱ Timer circulaire

@@ -1,0 +1,24 @@
+import {inject, Injectable} from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import {Observable, of} from 'rxjs';
+import {environment} from '../../environements/environement';
+
+export interface UserQuizScore {
+  quizId: number;
+  username: string;
+  score: number;
+  quizTitle: string;
+}
+
+@Injectable({ providedIn: 'root' })
+export class UserProfileService {
+  private http = inject(HttpClient);
+  private baseUrl = `${environment.gatewayUrl}${environment.rewardApi}`;
+
+  getUserScores(userId: number | null): Observable<UserQuizScore[]> {
+    if (userId == null) return of([]);
+    return this.http.get<UserQuizScore[]>(`${this.baseUrl}/user/${userId}`);
+  }
+
+
+}

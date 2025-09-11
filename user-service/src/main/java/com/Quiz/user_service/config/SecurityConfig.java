@@ -9,6 +9,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -24,21 +25,23 @@ public class SecurityConfig {
     @Value("${security.jwt.secret}")
     private String jwtSecret;
 
-    // ===== Password encoder =====
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    // ===== Security Filter Chain =====
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .formLogin(AbstractHttpConfigurer::disable)
+                .httpBasic(AbstractHttpConfigurer::disable)
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
                 );
@@ -46,7 +49,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // ===== Admin creation at startup =====
+    //Admin creation at start
     @Bean
     CommandLineRunner createAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
@@ -66,13 +69,13 @@ public class SecurityConfig {
         };
     }
 
-    // ===== JWT Authentication Converter =====
+
     @Bean
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         return new JwtAuthenticationConverter();
     }
 
-    // ===== JwtDecoder bean required by Spring Security =====
+
     @Bean
     public JwtDecoder jwtDecoder() {
         // Crée la clé à partir du secret du YAML

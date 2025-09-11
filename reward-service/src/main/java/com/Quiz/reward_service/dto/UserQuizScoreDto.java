@@ -11,5 +11,6 @@ public class UserQuizScoreDto {
 
     private String username;
     private int score;
+    private String quizTitle;
 
 }

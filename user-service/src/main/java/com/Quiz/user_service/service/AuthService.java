@@ -19,6 +19,6 @@ public class AuthService {
     public Optional<JwtResponse> login(String username, String password) {
         return userRepository.getUserByUsername(username)
                 .filter(user -> passwordEncoder.matches(password, user.getPassword()))
-                .map(user -> new JwtResponse(jwtUtil.generateToken(user.getUsername())));
+                .map(user -> new JwtResponse(jwtUtil.generateToken(user)));
     }
 }
