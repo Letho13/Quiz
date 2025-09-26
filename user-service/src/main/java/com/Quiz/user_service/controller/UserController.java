@@ -21,8 +21,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDto>> getAllUsers(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size
+            @RequestParam(name = "page", defaultValue = "0") int page,
+            @RequestParam(name = "size", defaultValue = "10") int size
     ) {
         Page<UserDto> userDtoPage = userService.findAllUsers(page, size);
         List<UserDto> userDtoList = userDtoPage.getContent();
@@ -35,16 +35,22 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
+    @GetMapping("/by-username/{username}")
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable("username") String username) {
+        UserDto userDto = userService.findUserByUsername(username);
+        return ResponseEntity.ok(userDto);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateUser(
             @PathVariable("id") Integer id,
-            @RequestBody @Valid UserDto userDto) {
+            @RequestBody UserDto userDto) {
         userDto.setId(id);
         userService.updateUser(userDto);
         return ResponseEntity.ok().build();
     }
 
-    @PostMapping()
+    @PostMapping("/add")
     public ResponseEntity<UserDto> addUser(@RequestBody @Valid UserDto userDto) {
         return ResponseEntity.ok(userService.register(userDto));
     }
@@ -52,6 +58,16 @@ public class UserController {
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") Integer id) {
         userService.deleteUser(id);
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<UserDto>> searchUsers(
+            @RequestParam(name = "query", required = false, defaultValue = "") String query,
+            @RequestParam(name = "page",defaultValue = "0") int page,
+            @RequestParam(name = "size",defaultValue = "10") int size
+    ) {
+        Page<UserDto> userDtoPage = userService.searchUsers(query, page, size);
+        return ResponseEntity.ok(userDtoPage.getContent());
     }
 
 }

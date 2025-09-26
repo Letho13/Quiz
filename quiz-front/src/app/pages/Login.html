@@ -1,0 +1,26 @@
+<form (ngSubmit)="onLogin()">
+  <input
+    type="text"
+    [(ngModel)]="username"
+    name="username"
+    placeholder="Nom d'utilisateur"
+    required
+  />
+
+  <input
+    type="password"
+    [(ngModel)]="password"
+    name="password"
+    placeholder="Mot de passe"
+    required
+  />
+
+  <button type="submit">Se connecter</button>
+
+  <div *ngIf="error">{{ error }}</div>
+</form>
+
+<p>
+  Vous n’avez pas de compte ?
+  <a routerLink="/auth/register">Créer un compte</a>
+</p>

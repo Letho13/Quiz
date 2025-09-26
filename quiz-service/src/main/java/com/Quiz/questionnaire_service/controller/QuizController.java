@@ -20,8 +20,14 @@ public class QuizController {
 
     private final QuizService quizService;
 
-    @GetMapping
-    public ResponseEntity<List<QuizDto>> getAllQuiz(
+    @GetMapping("/all")
+    public ResponseEntity<List<QuizDto>> getAllQuiz() {
+        List<QuizDto> quizDtoList = quizService.findAllQuizNoPaging();
+        return new ResponseEntity<>(quizDtoList, HttpStatus.OK);
+    }
+
+    @GetMapping("/paged")
+    public ResponseEntity<List<QuizDto>> getAllQuizPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {

@@ -2,15 +2,15 @@
   <h2>👤 Mon Profil</h2>
 
   <!-- Infos utilisateur -->
-  <section class="user-info">
-    <p><strong>Nom d’utilisateur :</strong> {{ userUsername$ | async }}</p>
-    <p><strong>Email :</strong> {{ userEmail$ | async }}</p>
-    <button class="btn-primary">Modifier mes infos</button>
+  <section class="user-info" *ngIf="user$ | async as user">
+    <p><strong>Nom d’utilisateur :</strong> {{ user.username }}</p>
+    <p><strong>Email :</strong> {{ user.email }}</p>
+    <button class="btn-primary" (click)="openEditModal()">Modifier mes infos</button>
   </section>
 
   <!-- Scores -->
   <section class="user-scores">
-    <h3>📊 Mes Scores</h3>
+    <h3>📊 Mes Meilleurs Scores</h3>
     <table>
       <thead>
       <tr>
@@ -29,4 +29,49 @@
       </tbody>
     </table>
   </section>
+</div>
+
+<div class="modal-overlay" *ngIf="showEditModal">
+  <div class="modal">
+    <h3>Modifier mes informations</h3>
+    <form [formGroup]="editForm" (ngSubmit)="saveChanges()">
+
+      <label>
+        Nom d'utilisateur
+        <input formControlName="username" placeholder="Nom d'utilisateur">
+      </label>
+      <div *ngIf="editForm.get('username')?.invalid && editForm.get('username')?.touched">
+        Nom trop court (min 3).
+      </div>
+
+      <label>
+        Email
+        <input formControlName="email" placeholder="email@example.com">
+      </label>
+      <div *ngIf="editForm.get('email')?.invalid && editForm.get('email')?.touched">
+        Email invalide.
+      </div>
+
+      <label>
+        Nouveau mot de passe (optionnel)
+        <input type="password" formControlName="password" placeholder="Nouveau mot de passe">
+      </label>
+      <div *ngIf="editForm.get('password')?.invalid && editForm.get('password')?.touched">
+        Le mot de passe doit faire ≥8 caractères, contenir une majuscule, un chiffre et un caractère spécial.
+      </div>
+
+      <label>
+        Confirmer mot de passe
+        <input type="password" formControlName="confirmPassword" placeholder="Confirmer mot de passe">
+      </label>
+      <div *ngIf="editForm.get('confirmPassword')?.errors?.['passwordsMismatch']">
+        Les mots de passe ne correspondent pas.
+      </div>
+
+      <div class="modal-actions">
+        <button type="submit" [disabled]="editForm.invalid">Enregistrer</button>
+        <button type="button" (click)="cancelEdit()">Annuler</button>
+      </div>
+    </form>
+  </div>
 </div>

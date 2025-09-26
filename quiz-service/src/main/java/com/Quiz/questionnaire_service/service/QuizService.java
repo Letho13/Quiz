@@ -100,5 +100,10 @@ public class QuizService {
     }
 
 
-
+    public List<QuizDto> findAllQuizNoPaging() {
+        return quizRepository.findAll()
+                .stream()
+                .map(QuizMapper::toDto)
+                .collect(Collectors.toList());
+    }
 }

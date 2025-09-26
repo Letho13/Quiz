@@ -27,17 +27,30 @@ export interface UserInfo {
   username: string;
 }
 
+export interface UserUpdateDto {
+  id?: number;
+  username?: string | null;
+  email?: string | null;
+  password?: string | null;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
 
 export class AuthService {
-
   private http = inject(HttpClient);
+
+  register(user: { username: string; email: string; password: string }) {
+    return this.http.post(
+      `${environment.gatewayUrl}${environment.userApi}/user/add`, user
+    );
+  }
 
   login(credentials: LoginRequest) {
     return this.http.post<JwtResponse>(
-      `${environment.gatewayUrl}${environment.userApi}/login`,
+      `${environment.gatewayUrl}${environment.userApi}/auth/login`,
       credentials
     ).pipe(
       tap((res: JwtResponse) => {
@@ -80,21 +93,18 @@ export class AuthService {
     }
   }
 
-  getUsername(): Observable<string> {
+  getUser(): Observable<UserInfo> {
     const userId = this.getUserId();
     if (!userId) throw new Error('User not logged in');
-
-    return this.http
-      .get<UserInfo>(`${environment.gatewayUrl}/user/${userId}`)
-      .pipe(map(info => info.username));
+    return this.http.get<UserInfo>(`${environment.gatewayUrl}${environment.userApi}/user/${userId}`);
   }
 
-  getUserEmail(): Observable<string> {
+  updateUser(userUpdate: UserUpdateDto): Observable<void> {
     const userId = this.getUserId();
-    if (!userId) return of(''); // <- plutôt que throw
-    return this.http
-      .get<UserInfo>(`${environment.gatewayUrl}/user/${userId}`)
-      .pipe(map(info => info.email));
+    if (!userId) throw new Error('User not logged in');
+    // s'assurer que l'id dans le path et le body soit le bon
+    userUpdate.id = userId;
+    return this.http.put<void>(`${environment.gatewayUrl}${environment.userApi}/user/${userId}`, userUpdate);
   }
 
 

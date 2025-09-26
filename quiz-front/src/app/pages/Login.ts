@@ -8,17 +8,13 @@ import { CommonModule } from '@angular/common';
   selector: 'app-login',
   standalone: true,
   imports: [FormsModule, RouterModule, CommonModule],
-  template: `
-    <form (ngSubmit)="onLogin()">
-      <input [(ngModel)]="username" name="username" placeholder="Username" required />
-      <input [(ngModel)]="password" name="password" type="password" placeholder="Password" required />
-      <button type="submit">Login</button>
-    </form>
-  `
+  templateUrl: './login.html',
+  styleUrls: ['./login.scss']
 })
 export class LoginComponent {
   username = '';
   password = '';
+  error: string | null = null;
 
   constructor(private authService: AuthService, private router: Router) {}
 
@@ -29,7 +25,9 @@ export class LoginComponent {
         localStorage.setItem('authToken', res.token); // Stockage du token
         this.router.navigate(['/home']); // Redirection
       },
-      error: () => alert('Login failed')
+      error: () => {
+        this.error = 'Nom d’utilisateur ou mot de passe incorrect';
+      }
     });
   }
 }

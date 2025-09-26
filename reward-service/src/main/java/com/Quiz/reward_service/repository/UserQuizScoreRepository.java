@@ -20,4 +20,16 @@ public interface UserQuizScoreRepository extends JpaRepository<UserQuizScore,Int
     List<UserQuizScore> findTop10ByQuizIdAndCompletedAtIsNotNullOrderByScoreDesc(Integer quizId);
 
     List<UserQuizScore> findByUserIdAndCompletedAtIsNotNullOrderByCompletedAtDesc(Integer userId);
+
+    Optional<UserQuizScore> findTopByUserIdAndQuizIdAndCompletedAtIsNotNullOrderByCompletedAtDesc(Integer userId, Integer quizId);
+
+    Optional<UserQuizScore> findTopByUserIdAndQuizIdAndCompletedAtIsNotNullOrderByScoreDesc(Integer userId, Integer quizId);
+
+    @Query("SELECT u FROM UserQuizScore u " +
+            "WHERE u.userId = :userId AND u.completedAt IS NOT NULL " +
+            "AND u.score = (" +
+            "   SELECT MAX(s.score) FROM UserQuizScore s " +
+            "   WHERE s.userId = :userId AND s.quizId = u.quizId AND s.completedAt IS NOT NULL" +
+            ")")
+    List<UserQuizScore> findBestScoresByUser(@Param("userId") Integer userId);
 }

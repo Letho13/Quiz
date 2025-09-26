@@ -1,7 +1,5 @@
 package com.Quiz.gateway_service.configuration;
 
-
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
@@ -16,44 +14,34 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-/**
- * Intercepte les requêtes HTTP pour extraire, valider
- * un token JWT et établir le contexte de sécurité si l'utilisateur est authentifié.
- */
-
 @Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter implements WebFilter {
 
     private final JwtUtil jwtUtil;
 
-    /**
-     * Intercepte chaque requête HTTP, extrait le JWT depuis l’en-tête Authorization,
-     * le valide, puis injecte l’authentification dans le contexte de sécurité réactif si possible.
-     *
-     * @param exchange l'échange HTTP WebFlux (requête + réponse)
-     * @param chain la chaîne des filtres à exécuter
-     * @return un flux réactif continuant la chaîne de traitement
-     */
-
-
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
-        // Passer immédiatement les OPTIONS (préflight CORS)
+        // Passer OPTIONS pour CORS
         if (exchange.getRequest().getMethod() == HttpMethod.OPTIONS) {
             return chain.filter(exchange);
         }
 
         String path = exchange.getRequest().getPath().value();
 
-        // Ignorer les endpoints publics
-        if (path.contains("/api/auth/login") || path.startsWith("/actuator/health")) {
+        // <<< Ajoute ce println pour debug >>
+//        System.out.println("[JwtFilter] Path reçu : " + path);
+
+
+
+        // Autoriser les endpoints publics
+
+        if (path.startsWith("/USER-SERVICE/api/auth") || path.startsWith("/actuator/health") || path.startsWith("/USER-SERVICE/api/user/add")) {
             return chain.filter(exchange);
         }
 
-        // Extraire le JWT depuis le header Authorization
+        // Extraire le JWT
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
-
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
             return exchange.getResponse().setComplete();
@@ -62,12 +50,9 @@ public class JwtAuthenticationFilter implements WebFilter {
         String jwt = authHeader.substring(7);
         String username = jwtUtil.getUsernameFromToken(jwt);
 
-        // Vérifier le JWT
         if (username != null && jwtUtil.validateToken(jwt)) {
-            UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                    username, null, List.of() // tu peux ajouter des rôles ici si tu les extrais du JWT
-            );
-
+            UsernamePasswordAuthenticationToken auth =
+                    new UsernamePasswordAuthenticationToken(username, null, List.of());
             return chain.filter(exchange)
                     .contextWrite(ReactiveSecurityContextHolder.withSecurityContext(
                             Mono.just(new SecurityContextImpl(auth))

@@ -39,3 +39,8 @@ logging:
   level:
     org.springframework.cloud: DEBUG
     com.zaxxer.hikari: TRACE
+
+security:
+  jwt:
+    secret: "MaCleSuperSecreteQuiFaitPlusDe32Caractères1234"
+    expiration: 3600000

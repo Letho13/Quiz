@@ -1,6 +1,7 @@
 package com.Quiz.reward_service.controller;
 
 
+import com.Quiz.reward_service.dto.QuizRankingDto;
 import com.Quiz.reward_service.dto.UserQuizScoreDto;
 import com.Quiz.reward_service.model.UserQuizScore;
 import com.Quiz.reward_service.repository.QuizClient;
@@ -30,14 +31,19 @@ public class UserQuizScoreController {
         return ResponseEntity.ok(topTen);
     }
 
+    @GetMapping("/ranking/all")
+    public ResponseEntity<List<QuizRankingDto>> getAllRankings() {
+        return ResponseEntity.ok(userQuizScoreService.getAllQuizzesRanking());
+    }
+
     @PostMapping("/new")
     public UserQuizScore newAttempt( @RequestParam("userId") Integer userId, @RequestParam("quizId") Integer quizId) {
         return userQuizScoreService.createNewAttempt(userId,quizId);
     }
 
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<UserQuizScoreDto>> getScoresByUser(@PathVariable Integer userId) {
-        List<UserQuizScoreDto> scores = userQuizScoreService.getScoresByUser(userId);
+    @GetMapping("/user/{userId}/best")
+    public ResponseEntity<List<UserQuizScoreDto>> getBestScoresByUser(@PathVariable Integer userId) {
+        List<UserQuizScoreDto> scores = userQuizScoreService.getBestScoresByUser(userId);
         return ResponseEntity.ok(scores);
     }
 
@@ -57,5 +63,24 @@ public class UserQuizScoreController {
 
         return ResponseEntity.ok(dto);
     }
+
+    @GetMapping("/last/{userId}/{quizId}")
+    public ResponseEntity<UserQuizScoreDto> getLastScore(
+            @PathVariable Integer userId,
+            @PathVariable Integer quizId) {
+
+        UserQuizScore lastAttempt = userQuizScoreService
+                .findLastCompletedAttempt(userId, quizId)
+                .orElseThrow(() -> new RuntimeException("Aucune tentative finalisée trouvée"));
+
+        UserQuizScoreDto dto = new UserQuizScoreDto(
+                userClient.getUserById(userId).getUsername(),
+                lastAttempt.getScore(),
+                quizClient.getQuizById(quizId).getTitle()
+        );
+
+        return ResponseEntity.ok(dto);
+    }
+
 
 }

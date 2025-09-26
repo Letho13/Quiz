@@ -1,0 +1,52 @@
+<div class="register-container">
+  <h2>📝 Créer un compte</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <!-- Username -->
+    <label>
+      Nom d’utilisateur
+      <input formControlName="username" placeholder="Nom d'utilisateur" />
+    </label>
+    <div *ngIf="registerForm.get('username')?.invalid && registerForm.get('username')?.touched">
+      Le nom doit contenir au moins 3 caractères.
+    </div>
+
+    <!-- Email -->
+    <label>
+      Email
+      <input formControlName="email" placeholder="email@example.com" />
+    </label>
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+      Email invalide.
+    </div>
+
+    <!-- Password -->
+    <label>
+      Mot de passe
+      <input type="password" formControlName="password" placeholder="Mot de passe" />
+    </label>
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+      Le mot de passe doit contenir ≥8 caractères, une majuscule, un chiffre et un caractère spécial.
+    </div>
+
+    <!-- Confirm Password -->
+    <label>
+      Confirmer le mot de passe
+      <input type="password" formControlName="confirmPassword" placeholder="Confirmer mot de passe" />
+    </label>
+    <div *ngIf="registerForm.hasError('passwordsMismatch')">
+      Les mots de passe ne correspondent pas.
+    </div>
+
+    <!-- Error global -->
+    <div *ngIf="error" class="error-message">
+      {{ error }}
+    </div>
+
+    <!-- Actions -->
+    <div class="actions">
+      <button type="submit" [disabled]="registerForm.invalid">Créer mon compte</button>
+      <a routerLink="/auth/login">Déjà un compte ? Connectez-vous</a>
+    </div>
+  </form>
+</div>

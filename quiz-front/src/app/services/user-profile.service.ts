@@ -13,11 +13,11 @@ export interface UserQuizScore {
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
   private http = inject(HttpClient);
-  private baseUrl = `${environment.gatewayUrl}${environment.rewardApi}`;
+  private scoreUrl = `${environment.gatewayUrl}${environment.rewardApi}`;
 
-  getUserScores(userId: number | null): Observable<UserQuizScore[]> {
+  getBestUserScores(userId: number | null): Observable<UserQuizScore[]> {
     if (userId == null) return of([]);
-    return this.http.get<UserQuizScore[]>(`${this.baseUrl}/user/${userId}`);
+    return this.http.get<UserQuizScore[]>(`${this.scoreUrl}/score/user/${userId}/best`);
   }
 
 

@@ -7,6 +7,7 @@ import com.Quiz.questionnaire_service.model.Reponse;
 import com.quiz.shared.dto.QuestionDto;
 import com.quiz.shared.dto.ReponseDto;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,6 +25,9 @@ public class QuestionMapper {
             List<ReponseDto> reponses = question.getReponses().stream()
                     .map(ReponseMapper::toDto)
                     .collect(Collectors.toList());
+
+            Collections.shuffle(reponses);
+
             dto.setReponses(reponses);
         }
         return dto;

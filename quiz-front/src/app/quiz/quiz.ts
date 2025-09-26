@@ -1,10 +1,11 @@
 import { Component, computed, inject, signal, effect } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { QuizService, Reponse, Quiz, Question } from '../services/quiz.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {RewardService} from '../services/reward.service';
 import {AuthService} from '../services/auth.service';
 import {Status} from '../models/status.model';
+
 
 @Component({
   selector: 'app-quiz',
@@ -19,6 +20,7 @@ export class QuizComponent {
   private rewardService = inject(RewardService);
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
 
   quizId = Number(this.route.snapshot.paramMap.get('quizId'));
 
@@ -98,7 +100,10 @@ export class QuizComponent {
         .filter((s): s is Status => s !== undefined) || [];
 
     this.rewardService.finalizeQuiz(userId, this.quizId, userAnswers).subscribe({
-      next: (result) => console.log('Quiz finalisé', result),
+      next: () => {
+        console.log('Quiz finalisé ✅');
+        this.router.navigate(['/results', this.quizId]);
+      },
       error: (err) => console.error('Erreur lors de la finalisation', err)
     });
   }

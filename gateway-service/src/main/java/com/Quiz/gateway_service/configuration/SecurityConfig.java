@@ -7,13 +7,9 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity;
 import org.springframework.security.config.web.server.SecurityWebFiltersOrder;
 import org.springframework.security.config.web.server.ServerHttpSecurity;
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
@@ -30,52 +26,37 @@ import java.util.List;
 public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
-
-
-    /**
-     * Configure la chaîne de filtres de sécurité WebFlux.
-     * Désactive CSRF et form login, autorise certaines routes, et ajoute le filtre JWT.
-     *
-     * @param http configuration HTTP réactive
-     * @param jwtAuthenticationFilter filtre d'authentification JWT
-     * @return la chaîne de filtres de sécurité
-     */
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
-    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http, JwtAuthenticationFilter jwtAuthenticationFilter) {
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
+    @Bean
+    public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
-                .exceptionHandling(ex -> ex
-                        .authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED))
-                )
+                .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeExchange(ex -> ex
-                        .pathMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-                        .pathMatchers("/USER-SERVICE/api/auth/login", "/actuator/health/**").permitAll()
-                        .pathMatchers(HttpMethod.POST, "/api/user").hasRole("ADMIN")
+                        // --- PUBLIC ENDPOINTS ---
+                        .pathMatchers(HttpMethod.POST, "/USER-SERVICE/api/user/add").permitAll()
+                        .pathMatchers("/USER-SERVICE/api/auth/**").permitAll()
+                        .pathMatchers("/actuator/health/**").permitAll()
+
+                        // --- PROTÉGÉ (tous les autres endpoints passent par JWT) ---
                         .anyExchange().authenticated()
                 )
+                // Filtre JWT **après la configuration des endpoints publics**
                 .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHORIZATION);
 
         return http.build();
     }
 
-
-    /**
-     * Fournit le filtre d'authentification JWT à ajouter à la chaîne de sécurité.
-     * @return filtre d'authentification JWT
-     */
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil);
-    }
-
     /**
      * Configure le CORS pour autoriser les appels depuis le front-end.
-     *
-     * @return filtre CORS configuré
      */
     @Bean
     @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -92,6 +73,4 @@ public class SecurityConfig {
 
         return new CorsWebFilter(source);
     }
-
-
 }

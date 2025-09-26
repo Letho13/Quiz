@@ -5,13 +5,20 @@ import { QuizListComponent } from './pages/quiz-list';
 import { LayoutComponent } from './layout/layout';
 import { AuthGuard } from './security/auth.guard';
 import {UserProfileComponent} from './pages/user-profile';
+import {ResultsComponent} from './pages/results';
+import {RankingComponent} from './ranking/ranking';
+import {AdminUserListComponent} from './pages/admin-user-list';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
   // Route publique pour login
   {
     path: 'auth/login',
-    loadComponent: () => import('./security/Login').then(m => m.LoginComponent)
+    loadComponent: () => import('./pages/Login').then(m => m.LoginComponent)
+  },
+  {
+    path: 'auth/register',
+    loadComponent: () => import('./pages/register').then(m => m.RegisterComponent)
   },
   // Routes protégées par AuthGuard
   {
@@ -22,7 +29,10 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'quiz/:quizId', component: QuizComponent },
       { path: 'quizzes/type/:type', component: QuizListComponent },
-      {path: 'profile', component: UserProfileComponent}
+      {path: 'profile', component: UserProfileComponent},
+      {path: 'results/:quizId', component: ResultsComponent},
+      { path: 'admin', component: AdminUserListComponent },
+      { path: 'ranking', component: RankingComponent }
     ]
   },
   // Redirection par défaut si aucune route ne matche

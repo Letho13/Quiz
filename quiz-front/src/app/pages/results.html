@@ -1,0 +1,12 @@
+<div class="results">
+  <h2>Résultats du Quiz</h2>
+
+  <div *ngIf="score !== null; else loading">
+    <p>Ton score final : <strong>{{ score }}</strong></p>
+    <button (click)="goHome()">Retour à l’accueil</button>
+  </div>
+
+  <ng-template #loading>
+    <p>Chargement des résultats...</p>
+  </ng-template>
+</div>

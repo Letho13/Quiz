@@ -53,6 +53,10 @@ public class UserService implements UserDetailsService {
             throw new IllegalArgumentException("Le mot de passe ne respecte pas les critères de sécurité !");
         }
 
+        if (userDto.getRole() == null || userDto.getRole().isBlank()) {
+            userDto.setRole("USER");
+        }
+
         User user = UserMapper.toEntity(userDto);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         User savedUser = userRepository.save(user);
@@ -107,8 +111,14 @@ public class UserService implements UserDetailsService {
     }
 
     private boolean isValidPassword(String password) {
-        String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+        String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).{8,}$";
         return password.matches(passwordRegex);
     }
 
+    public Page<UserDto> searchUsers(String query, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage = userRepository.findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                query, query, pageable);
+        return userPage.map(UserMapper::toDto);
+    }
 }
