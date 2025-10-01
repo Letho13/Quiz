@@ -12,8 +12,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -87,7 +89,16 @@ public class UserService implements UserDetailsService {
             user.setPassword(passwordEncoder.encode(userDto.getPassword()));
         }
         if (userDto.getRole() != null) {
-            user.setRole(userDto.getRole());
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            boolean isAdmin = auth.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+            if (isAdmin) {
+                user.setRole(userDto.getRole()); // admin peut changer le rôle
+            } else {
+                // ignorer si user normal
+                System.out.println("Tentative de changement de rôle bloquée pour " + user.getUsername());
+            }
         }
 
     }

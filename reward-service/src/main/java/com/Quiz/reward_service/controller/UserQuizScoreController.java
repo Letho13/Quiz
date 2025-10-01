@@ -2,6 +2,7 @@ package com.Quiz.reward_service.controller;
 
 
 import com.Quiz.reward_service.dto.QuizRankingDto;
+import com.Quiz.reward_service.dto.ReponseTempsDto;
 import com.Quiz.reward_service.dto.UserQuizScoreDto;
 import com.Quiz.reward_service.model.UserQuizScore;
 import com.Quiz.reward_service.repository.QuizClient;
@@ -51,7 +52,7 @@ public class UserQuizScoreController {
     public ResponseEntity<UserQuizScoreDto> finalizeQuiz(
             @RequestParam ("userId") Integer userId,
             @RequestParam ("quizId") Integer quizId,
-            @RequestBody List<Status> userAnswers
+            @RequestBody List<ReponseTempsDto> userAnswers
     ) {
         UserQuizScore attempt = userQuizScoreService.finalizeCurrentAttempt(userId, quizId, userAnswers);
 

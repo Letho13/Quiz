@@ -10,6 +10,7 @@ import { NavbarComponent } from '../header/navbar';
     <app-navbar></app-navbar>
     <main class="content">
       <router-outlet></router-outlet>
+
     </main>
   `
 })

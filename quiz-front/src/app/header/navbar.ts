@@ -12,12 +12,18 @@ import { AuthService } from '../services/auth.service';
       <a routerLink="/home" class="brand">🏠 Accueil</a>
       <a routerLink="/profile" class="brand">👤 Profile</a>
       <a routerLink="/ranking" class="brand">🎖️ Classement</a>
-      <a routerLink="/admin" class="brand">🚦 Administration Role</a>
+      @if (auth.isAdmin()) {
+        <li>
+          <a routerLink="/admin" class="brand">🚦 Administration Role</a>
+        </li>
+      }
       <div class="spacer"></div>
 
-      <button *ngIf="auth.isAuthenticated()" (click)="onLogout()" class="logout-btn">
-        🚪 Déconnexion
-      </button>
+      @if (auth.isAuthenticated()) {
+        <button (click)="onLogout()" class="logout-btn">
+          🚪 Déconnexion
+        </button>
+      }
     </nav>
   `,
   styleUrls: ['./navbar.scss']

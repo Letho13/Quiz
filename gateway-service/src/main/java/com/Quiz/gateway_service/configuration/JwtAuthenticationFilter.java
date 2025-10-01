@@ -1,9 +1,12 @@
 package com.Quiz.gateway_service.configuration;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.stereotype.Component;
@@ -29,13 +32,6 @@ public class JwtAuthenticationFilter implements WebFilter {
 
         String path = exchange.getRequest().getPath().value();
 
-        // <<< Ajoute ce println pour debug >>
-//        System.out.println("[JwtFilter] Path reçu : " + path);
-
-
-
-        // Autoriser les endpoints publics
-
         if (path.startsWith("/USER-SERVICE/api/auth") || path.startsWith("/actuator/health") || path.startsWith("/USER-SERVICE/api/user/add")) {
             return chain.filter(exchange);
         }
@@ -51,8 +47,13 @@ public class JwtAuthenticationFilter implements WebFilter {
         String username = jwtUtil.getUsernameFromToken(jwt);
 
         if (username != null && jwtUtil.validateToken(jwt)) {
+
+            String role = jwtUtil.getRoleFromToken(jwt);
+
             UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(username, null, List.of());
+                    new UsernamePasswordAuthenticationToken(username, null, List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                    );
+
             return chain.filter(exchange)
                     .contextWrite(ReactiveSecurityContextHolder.withSecurityContext(
                             Mono.just(new SecurityContextImpl(auth))
@@ -62,4 +63,6 @@ public class JwtAuthenticationFilter implements WebFilter {
             return exchange.getResponse().setComplete();
         }
     }
+
+
 }

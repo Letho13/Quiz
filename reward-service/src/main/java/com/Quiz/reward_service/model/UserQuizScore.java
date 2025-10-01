@@ -11,7 +11,12 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user_quiz_scores")
+@Table(name = "user_quiz_scores",
+        indexes = {
+                @Index(name = "idx_user_quiz", columnList = "userId, quizId"),
+                @Index(name = "idx_quiz_completed_score", columnList = "quizId, completedAt, score"),
+                @Index(name = "idx_user_completed", columnList = "userId, completedAt")
+        })
 public class UserQuizScore {
 
     @Id

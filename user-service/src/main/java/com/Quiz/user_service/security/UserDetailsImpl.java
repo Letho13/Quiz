@@ -7,22 +7,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 public class UserDetailsImpl implements UserDetails {
 
     private final User user;
+
     public UserDetailsImpl(User user) {
         this.user = user;
     }
 
-    /**
-     * Retourne les autorités (rôles) de l'utilisateur authentifié.
-     * Cette méthode génère une liste d'autorités sous forme d'un {@link SimpleGrantedAuthority}
-     * en fonction du rôle de l'utilisateur.
-     *
-     * @return Une collection contenant l'autorité de l'utilisateur, sous la forme de {@link GrantedAuthority}.
-     */
+    // --- Ajout pour pouvoir comparer avec #id dans @PreAuthorize ---
+    public Integer getId() {
+        return user.getId();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -31,31 +28,31 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public String getPassword() {
-        return "";
+        return user.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return "";
+        return user.getUsername();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return UserDetails.super.isAccountNonExpired();
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return UserDetails.super.isAccountNonLocked();
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return UserDetails.super.isCredentialsNonExpired();
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return UserDetails.super.isEnabled();
+        return true;
     }
 }

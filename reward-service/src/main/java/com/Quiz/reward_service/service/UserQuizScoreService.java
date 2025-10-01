@@ -2,6 +2,7 @@ package com.Quiz.reward_service.service;
 
 
 import com.Quiz.reward_service.dto.QuizRankingDto;
+import com.Quiz.reward_service.dto.ReponseTempsDto;
 import com.Quiz.reward_service.dto.UserQuizScoreDto;
 import com.Quiz.reward_service.model.UserQuizScore;
 import com.Quiz.reward_service.repository.QuizClient;
@@ -21,44 +22,45 @@ import java.util.*;
 public class UserQuizScoreService {
 
     private final UserQuizScoreRepository userQuizScoreRepository;
-    private final QuizClient quizClient;
-    private final UserClient userClient;
+    private final CachedClientService cachedClientService;
 
 
-    public Integer pointReponseVrai() {
-        return 5;
+    public int calculatePoints(boolean isCorrect, int timeRemainingSeconds) {
+        if (!isCorrect) return 0;
+
+        if (timeRemainingSeconds >= 16) {
+            return 5;
+        } else if (timeRemainingSeconds >= 12) {
+            return 4;
+        } else if (timeRemainingSeconds >= 8) {
+            return 3;
+        } else if (timeRemainingSeconds >= 4) {
+            return 2;
+        } else if (timeRemainingSeconds > 0){
+            return 1;
+        }else {
+            return 0;
+        }
     }
 
-
-
-    public UserQuizScore finalizeCurrentAttempt(Integer userId, Integer quizId, List<Status> userAnswers) {
+    public UserQuizScore finalizeCurrentAttempt(Integer userId, Integer quizId, List<ReponseTempsDto> userReponseTemps) {
 
         UserQuizScore currentAttempt = userQuizScoreRepository
                 .findByUserIdAndQuizIdAndCompletedAtIsNull(userId, quizId)
                 .orElseThrow(() -> new RuntimeException("Aucune tentative en cours"));
 
-        QuizDto quizDto = quizClient.getQuizById(quizId);
-
         int score = 0;
 
-        // Calcule le score
-        for (Status answer : userAnswers) {
-
-            if (answer == Status.VRAI) {
-                score += pointReponseVrai();
-            }
+        for (ReponseTempsDto reponse : userReponseTemps) {
+            score += calculatePoints(reponse.getStatus() == Status.VRAI, reponse.getTimeRemaining());
         }
-
-
 
         currentAttempt.setScore(score);
         currentAttempt.setCompletedAt(LocalDateTime.now());
 
-        UserQuizScore saved = userQuizScoreRepository.save(currentAttempt);
-
-
-        return saved;
+        return userQuizScoreRepository.save(currentAttempt);
     }
+
 
     public UserQuizScore createNewAttempt(Integer userId, Integer quizId) {
         int nextAttemptNumber = userQuizScoreRepository
@@ -84,8 +86,8 @@ public class UserQuizScoreService {
         List<UserQuizScoreDto> ranking = new ArrayList<>();
 
         for(UserQuizScore score : topScores) {
-            String username = userClient.getUserById(score.getUserId()).getUsername();
-            String quizTitle = quizClient.getQuizById(score.getQuizId()).getTitle();
+            String username = cachedClientService.getUserById(score.getUserId()).getUsername();
+            String quizTitle = cachedClientService.getQuizById(score.getQuizId()).getTitle();
             ranking.add(new UserQuizScoreDto(username, score.getScore(), quizTitle));
         }
 
@@ -100,8 +102,8 @@ public class UserQuizScoreService {
     private List<UserQuizScoreDto> toDtoList(List<UserQuizScore> scores) {
         List<UserQuizScoreDto> dtos = new ArrayList<>();
         for (UserQuizScore score : scores) {
-            String quizTitle = quizClient.getQuizById(score.getQuizId()).getTitle();
-            String username = userClient.getUserById(score.getUserId()).getUsername();
+            String quizTitle = cachedClientService.getQuizById(score.getQuizId()).getTitle();
+            String username = cachedClientService.getUserById(score.getUserId()).getUsername();
             dtos.add(new UserQuizScoreDto(username, score.getScore(), quizTitle));
         }
         return dtos;
@@ -109,16 +111,20 @@ public class UserQuizScoreService {
 
     public List<QuizRankingDto> getAllQuizzesRanking() {
         String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        Integer userId = userClient.getUserByUsername(username).getId();
+        Integer userId = cachedClientService.getUserByUsername(username).getId();
 
-        List<QuizDto> quizzes = quizClient.getAllQuizzes();
+        List<QuizDto> quizzes = cachedClientService.getAllQuizzes();
         List<QuizRankingDto> result = new ArrayList<>();
 
         for (QuizDto quiz : quizzes) {
             List<UserQuizScore> topScores =
                     userQuizScoreRepository.findTop10ByQuizIdAndCompletedAtIsNotNullOrderByScoreDesc(quiz.getId());
 
-            List<UserQuizScoreDto> ranking = toDtoList(topScores);
+            List<UserQuizScoreDto> ranking = new ArrayList<>();
+            for (UserQuizScore score : topScores) {
+                String uname = cachedClientService.getUserById(score.getUserId()).getUsername();
+                ranking.add(new UserQuizScoreDto(uname, score.getScore(), quiz.getTitle()));
+            }
 
             Integer myScore = userQuizScoreRepository
                     .findTopByUserIdAndQuizIdAndCompletedAtIsNotNullOrderByScoreDesc(userId, quiz.getId())
@@ -176,37 +182,6 @@ public class UserQuizScoreService {
 //        return dtos;
 //    }
 
-
-
-//    public List<QuizRankingDto> getAllQuizzesRanking() {
-//        // Récupérer userId du JWT
-//        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-//        Integer userId = userClient.getUserByUsername(username).getId(); // ⚡ expose un endpoint "getUserByUsername"
-//
-//        List<QuizDto> quizzes = quizClient.getAllQuizzes();
-//        List<QuizRankingDto> result = new ArrayList<>();
-//
-//        for (QuizDto quiz : quizzes) {
-//            List<UserQuizScore> topScores =
-//                    userQuizScoreRepository.findTop10ByQuizIdAndCompletedAtIsNotNullOrderByScoreDesc(quiz.getId());
-//
-//            List<UserQuizScoreDto> ranking = new ArrayList<>();
-//            for (UserQuizScore score : topScores) {
-//                String uname = userClient.getUserById(score.getUserId()).getUsername();
-//                ranking.add(new UserQuizScoreDto(uname, score.getScore(), quiz.getTitle()));
-//            }
-//
-//            // chercher le meilleur score du user sur ce quiz
-//            Integer myScore = userQuizScoreRepository
-//                    .findTopByUserIdAndQuizIdAndCompletedAtIsNotNullOrderByScoreDesc(userId, quiz.getId())
-//                    .map(UserQuizScore::getScore)
-//                    .orElse(null);
-//
-//            result.add(new QuizRankingDto(quiz.getId(), quiz.getTitle(), ranking, myScore));
-//        }
-//
-//        return result;
-//    }
 
 }
 

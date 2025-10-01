@@ -5,6 +5,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {RewardService} from '../services/reward.service';
 import {AuthService} from '../services/auth.service';
 import {Status} from '../models/status.model';
+import {ReponseTempsDto} from '../models/reponse-temps.model';
 
 
 @Component({
@@ -21,6 +22,7 @@ export class QuizComponent {
   private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
+  private answers = new Map<number, ReponseTempsDto>();
 
   quizId = Number(this.route.snapshot.paramMap.get('quizId'));
 
@@ -54,6 +56,16 @@ export class QuizComponent {
     });
   }
 
+  calculatePoints(isCorrect: boolean, timeRemaining: number): number {
+    if (!isCorrect) return 0;
+
+    if (timeRemaining >= 16) return 5;
+    else if (timeRemaining >= 12) return 4;
+    else if (timeRemaining >= 8) return 3;
+    else if (timeRemaining >= 4) return 2;
+    else if (timeRemaining > 0) return 1;
+    else return 0;
+  }
 
   getCurrentQuestion(): Question | null {
     const qz = this.quiz();
@@ -61,22 +73,23 @@ export class QuizComponent {
     return qz.questions[this.currentQuestionIndex()];
   }
 
-  private answers = new Map<number, Reponse | null>();
-
   selectReponse(rep: Reponse | null) {
     clearInterval(this.timerInterval);
-    if (!rep) {
-      this.feedback.set('FAUX');
-    } else {
-      this.feedback.set(rep.status);
-      if (rep.status === 'VRAI') {
-        this.score.update((s) => s + 5);
-      }
-    }
 
     const q = this.getCurrentQuestion();
-    if (q) this.answers.set(q.id, rep);
+    if (q) {
+      const dto = {
+        status: rep ? (rep.status as Status) : Status.FAUX,
+        timeRemaining: this.timeLeft()
+      };
 
+      this.answers.set(q.id, dto);
+
+      //  Score live (comme dans le back)
+      this.score.update(s => s + this.calculatePoints(dto.status === Status.VRAI, dto.timeRemaining));
+    }
+
+    this.feedback.set(rep ? rep.status : Status.FAUX);
     this.selectedReponse.set(rep);
   }
 
@@ -94,10 +107,8 @@ export class QuizComponent {
       return;
     }
 
-    const userAnswers: Status[] =
-      this.quiz()?.questions
-        .map(q => this.answers.get(q.id)?.status)
-        .filter((s): s is Status => s !== undefined) || [];
+    const userAnswers: ReponseTempsDto[] =
+      this.quiz()?.questions.map(q => this.answers.get(q.id)!) || [];
 
     this.rewardService.finalizeQuiz(userId, this.quizId, userAnswers).subscribe({
       next: () => {

@@ -3,6 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environements/environement';
 import {Status} from '../models/status.model';
+import {ReponseTempsDto} from '../models/reponse-temps.model';
 
 export interface UserQuizScore {
   quizId: number;
@@ -32,7 +33,7 @@ export class RewardService {
     );
   }
 
-  finalizeQuiz(userId: number, quizId: number, userAnswers: Status[]): Observable<UserQuizScore> {
+  finalizeQuiz(userId: number, quizId: number, userAnswers: ReponseTempsDto[]): Observable<UserQuizScore> {
     return this.http.post<UserQuizScore>(
       `${this.baseUrl}/score/finalize?userId=${userId}&quizId=${quizId}`,
       userAnswers

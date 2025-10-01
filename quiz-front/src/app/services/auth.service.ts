@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {environment} from '../../environements/environement';
-import {map, Observable, of, tap} from 'rxjs';
+import {Observable, tap} from 'rxjs';
 import {jwtDecode} from 'jwt-decode';
 
 
@@ -18,6 +18,7 @@ export interface DecodedToken {
   userId: number;
   iat: number;
   exp: number;
+  role: string;
   [key: string]: any;
 }
 
@@ -107,5 +108,15 @@ export class AuthService {
     return this.http.put<void>(`${environment.gatewayUrl}${environment.userApi}/user/${userId}`, userUpdate);
   }
 
+  getRole(): string | null {
+    const token = this.getToken();
+    if (!token) return null;
+    const decoded = jwtDecode<DecodedToken>(token);
+    return decoded.role || null;
+  }
+
+  isAdmin(): boolean {
+    return this.getRole() === 'ADMIN';
+  }
 
 }

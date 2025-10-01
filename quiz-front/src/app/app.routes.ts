@@ -8,6 +8,7 @@ import {UserProfileComponent} from './pages/user-profile';
 import {ResultsComponent} from './pages/results';
 import {RankingComponent} from './ranking/ranking';
 import {AdminUserListComponent} from './pages/admin-user-list';
+import {AdminGuard} from './security/admin.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'auth/login', pathMatch: 'full' },
@@ -31,7 +32,7 @@ export const routes: Routes = [
       { path: 'quizzes/type/:type', component: QuizListComponent },
       {path: 'profile', component: UserProfileComponent},
       {path: 'results/:quizId', component: ResultsComponent},
-      { path: 'admin', component: AdminUserListComponent },
+      { path: 'admin', component: AdminUserListComponent, canActivate: [AdminGuard]  },
       { path: 'ranking', component: RankingComponent }
     ]
   },
