@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
@@ -15,6 +16,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -46,12 +48,21 @@ public class JwtAuthenticationFilter implements WebFilter {
         String jwt = authHeader.substring(7);
         String username = jwtUtil.getUsernameFromToken(jwt);
 
+
         if (username != null && jwtUtil.validateToken(jwt)) {
 
             String role = jwtUtil.getRoleFromToken(jwt);
+            Integer userId = jwtUtil.getUserIdFromToken(jwt);
+
+            CustomPrincipal principal = new CustomPrincipal(userId, username, role);
+
+            List<GrantedAuthority> authorities = new ArrayList<>();
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role));
+            // Ajout autorité spéciale pour appels inter-services
+            authorities.add(new SimpleGrantedAuthority("GATEWAY_CALL"));
 
             UsernamePasswordAuthenticationToken auth =
-                    new UsernamePasswordAuthenticationToken(username, null, List.of(new SimpleGrantedAuthority("ROLE_" + role))
+                    new UsernamePasswordAuthenticationToken(principal, jwt, authorities
                     );
 
             return chain.filter(exchange)

@@ -15,6 +15,7 @@ export class AdminUserListComponent implements OnInit {
   searchQuery = '';
   currentPage = 0;
   pageSize = 10;
+  hasMorePages: boolean = true;
 
   constructor(private userService: AdminUserService) {}
 
@@ -23,11 +24,16 @@ export class AdminUserListComponent implements OnInit {
   }
 
   loadUsers(): void {
-    if (this.searchQuery.trim()) {
-      this.userService.searchUsers(this.searchQuery, this.currentPage, this.pageSize).subscribe(u => this.users = u);
-    } else {
-      this.userService.getUsers(this.currentPage, this.pageSize).subscribe(u => this.users = u);
-    }
+    const loadObservable = this.searchQuery.trim()
+      ? this.userService.searchUsers(this.searchQuery, this.currentPage, this.pageSize)
+      : this.userService.getUsers(this.currentPage, this.pageSize);
+
+    loadObservable.subscribe(u => {
+      this.users = u;
+      // LOGIQUE CLÉ : S'il y a moins d'utilisateurs que la taille de page demandée,
+      // cela signifie que nous sommes sur la dernière page.
+      this.hasMorePages = u.length === this.pageSize;
+    });
   }
 
   changeRole(user: UserDto, event: Event): void {
@@ -38,8 +44,11 @@ export class AdminUserListComponent implements OnInit {
   }
 
   nextPage(): void {
-    this.currentPage++;
-    this.loadUsers();
+    // On ne devrait incrémenter que s'il y a potentiellement plus de pages
+    if (this.hasMorePages) {
+      this.currentPage++;
+      this.loadUsers();
+    }
   }
 
   prevPage(): void {

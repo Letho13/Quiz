@@ -7,11 +7,12 @@ import com.Quiz.reward_service.dto.UserQuizScoreDto;
 import com.Quiz.reward_service.model.UserQuizScore;
 import com.Quiz.reward_service.repository.QuizClient;
 import com.Quiz.reward_service.repository.UserClient;
-import com.Quiz.reward_service.repository.UserQuizScoreRepository;
 import com.Quiz.reward_service.service.UserQuizScoreService;
-import com.quiz.shared.dto.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,9 +26,18 @@ public class UserQuizScoreController {
     private final UserClient userClient;
     private final QuizClient quizClient;
 
+    private Integer getCurrentUserId() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth == null || !(auth.getPrincipal() instanceof Jwt jwt)) {
+            throw new RuntimeException("Utilisateur non authentifié ou JWT invalide");
+        }
+
+        Long userIdLong = jwt.getClaim("userId");
+        return userIdLong.intValue(); // conversion safe en Integer
+    }
+
     @GetMapping("/ranking")
     public ResponseEntity<List<UserQuizScoreDto>> getTopTenUserQuizScore(@RequestParam("quizId") Integer quizId) {
-
         List<UserQuizScoreDto> topTen = userQuizScoreService.rankingTopTen(quizId);
         return ResponseEntity.ok(topTen);
     }
@@ -38,22 +48,24 @@ public class UserQuizScoreController {
     }
 
     @PostMapping("/new")
-    public UserQuizScore newAttempt( @RequestParam("userId") Integer userId, @RequestParam("quizId") Integer quizId) {
-        return userQuizScoreService.createNewAttempt(userId,quizId);
+    public UserQuizScore newAttempt(@RequestParam("quizId") Integer quizId) {
+        Integer userId = getCurrentUserId();
+        return userQuizScoreService.createNewAttempt(userId, quizId);
     }
 
-    @GetMapping("/user/{userId}/best")
-    public ResponseEntity<List<UserQuizScoreDto>> getBestScoresByUser(@PathVariable Integer userId) {
+    @GetMapping("/user/best")
+    public ResponseEntity<List<UserQuizScoreDto>> getBestScoresByUser() {
+        Integer userId = getCurrentUserId();
         List<UserQuizScoreDto> scores = userQuizScoreService.getBestScoresByUser(userId);
         return ResponseEntity.ok(scores);
     }
 
     @PostMapping("/finalize")
     public ResponseEntity<UserQuizScoreDto> finalizeQuiz(
-            @RequestParam ("userId") Integer userId,
-            @RequestParam ("quizId") Integer quizId,
+            @RequestParam("quizId") Integer quizId,
             @RequestBody List<ReponseTempsDto> userAnswers
     ) {
+        Integer userId = getCurrentUserId();
         UserQuizScore attempt = userQuizScoreService.finalizeCurrentAttempt(userId, quizId, userAnswers);
 
         UserQuizScoreDto dto = new UserQuizScoreDto(
@@ -65,10 +77,11 @@ public class UserQuizScoreController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("/last/{userId}/{quizId}")
+    @GetMapping("/last/{quizId}")
     public ResponseEntity<UserQuizScoreDto> getLastScore(
-            @PathVariable Integer userId,
             @PathVariable Integer quizId) {
+
+        Integer userId = getCurrentUserId();
 
         UserQuizScore lastAttempt = userQuizScoreService
                 .findLastCompletedAttempt(userId, quizId)

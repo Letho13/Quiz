@@ -26,22 +26,21 @@ export class RewardService {
 
 
   /** Démarre une nouvelle tentative */
-  createAttempt(userId: number, quizId: number): Observable<UserQuizScore> {
+  createAttempt(quizId: number): Observable<UserQuizScore> {
     return this.http.post<UserQuizScore>(
-      `${this.baseUrl}/score/new?userId=${userId}&quizId=${quizId}`,
-      {}
+      `${this.baseUrl}/score/new?quizId=${quizId}`, {}
     );
   }
 
-  finalizeQuiz(userId: number, quizId: number, userAnswers: ReponseTempsDto[]): Observable<UserQuizScore> {
+  finalizeQuiz(quizId: number, userAnswers: ReponseTempsDto[]): Observable<UserQuizScore> {
     return this.http.post<UserQuizScore>(
-      `${this.baseUrl}/score/finalize?userId=${userId}&quizId=${quizId}`,
+      `${this.baseUrl}/score/finalize?quizId=${quizId}`,
       userAnswers
     );
   }
 
-  getLastScore(userId: number, quizId: number): Observable<{score: number}> {
-    return this.http.get<{score: number}>(`${this.baseUrl}/score/last/${userId}/${quizId}`);
+  getLastScore(quizId: number): Observable<{score: number}> {
+    return this.http.get<{score: number}>(`${this.baseUrl}/score/last/${quizId}`);
   }
 
   /** Top 10 pour un quiz */

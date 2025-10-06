@@ -1,0 +1,62 @@
+/* ===========================
+   🎯 CONTAINER PRINCIPAL
+   =========================== */
+.quiz-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+/* ===========================
+   🏷️ TITRE
+   =========================== */
+.quiz-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 2rem;
+  color: #1e293b; // proche slate-800
+}
+
+/* ===========================
+   🔲 GRILLE DES TYPES
+   =========================== */
+.quiz-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* ===========================
+   📦 CARTE TYPE DE QUIZ
+   =========================== */
+.quiz-type-card {
+  display: block;
+  background: #ecf0f1;
+  padding: 1.2rem;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-align: center;
+  color: #2c3e50;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+}
+
+.quiz-type-card:hover {
+  background: #dcdde1;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive : une colonne sur mobile */
+@media (max-width: 600px) {
+  .quiz-types-grid {
+    grid-template-columns: 1fr;
+  }
+}

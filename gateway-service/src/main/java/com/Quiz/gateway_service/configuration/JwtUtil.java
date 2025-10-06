@@ -81,6 +81,16 @@ public class JwtUtil {
         return claims.get("role", String.class);
     }
 
+    public Integer getUserIdFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("userId", Integer.class);
+    }
+
+
 }
 
 

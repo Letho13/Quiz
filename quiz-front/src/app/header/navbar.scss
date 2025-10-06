@@ -1,31 +1,82 @@
 .navbar {
   display: flex;
   align-items: center;
-  padding: 10px 20px;
-  background: #222;
-  color: #fff;
+  padding: 0.8rem 1.5rem;
+  background: #f8fafc; // gris clair moderne
+  border-bottom: 1px solid #e2e8f0;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  border-radius: 0 0 12px 12px;
+}
 
-  a {
-    margin-right: 20px;
-    text-decoration: none;
-    color: #fff;
-  }
+.navbar-left {
+  display: flex;
+  gap: 1.5rem;
+}
 
-  .spacer {
-    flex: 1;
-  }
+.navbar a {
+  text-decoration: none;
+  color: #334155; // gris foncé
+  font-weight: 500;
+  font-size: 1rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease, color 0.2s ease, border-bottom 0.2s ease; /* Ajout de la transition pour la bordure */
 
-  .logout-btn {
-    background: #e74c3c;
-    border: none;
-    color: white;
-    padding: 8px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-  }
+  /* Bordure transparente pour maintenir la hauteur et la cohérence de la ligne */
+  border-bottom: 3px solid transparent;
+}
 
-  .logout-btn:hover {
-    background: #c0392b;
-  }
+/* Règle pour l'état ACTIF : Plus spécifique que 'a' seul */
+.navbar a.active {
+  background: none; /* Annule le background potentiel */
+  color: #0369a1; // Bleu foncé
+  font-weight: 600;
+
+  /* LIGNE CLÉ : Bordure pour marquer l'activité */
+  border-bottom: 3px solid #0ea5e9;
+  border-radius: 0;
+}
+
+/* Règle pour l'état HOVER des liens NON-ACTIFS */
+/* Utilisation de :not(.active) pour éviter le conflit */
+.navbar a:not(.active):hover {
+  background: #e2e8f0; // hover clair
+  color: #0ea5e9; // bleu accent
+}
+
+/* Règle pour l'état ACTIF AU SURVOL (Garantie de persistance) */
+/* Ce sélecteur (a.active:hover) est plus spécifique que a:hover et a.active */
+.navbar a.active:hover {
+  background: none;
+  color: #0369a1;
+  border-bottom: 3px solid #0ea5e9;
+  transform: none;
+}
+
+.spacer {
+  flex: 1;
+}
+
+.navbar-right {
+  /* Assurons-nous que le contenu est bien aligné */
+  display: flex;
+  align-items: center; /* Centrage vertical du bouton */
+  /* Ajout d'une petite marge à gauche si vous voulez un peu d'air entre le spacer et le bouton */
+  margin-left: 1.5rem;
+}
+
+.logout-btn {
+  background: #ef4444;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
 }

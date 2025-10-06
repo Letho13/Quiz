@@ -1,0 +1,20 @@
+<nav class="navbar">
+  <div class="navbar-left">
+    <a routerLink="/home" routerLinkActive="active">🏠 Accueil</a>
+    <a routerLink="/profile" routerLinkActive="active">👤 Profil</a>
+    <a routerLink="/ranking" routerLinkActive="active">🎖️ Classement</a>
+    @if (auth.isAdmin()) {
+      <a routerLink="/admin" routerLinkActive="active">🚦 Administration</a>
+    }
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="navbar-right">
+    @if (auth.isAuthenticated()) {
+      <button (click)="onLogout()" class="logout-btn">
+        🚪 Déconnexion
+      </button>
+    }
+  </div>
+</nav>

@@ -8,16 +8,8 @@ import { QuizService} from '../services/quiz.service';
   selector: 'app-type-selection',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  template: `
-
-    <ul>
-      @for (type of quizTypes(); track type) {
-      <li>
-        <a [routerLink]="['/quizzes/type', type]"> {{ type }}</a>
-      </li>
-        }
-        </ul>
-  `,
+  templateUrl: './type-selection.html',
+  styleUrls: ['./type-selection.scss']
 })
 
 export default class QuizSelectionComponent {

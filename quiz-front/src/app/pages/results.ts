@@ -18,22 +18,19 @@ export class ResultsComponent implements OnInit {
   private authService= inject(AuthService);
 
   quizId!: number;
-  userId!: number;
   score: number | null = null;
 
   ngOnInit(): void {
     this.quizId = Number(this.route.snapshot.paramMap.get('quizId'));
 
-    const id = this.authService.getUserId();
-    if (id === null) {
+    const isLoggedIn = this.authService.getUserId() !== null;
+    if (isLoggedIn) {
       console.error("Utilisateur non connecté !");
-
       this.router.navigate(['/auth/login']);
       return;
     }
-    this.userId = id;
 
-    this.rewardService.getLastScore(this.userId, this.quizId).subscribe({
+    this.rewardService.getLastScore(this.quizId).subscribe({
       next: (result) => {
         this.score = result.score;
       },

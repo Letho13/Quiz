@@ -36,6 +36,7 @@ public class UserController {
         return ResponseEntity.ok(userDto);
     }
 
+    //pour le feign UserClient du RewardService
     @GetMapping("/by-username/{username}")
     public ResponseEntity<UserDto> getUserByUsername(@PathVariable("username") String username) {
         UserDto userDto = userService.findUserByUsername(username);

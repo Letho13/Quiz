@@ -24,24 +24,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfig {
 
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .formLogin(AbstractHttpConfigurer::disable)
-//                .httpBasic(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/**", "/**").permitAll()
-//                        .anyRequest().authenticated()
-//                )
-//                .exceptionHandling(ex -> ex
-//                        .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
-//
-//                );
-//
-//        return http.build();
-//    }
-
     @Value("${security.jwt.secret}")
     private String jwtSecret;
 

@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { QuizService, Reponse, Quiz, Question } from '../services/quiz.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {RewardService} from '../services/reward.service';
-import {AuthService} from '../services/auth.service';
 import {Status} from '../models/status.model';
 import {ReponseTempsDto} from '../models/reponse-temps.model';
 
@@ -19,7 +18,6 @@ export class QuizComponent {
 
   private quizService = inject(QuizService);
   private rewardService = inject(RewardService);
-  private authService = inject(AuthService);
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private answers = new Map<number, ReponseTempsDto>();
@@ -42,13 +40,10 @@ export class QuizComponent {
 
   constructor() {
 
-    const userId = this.authService.getUserId();
-    if (userId) {
-      this.rewardService.createAttempt(userId, this.quizId).subscribe({
+      this.rewardService.createAttempt( this.quizId).subscribe({
         next: (attempt) => console.log('Nouvelle tentative créée', attempt),
         error: (err) => console.error('Erreur création tentative', err)
       });
-    }
 
     this.quizService.getQuizById(this.quizId).subscribe((data) => {
       this.quiz.set(data);
@@ -101,16 +96,11 @@ export class QuizComponent {
   }
 
   finalizeQuiz() {
-    const userId = this.authService.getUserId();
-    if (userId === null) {
-      console.error("Utilisateur non connecté");
-      return;
-    }
 
     const userAnswers: ReponseTempsDto[] =
       this.quiz()?.questions.map(q => this.answers.get(q.id)!) || [];
 
-    this.rewardService.finalizeQuiz(userId, this.quizId, userAnswers).subscribe({
+    this.rewardService.finalizeQuiz(this.quizId, userAnswers).subscribe({
       next: () => {
         console.log('Quiz finalisé ✅');
         this.router.navigate(['/results', this.quizId]);

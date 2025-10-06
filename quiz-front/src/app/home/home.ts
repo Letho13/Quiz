@@ -7,12 +7,7 @@ import QuizSelectionComponent from '../pages/type-selection';
   selector: 'app-home',
   standalone: true,
   imports: [CommonModule, QuizSelectionComponent],
-  template: `
-    <h1>Bienvenue</h1>
-    <h2>Choisis le thème</h2>
-
-    <app-type-selection></app-type-selection>
-  `,
+  templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })
 export class HomeComponent {

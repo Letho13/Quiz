@@ -17,7 +17,7 @@ export class UserProfileService {
 
   getBestUserScores(userId: number | null): Observable<UserQuizScore[]> {
     if (userId == null) return of([]);
-    return this.http.get<UserQuizScore[]>(`${this.scoreUrl}/score/user/${userId}/best`);
+    return this.http.get<UserQuizScore[]>(`${this.scoreUrl}/score/user/best`);
   }
 
 

@@ -14,7 +14,7 @@ html, body {
 body {
   font-family: 'Roboto', sans-serif;
   background-color: #f7f7f7;
-  color: #2C3E50;
+  color: #0b4983;
   line-height: 1.5;
 }
 
@@ -23,7 +23,7 @@ body {
    =========================== */
 h1, h2, h3, h4 {
   font-weight: 600;
-  color: #2C3E50;
+  color: #0b4983;
 }
 
 p {
@@ -72,8 +72,12 @@ button:disabled {
 }
 
 .btn-primary {
-  background: var(--primary-color);
-  color: #fff;
+  background: #0ea5e9;
+  color: white;
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition: background 0.2s;
 }
 
 .btn-primary:hover:not(:disabled) {
@@ -165,3 +169,4 @@ button:disabled {
   color: var(--danger-color);
   font-weight: bold;
 }
+

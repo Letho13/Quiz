@@ -1,0 +1,117 @@
+/* ===========================
+   ADMIN - LISTE UTILISATEURS
+   =========================== */
+
+.admin-container {
+  padding-top: 2rem; /* Espace en haut */
+}
+
+.page-title {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+/* --- Contrôles de Recherche --- */
+.search-controls {
+  /* La classe .card donne déjà le fond blanc, l'ombre et le padding */
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.text-input {
+  /* Reprise du style des inputs que vous devriez avoir globalement */
+  flex-grow: 1;
+  padding: 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.search-btn {
+  /* Hérite du style .btn-primary */
+  white-space: nowrap; /* Empêche le bouton de se casser sur plusieurs lignes */
+}
+
+
+/* --- Tableau Utilisateurs --- */
+.user-list-card {
+  padding: 0; /* Retire le padding intérieur pour que le tableau remplisse la carte */
+  overflow-x: auto; /* Permet le défilement horizontal sur petits écrans */
+  margin-bottom: 2rem;
+}
+
+.user-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0; /* Supprime l'espace par défaut */
+
+  /* Lignes alternées (striped) */
+  tbody tr:nth-child(even) {
+    background-color: var(--light-bg); /* Utilisation de votre couleur de fond léger */
+  }
+}
+
+.user-table th {
+  background-color: var(--secondary-color);
+  color: white;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  font-weight: 700;
+
+}
+
+/* Coins arrondis pour le header du tableau */
+.user-table thead tr th:first-child {
+  border-top-left-radius: 12px;
+}
+.user-table thead tr th:last-child {
+  border-top-right-radius: 12px;
+}
+
+
+.user-table td {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #eee;
+  vertical-align: middle;
+}
+
+.no-users-msg {
+  text-align: center;
+  font-style: italic;
+  color: #7f8c8d;
+  padding: 2rem !important;
+}
+
+/* Sélecteur de Rôle */
+.role-select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: white;
+  transition: border-color 0.2s;
+}
+
+.role-select:focus {
+  border-color: #0ea5e9; /* Bleu accent au focus */
+  outline: none;
+}
+
+.role-header, .role-cell {
+  width: 150px; /* Largeur fixe pour la colonne de rôle */
+}
+
+/* --- Pagination --- */
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 1rem;
+}
+
+.current-page-display {
+  font-weight: 600;
+  color: var(--secondary-color);
+}

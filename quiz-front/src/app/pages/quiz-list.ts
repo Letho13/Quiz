@@ -7,16 +7,9 @@ import {QuizService, Quiz} from '../services/quiz.service';
   selector: 'app-quiz-list',
   standalone: true,
   imports: [CommonModule, RouterModule],
-  template: `
-    <h2>Quiz pour le type : {{ type }}</h2>
-    <ul>
-      @for (quiz of quizzes(); track quiz.id) {
-        <li>
-          <a [routerLink]="['/quiz', quiz.id]">{{ quiz.title }}</a>
-        </li>
-      }
-    </ul>
-  `
+  templateUrl: 'quiz-list.html',
+  styleUrls: ['quiz-list.scss']
+
 })
 export class QuizListComponent {
   private route = inject(ActivatedRoute);

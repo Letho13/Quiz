@@ -1,0 +1,25 @@
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-height: 80vh; // prend presque tout l'écran (en laissant la navbar)
+  text-align: center;
+
+  .quiz-title {
+    font-size: 3.5rem; /* Augmentation significative de la taille */
+    font-weight: 900; /* Rendre le texte très gras */
+    margin-bottom: 2.5rem; /* Augmenter l'espace en dessous */
+
+    /* Utilisation d'une couleur plus vive ou d'une couleur d'accentuation */
+    color: #0b4983; /* Utilisation de votre bleu d'accentuation (pour la dynamique) */
+
+    letter-spacing: 2px; /* Espacement accru pour un look plus élégant */
+
+    /* AJOUT CLÉ : Ombre portée pour donner du relief et de l'impact */
+    text-shadow:
+      //2px 2px 0px rgba(255, 255, 255, 0.5); /* Légère ombre blanche pour l'effet 3D */
+      4px 4px 6px rgba(0, 0, 0, 0.2); /* Ombre douce pour le faire flotter */
+  }
+}

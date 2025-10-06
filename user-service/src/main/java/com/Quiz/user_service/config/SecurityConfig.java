@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authorization.AuthorizationDecision;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -19,9 +20,12 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.expression.WebExpressionAuthorizationManager;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Configuration
 public class SecurityConfig {
@@ -37,13 +41,23 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        // La règle SpEL qui combine TOUT : admin, service, ou l'utilisateur lui-même
+        String generalUserAccessRule = "hasRole('ADMIN') or hasRole('GATEWAY_CALL') or #username == authentication.name";
+        String generalUserIdAccessRule = "hasRole('ADMIN') or hasRole('GATEWAY_CALL') or #id.toString() == authentication.principal.claims['userId'].toString()";
+
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/auth/**", "/actuator/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/user/add").permitAll()
-                        .requestMatchers("/actuator/**").permitAll()
-                        .requestMatchers("/api/user/search","/api/user/by-username/{username}","/api/user/{id}").hasRole("ADMIN")
+                        .requestMatchers("/api/user/search").hasRole("ADMIN") // Recherche réservée aux admins
+
+                        // Appliquer la nouvelle règle unifiée et complète
+                        .requestMatchers("/api/user/by-username/{username}")
+                        .access(new WebExpressionAuthorizationManager(generalUserAccessRule))
+                        .requestMatchers("/api/user/{id}")
+                        .access(new WebExpressionAuthorizationManager(generalUserIdAccessRule))
+
                         .anyRequest().authenticated()
                 )
                 .formLogin(AbstractHttpConfigurer::disable)
@@ -54,6 +68,35 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+//    @Bean
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .authorizeHttpRequests(auth -> auth
+//                        .requestMatchers("/api/auth/**").permitAll()
+//                        .requestMatchers(HttpMethod.POST, "/api/user/add").permitAll()
+//                        .requestMatchers("/actuator/**").permitAll()
+//
+//                        .requestMatchers("/api/user/search",
+//                                "/api/user/by-username/**",
+//                                "/api/user/{id}")
+//                        .access((authentication, context) -> {
+//                            boolean allowed = authentication.get().getAuthorities().stream()
+//                                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") ||
+//                                            a.getAuthority().equals("GATEWAY_CALL"));
+//                            return new AuthorizationDecision(allowed);
+//                        })
+//                        .anyRequest().authenticated()
+//                )
+//                .formLogin(AbstractHttpConfigurer::disable)
+//                .httpBasic(AbstractHttpConfigurer::disable)
+//                .oauth2ResourceServer(oauth2 -> oauth2
+//                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
+//                );
+//
+//        return http.build();
+//    }
 
 
 
@@ -82,11 +125,20 @@ public class SecurityConfig {
     public JwtAuthenticationConverter jwtAuthenticationConverter() {
         JwtAuthenticationConverter converter = new JwtAuthenticationConverter();
         converter.setJwtGrantedAuthoritiesConverter(jwt -> {
+            // 1. Extraire le "role" (pour les utilisateurs normaux)
             String role = jwt.getClaimAsString("role");
-            if (role == null) {
-                return List.of();
-            }
-            return List.of(new SimpleGrantedAuthority("ROLE_" + role));
+            Stream<String> roleStream = role != null ? Stream.of("ROLE_" + role) : Stream.empty();
+
+            // 2. Extraire les "authorities" (pour les jetons de service)
+            List<String> authoritiesList = jwt.getClaimAsStringList("authorities");
+            Stream<String> authoritiesStream = authoritiesList != null
+                    ? authoritiesList.stream().map(a -> "ROLE_" + a) // préfixage
+                    : Stream.empty();
+
+            // 3. Combiner les deux listes en une seule liste de GrantedAuthority
+            return Stream.concat(roleStream, authoritiesStream)
+                    .map(SimpleGrantedAuthority::new)
+                    .collect(Collectors.toList());
         });
         return converter;
     }

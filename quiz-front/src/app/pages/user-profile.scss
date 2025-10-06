@@ -1,45 +1,178 @@
-/* user-profile.scss */
+@import "../../styles.scss";
+
+/* Layout à deux colonnes */
+.profile-layout {
+  display: grid;
+  grid-template-columns: 1fr 2fr; /* 1 part pour l'info, 2 parts pour les scores */
+  gap: 2rem;
+  align-items: flex-start; /* Aligner les cartes en haut */
+}
+
+/* Règle pour les petits écrans (mobile) */
+@media (max-width: 850px) {
+  .profile-layout {
+    grid-template-columns: 1fr; /* Une seule colonne pour le mobile */
+  }
+}
+
+/* Styles pour les sections d'information/scores */
+.user-info, .user-scores {
+  /* Hérite de .card (fond blanc, ombre, padding) */
+  padding: 2rem;
+  min-height: 250px; /* Pour un alignement visuel plus harmonieux */
+}
+
+/* --- Section Infos Utilisateur (Gauche) --- */
+.user-info h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #eee;
+}
+
+.info-item strong {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+.edit-button {
+  margin-top: 1.5rem;
+  width: 100%; /* Le bouton remplit la carte */
+}
+
+/* --- Section Scores (Centre/Droite) --- */
+.user-scores h2 {
+  margin-bottom: 1.5rem;
+  color: var(--primary-color);
+}
+
+.scores-table-wrapper {
+  overflow-x: auto; /* Pour gérer le débordement sur mobile */
+}
+
+.scores-table {
+  width: 100%;
+  border-collapse: separate; /* Permet d'utiliser border-spacing */
+  border-spacing: 0 10px; /* Ajoute de l'espace vertical entre les lignes */
+}
+
+.scores-table th {
+  text-align: left;
+  padding: 0.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  border-bottom: 2px solid var(--primary-color);
+}
+
+.scores-table td {
+  padding: 1rem 0.5rem;
+  background-color: var(--light-bg); /* Fond légèrement grisé pour les lignes */
+  border-radius: 6px;
+  vertical-align: middle;
+}
+
+.scores-table tbody tr:hover td {
+  background-color: #e5e5e5; /* Changement de couleur au survol */
+}
+
+.quiz-title-cell {
+  font-weight: 500;
+  color: var(--secondary-color);
+}
+
+.score-value-cell {
+  text-align: center;
+  font-weight: 700;
+  color: #1abc9c; /* Une couleur vive pour les scores */
+  width: 100px; /* Taille fixe pour la colonne de score */
+}
+
+.no-score-message {
+  text-align: center;
+  font-style: italic;
+  color: #7f8c8d;
+  background: none !important;
+  padding: 2rem !important;
+}
+
+/* ===========================
+   ⚙️ MODAL (Pop-up/Fenêtre)
+   =========================== */
+
 .modal-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index: 1000;
+  position: fixed; /* TRÈS IMPORTANT: Fixe l'élément par rapport à la fenêtre */
+  inset: 0;        /* Couvre tout l'écran (équivalent à top: 0; right: 0; bottom: 0; left: 0;) */
+  background: rgba(0,0,0,0.6); /* Fond obscurci avec transparence */
+  display: flex;
+  align-items: center; /* Centre verticalement */
+  justify-content: center; /* Centre horizontalement */
+  z-index: 1000; /* Assure que le modal est au-dessus de tout autre élément de la page */
+  overflow-y: auto; /* Pour permettre le défilement si le contenu du modal est long */
 }
 
 .modal {
-  background: white;
-  padding: 1.4rem;
-  border-radius: 8px;
-  width: 420px;
-  max-width: 95%;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  background: var(--card-bg); /* Utilisation de votre variable pour le fond blanc */
+  padding: 2rem;
+  border-radius: 12px;
+  width: 450px;
+  max-width: 90%;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3); /* Ombre plus marquée pour effet pop-up */
 }
 
+/* Styles pour les champs et actions du modal */
 .modal label {
-  display:block;
-  margin-bottom: 0.6rem;
+  display: block;
+  margin-bottom: 0.8rem;
+  font-weight: 500;
 }
 
 .modal input {
-  display:block;
+  /* Assurez-vous que l'input prend toute la largeur */
   width: 100%;
-  padding: 0.4rem;
+  padding: 0.6rem;
   margin-top: 0.25rem;
-  border-radius: 4px;
+  border-radius: 8px;
   border: 1px solid #ccc;
 }
 
 .modal-actions {
-  display:flex;
-  justify-content:flex-end;
-  gap:0.5rem;
-  margin-top: 0.8rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
-.btn-primary {
-  background: var(--primary-color);
-  color: #fff;
+/* Style des erreurs de formulaire (si vous avez utilisé la classe .form-error que j'ai suggérée) */
+.form-error {
+  color: var(--danger-color);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+}
+
+
+/* ===========================
+   ⚙️ MODAL (Améliorations)
+   =========================== */
+
+/* Style pour les messages d'erreur du formulaire */
+.modal div[class$="invalid"] {
+  color: var(--danger-color);
+  font-size: 0.85rem;
+  margin-top: -0.5rem;
+  margin-bottom: 0.8rem;
+}
+
+.modal-actions button[type="submit"] {
+  @extend .btn-primary; /* Fonctionnera après l'import */
+}
+
+.modal-actions button[type="button"] {
+  @extend .btn-secondary; /* Fonctionnera après l'import */
+  color: var(--primary-color);
 }
