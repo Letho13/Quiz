@@ -9,11 +9,13 @@ import com.Quiz.reward_service.repository.QuizClient;
 import com.Quiz.reward_service.repository.UserClient;
 import com.Quiz.reward_service.service.UserQuizScoreService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -85,7 +87,9 @@ public class UserQuizScoreController {
 
         UserQuizScore lastAttempt = userQuizScoreService
                 .findLastCompletedAttempt(userId, quizId)
-                .orElseThrow(() -> new RuntimeException("Aucune tentative finalisée trouvée"));
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND,
+                        "Aucune tentative finalisée trouvée pour ce quiz."));
 
         UserQuizScoreDto dto = new UserQuizScoreDto(
                 userClient.getUserById(userId).getUsername(),

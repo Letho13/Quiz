@@ -2,6 +2,7 @@ package com.Quiz.reward_service.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "user_quiz_scores",
         indexes = {
                 @Index(name = "idx_user_quiz", columnList = "userId, quizId"),
