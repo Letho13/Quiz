@@ -1,0 +1,20 @@
+eureka:
+  instance:
+    hostname: config-server
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8761/eureka
+name:
+  value: theo
+spring:
+  cloud:
+    config:
+      override-system-properties: false
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+  zipkin:
+    tracing:
+      endpoint: http://zipkin:9411/api/v2/spans

@@ -1,0 +1,79 @@
+<div class="quiz-container card">
+
+  <!-- Header du quiz avec titre, score et timer -->
+  <div class="quiz-header">
+    <h2>{{ quiz()?.title }}</h2>
+
+    <div class="quiz-info">
+      <div>Score : {{ score() }}</div>
+
+      @if (!isQuizFinished()) {
+        <div class="timer-wrapper">
+          <svg class="timer-svg" viewBox="0 0 36 36">
+            <path class="timer-bg"
+                  d="M18 2
+                 a 16 16 0 0 1 0 32
+                 a 16 16 0 0 1 0 -32"
+            />
+            <path class="timer-progress"
+                  [attr.stroke-dasharray]="progressCircle() + ', 100'"
+                  [attr.stroke]="timerColor()"
+                  d="M18 2
+                 a 16 16 0 0 1 0 32
+                 a 16 16 0 0 1 0 -32"
+            />
+          </svg>
+          <span class="timer-text">{{ timeLeft() }}s</span>
+        </div>
+      }
+    </div>
+  </div>
+
+  <!-- Quiz terminé -->
+  @if (isQuizFinished()) {
+    <h3>Quiz terminé ✅</h3>
+    @if (quiz()) {
+      <p>Score final : {{ score() }} / {{ quiz()!.questions.length * 5 }}</p>
+    }
+  } @else {
+
+    <!-- Question en cours -->
+    <p class="quiz-question">
+      <strong>Question {{ currentQuestionIndex() + 1 }} :</strong> {{ getCurrentQuestion()?.question }}
+    </p>
+
+    <ul class="answers-grid">
+      @for (rep of getCurrentQuestion()?.reponses; track rep.id) {
+        <li>
+          <button
+            class="answer-card btn-secondary"
+            [disabled]="selectedReponse()"
+            (click)="selectReponse(rep)"
+            [ngClass]="{
+              correct: (feedback() === 'VRAI' && rep === selectedReponse())|| (feedback() === 'FAUX' && rep.status === 'VRAI'),
+              wrong: feedback() === 'FAUX' && rep === selectedReponse()
+            }"
+          >
+            {{ rep.reponse }}
+          </button>
+        </li>
+      }
+    </ul>
+
+    @if (feedback()) {
+      <button class="btn-primary" (click)="isLastQuestion() ? finalizeQuiz() : nextQuestion()">
+        {{ isLastQuestion() ? 'Terminer le quiz' : 'Question suivante' }}
+      </button>
+    }
+
+    @if (feedback() === 'VRAI') {
+      <div class="correct-msg">✅ Bonne réponse !</div>
+    } @else if (feedback() === 'FAUX') {
+      <div class="wrong-msg">❌ Mauvaise réponse !</div>
+    }
+
+<!--    @if (feedback()) {-->
+<!--      <button class="btn-primary" (click)="nextQuestion()">Question suivante</button>-->
+<!--    }-->
+  }
+</div>

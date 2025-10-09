@@ -1,0 +1,135 @@
+package com.Quiz.user_service.service;
+
+
+import com.Quiz.user_service.exception.UserNotFoundException;
+import com.Quiz.user_service.mapper.UserMapper;
+import com.Quiz.user_service.model.User;
+import com.Quiz.user_service.repository.UserRepository;
+import com.Quiz.user_service.security.UserDetailsImpl;
+import com.quiz.shared.dto.UserDto;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
+
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    public Page<UserDto> findAllUsers(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return userRepository.findAll(pageable)
+                .map(UserMapper::toDto);
+    }
+
+    public UserDto findUserByUsername(String username) {
+        User user = userRepository.getUserByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(String.format("Le user %s n'existe pas!", username)));
+        return UserMapper.toDto(user);
+    }
+
+    public UserDto findUserById(Integer id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException(String.format("Le user %s n'existe pas!", id)));
+    return UserMapper.toDto(user);
+    }
+
+    public UserDto register(UserDto userDto) {
+        if (!isValidPassword(userDto.getPassword())) {
+            throw new IllegalArgumentException("Le mot de passe ne respecte pas les critères de sécurité !");
+        }
+
+        if (userDto.getRole() == null || userDto.getRole().isBlank()) {
+            userDto.setRole("USER");
+        }
+
+        User user = UserMapper.toEntity(userDto);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User savedUser = userRepository.save(user);
+        return UserMapper.toDto(savedUser);
+    }
+
+    public void updateUser(UserDto userDto) {
+        if(userDto.getId() == null) {
+            throw new IllegalArgumentException("L'identifiant du user est requis pour la mise à jour.");
+        }
+        User user = userRepository.findById(userDto.getId())
+                .orElseThrow(()-> new UserNotFoundException(String.format("Le user %s n'existe pas!", userDto.getId())));
+        mergerUser(user, userDto);
+        userRepository.save(user);
+    }
+
+    private void mergerUser(User user, UserDto userDto) {
+        if (userDto.getUsername() != null) {
+            user.setUsername(userDto.getUsername());
+        }
+        if (userDto.getEmail() != null) {
+            user.setEmail(userDto.getEmail());
+        }
+        if (userDto.getPassword() != null) {
+            if (!isValidPassword(userDto.getPassword())) {
+                throw new IllegalArgumentException("Le mot de passe ne respecte pas les critères de sécurité !");
+            }
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+        }
+        if (userDto.getRole() != null) {
+            Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+            boolean isAdmin = auth.getAuthorities().stream()
+                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+            if (isAdmin) {
+                user.setRole(userDto.getRole()); // admin peut changer le rôle
+            } else {
+                // ignorer si user normal
+                System.out.println("Tentative de changement de rôle bloquée pour " + user.getUsername());
+            }
+        }
+
+    }
+
+    public void deleteUser(Integer id) {
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException(String.format("Le user %s n'existe pas!", id));
+        }
+        userRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.getUserByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
+
+//        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
+
+        log.info("Utilisateur trouvé : {} avec le rôle {}", user.getUsername(), user.getRole());
+        return new UserDetailsImpl(user);
+    }
+
+    private boolean isValidPassword(String password) {
+        String passwordRegex = "^(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).{8,}$";
+        return password.matches(passwordRegex);
+    }
+
+    public Page<UserDto> searchUsers(String query, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        Page<User> userPage = userRepository.findByUsernameContainingIgnoreCaseOrEmailContainingIgnoreCase(
+                query, query, pageable);
+        return userPage.map(UserMapper::toDto);
+    }
+}

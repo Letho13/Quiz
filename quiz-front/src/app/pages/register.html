@@ -1,0 +1,70 @@
+<div class="register-container">
+  <h2>📝 Créer un compte</h2>
+
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+
+    <!-- Username -->
+    <label>
+      Nom d’utilisateur
+      <input formControlName="username" placeholder="Nom d'utilisateur" />
+    </label>
+    @if (registerForm.get('username')?.invalid && registerForm.get('username')?.touched) {
+      <div class="error">Le nom doit contenir au moins 3 caractères.</div>
+    }
+
+    <!-- Email -->
+    <label>
+      Email
+      <input formControlName="email" placeholder="email@example.com" />
+    </label>
+    @if (registerForm.get('email')?.invalid && registerForm.get('email')?.touched) {
+      <div class="error">Email invalide.</div>
+    }
+
+    <!-- Password -->
+    <label>
+      Mot de passe
+      <input type="password" formControlName="password" placeholder="Mot de passe" />
+    </label>
+
+    @if (registerForm.get('password')?.errors && registerForm.get('password')?.touched) {
+      <div class="error">
+        <p>Le mot de passe doit respecter les règles suivantes :</p>
+        <ul>
+          @if (registerForm.get('password')?.errors?.['minLength']) {
+            <li>{{ registerForm.get('password')?.errors?.['minLength'] }}</li>
+          }
+          @if (registerForm.get('password')?.errors?.['uppercase']) {
+            <li>{{ registerForm.get('password')?.errors?.['uppercase'] }}</li>
+          }
+          @if (registerForm.get('password')?.errors?.['digit']) {
+            <li>{{ registerForm.get('password')?.errors?.['digit'] }}</li>
+          }
+          @if (registerForm.get('password')?.errors?.['special']) {
+            <li>{{ registerForm.get('password')?.errors?.['special'] }}</li>
+          }
+        </ul>
+      </div>
+    }
+
+    <!-- Confirm Password -->
+    <label>
+      Confirmer le mot de passe
+      <input type="password" formControlName="confirmPassword" placeholder="Confirmer mot de passe" />
+    </label>
+    @if (registerForm.hasError('passwordsMismatch')) {
+      <div class="error">Les mots de passe ne correspondent pas.</div>
+    }
+
+    <!-- Error global -->
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    <!-- Actions -->
+    <div class="actions">
+      <button type="submit" [disabled]="registerForm.invalid">Créer mon compte</button>
+      <a routerLink="/auth/login">Déjà un compte ? Connectez-vous</a>
+    </div>
+  </form>
+</div>

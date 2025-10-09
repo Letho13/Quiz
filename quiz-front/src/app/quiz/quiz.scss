@@ -1,0 +1,115 @@
+/* ===========================
+   🎯 LAYOUT DU QUIZ
+   =========================== */
+/* ... (autres styles) ... */
+
+/* --- ESPACEMENT AJOUTÉ --- */
+/* Style pour le bouton principal de navigation (Question suivante / Terminer le quiz) */
+.quiz-container > .btn-primary {
+  margin-bottom: 1.5rem; /* Ajoute de l'espace en dessous du bouton */
+  /* Assurez-vous qu'il est assez grand pour l'aligner avec l'espacement des autres éléments */
+  margin-top: 1rem;
+  display: block; /* S'assurer qu'il prend toute la largeur pour centrer le texte */
+  width: 100%; /* S'assurer qu'il prend toute la largeur de la carte */
+}
+
+
+/* ===========================
+   🏁 HEADER DU QUIZ
+   =========================== */
+.quiz-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.quiz-info {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 1rem;
+  color: var(--secondary-color);
+}
+
+/* ===========================
+   📝 QUESTION
+   =========================== */
+.quiz-question {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   🔲 LISTE DES RÉPONSES
+   =========================== */
+.answers-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  /* Assurez-vous que le <ul> n'a pas de style de liste */
+  list-style: none; /* Supprime les puces */
+  padding: 0;      /* Supprime le padding par défaut des ul */
+  margin: 0 0 1.5rem 0; /* Ajuste la marge */
+}
+
+/* Assurez-vous que le <li> ne cause pas de problème */
+.answers-grid li {
+  margin: 0; /* Enlève la marge par défaut des li */
+}
+
+.answer-card {
+  background: #ecf0f1;
+  border-radius: 8px;
+  font-size: 1rem;
+  /* CHANGEMENTS CLÉS ICI */
+  width: 100%;       /* Force le bouton à prendre 100% de la largeur du <li> */
+  text-align: left;  /* Alignement du texte à gauche pour le faire démarrer du bord */
+  white-space: normal; /* Permet au texte de se sauter des lignes s'il est trop long */
+  /* FIN DES CHANGEMENTS CLÉS */
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+
+  /* Nous pouvons aussi augmenter légèrement le padding si nécessaire pour donner de l'air */
+  padding: 1.2rem;
+}
+
+.answer-card:hover:not(:disabled) {
+  background: #dcdde1;
+  transform: translateY(-2px);
+}
+
+.answer-card.correct {
+  background: #c8e6c9;
+  color: #2e7d32;
+}
+
+.answer-card.wrong {
+  background: #ffcdd2;
+  color: #c62828;
+}
+
+
+
+/* ===========================
+   🎯 FEEDBACK
+   =========================== */
+.correct-msg, .wrong-msg {
+  padding: 0.8rem 1rem; /* Augmenter légèrement le padding pour donner plus d'air au message */
+  border-radius: 8px; /* Adoucir les coins */
+  text-align: center; /* Centrer le texte du feedback */
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.correct-msg {
+  background-color: #c8e6c9;
+  color: #2e7d32;
+}
+
+.wrong-msg {
+  background-color: #ffcdd2;
+  color: #c62828;
+}

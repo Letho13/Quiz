@@ -1,0 +1,59 @@
+label {
+  display: block;
+  margin-bottom: 1rem;
+  position: relative;
+  font-weight: 500;
+  color: #333;
+}
+
+input {
+  display: block;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+  transition: all 0.2s ease;
+}
+
+/* Effet focus moderne */
+input:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+  outline: none;
+  background: #fdfefe;
+}
+
+/* Erreurs */
+.error {
+  min-height: 1.5rem; /* un peu plus d'espace pour aérer */
+  transition: all 0.3s ease;
+  font-size: 0.85rem;
+  color: #d9534f;
+  margin-top: 0.4rem;
+  line-height: 1.3;
+}
+
+/* Liste des règles */
+.error ul {
+  margin: 0.4rem 0 0 1.2rem;
+  padding: 0;
+  list-style: none;
+}
+
+/* Ajout d'une puce plus visuelle */
+.error ul li {
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.error ul li::before {
+  content: "⚠️";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 0.8rem;
+}
+
+

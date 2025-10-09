@@ -1,0 +1,50 @@
+server:
+  port: 8222
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_SERVER_URL:http://localhost:8761/eureka/}
+  instance:
+    hostname: gateway-service
+    prefer-ip-address: true
+    health-check-url-path: /actuator/health
+    status-page-url-path: /actuator/info
+    metadata-map:
+      "management.port": 8222
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+
+spring:
+  main:
+    web-application-type: reactive
+  application:
+    name: gateway-service
+  config:
+    import: "optional:configserver:"
+  cloud:
+    config:
+      uri: http://config-server:8888
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+  security:
+    user:
+      name: ""
+      password: ""
+
+
+security:
+  jwt:
+    secret: "MaCleSuperSecreteQuiFaitPlusDe32Caractères1234"
+    expiration: 3600000
+
+
+
+

@@ -1,0 +1,17 @@
+<div class="container quiz-list-page">
+  <h1 class="page-title">Thème : {{ type }}</h1>
+
+  <section class="quiz-grid">
+    @for (quiz of quizzes(); track quiz.id) {
+      <a [routerLink]="['/quiz', quiz.id]" class="quiz-card card">
+        <h2 class="quiz-title">{{ quiz.title }}</h2>
+        <p class="quiz-description">Testez vos connaissances sur {{ quiz.title }}.</p>
+        <button class="btn-primary start-btn">Commencer</button>
+      </a>
+    }
+    @empty {
+      <p class="no-quiz-message">Aucun quiz disponible pour ce type pour le moment. Revenez bientôt !</p>
+    }
+  </section>
+</div>
+

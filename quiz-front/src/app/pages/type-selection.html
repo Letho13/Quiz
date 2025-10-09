@@ -1,0 +1,15 @@
+<div class="quiz-container card">
+
+  <h2 class="quiz-title">Choisis un type de Quiz</h2>
+
+  <ul class="quiz-types-grid">
+    @for (type of quizTypes(); track type) {
+      <li>
+        <a [routerLink]="['/quizzes/type', type]" class="quiz-type-card">
+          {{ type }}
+        </a>
+      </li>
+    }
+  </ul>
+
+</div>
