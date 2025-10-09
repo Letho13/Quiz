@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
-@FeignClient(name="quiz-service",url = "http://localhost:8222/QUIZ-SERVICE" ,configuration = FeignConfig.class)
+@FeignClient(name="quiz-service",url = "${gateway.url}/QUIZ-SERVICE" ,configuration = FeignConfig.class)
 public interface QuizClient {
 
     @GetMapping("/api/quiz/{id}")

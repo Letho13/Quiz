@@ -1,5 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  Validators,
+  ReactiveFormsModule,
+  AbstractControl,
+  ValidationErrors
+} from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../services/auth.service';
@@ -26,7 +33,7 @@ export class RegisterComponent {
       {
         username: ['', [Validators.required, Validators.minLength(3)]],
         email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.pattern(this.PASSWORD_REGEX)]],
+        password: ['', [Validators.required, this.passwordValidator.bind(this)]],
         confirmPassword: ['', Validators.required]
       },
       { validators: this.passwordsMatchValidator }
@@ -55,4 +62,26 @@ export class RegisterComponent {
     const c = group.get('confirmPassword')?.value;
     return p && c && p !== c ? { passwordsMismatch: true } : null;
   }
+
+  private passwordValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value || '';
+
+    const errors: any = {};
+
+    if (value.length < 8) {
+      errors.minLength = 'Le mot de passe doit contenir au moins 8 caractères.';
+    }
+    if (!/[A-Z]/.test(value)) {
+      errors.uppercase = 'Il manque au moins une majuscule.';
+    }
+    if (!/\d/.test(value)) {
+      errors.digit = 'Il manque au moins un chiffre.';
+    }
+    if (!/[@$!%*?&]/.test(value)) {
+      errors.special = 'Il manque au moins un caractère spécial (@ $ ! % * ? &).';
+    }
+
+    return Object.keys(errors).length ? errors : null;
+  }
+
 }

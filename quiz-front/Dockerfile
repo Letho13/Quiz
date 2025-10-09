@@ -16,10 +16,6 @@ COPY . .
 # CORRECTION 2: Ajout de --base-href / pour s'assurer que les assets (JS/CSS) sont chargés à la racine
 RUN npm run build -- --configuration production --base-href /
 
-# 🛑 DIAGNOSTIC : Affiche le contenu du dossier /app/dist
-# Le nom du dossier ici (ex: "quiz-front", "browser", "my-app") est le chemin correct.
-RUN ls -l /app/dist
-# 🛑 FIN DIAGNOSTIC
 
 # Étape de production : image Nginx
 FROM nginx:alpine
@@ -31,8 +27,7 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 # Copier les fichiers Angular construits dans le dossier Nginx
-# 🚨 CORRECTION 1 (cible votre sélection): Suppression de "/browser" pour corriger le chemin de la copie
-COPY --from=build /app/dist/quiz-front /usr/share/nginx/html
+COPY --from=build /app/dist/quiz-front/browser /usr/share/nginx/html
 
 # Exposer le port par défaut
 EXPOSE 80

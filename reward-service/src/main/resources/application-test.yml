@@ -1,0 +1,38 @@
+spring:
+  application:
+    name: reward-service
+
+  # Datasource H2 pour tests unitaires
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+
+  # On désactive le cache pour simplifier
+  cache:
+    type: none
+
+  # On ignore le config server et Eureka pour les tests
+  config:
+    import: ''
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+server:
+  port: 0  # Spring Boot choisira un port aléatoire
+
+logging:
+  level:
+    org.springframework: WARN

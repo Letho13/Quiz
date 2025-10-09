@@ -15,6 +15,7 @@ spring:
   config:
     import: optional:configserver:${SPRING_CLOUD_CONFIG_URI:http://localhost:8888}
 
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -49,3 +50,17 @@ security:
     secret: "MaCleSuperSecreteQuiFaitPlusDe32Caractères1234"
     expiration: 3600000
 
+#profil local
+gateway:
+  url: http://localhost:8222
+
+---
+
+#profil docker
+spring:
+  config:
+    activate:
+      on-profile: docker
+
+gateway:
+  url: http://gateway-service:8222

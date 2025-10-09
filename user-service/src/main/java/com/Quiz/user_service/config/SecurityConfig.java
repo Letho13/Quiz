@@ -69,36 +69,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf(AbstractHttpConfigurer::disable)
-//                .authorizeHttpRequests(auth -> auth
-//                        .requestMatchers("/api/auth/**").permitAll()
-//                        .requestMatchers(HttpMethod.POST, "/api/user/add").permitAll()
-//                        .requestMatchers("/actuator/**").permitAll()
-//
-//                        .requestMatchers("/api/user/search",
-//                                "/api/user/by-username/**",
-//                                "/api/user/{id}")
-//                        .access((authentication, context) -> {
-//                            boolean allowed = authentication.get().getAuthorities().stream()
-//                                    .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") ||
-//                                            a.getAuthority().equals("GATEWAY_CALL"));
-//                            return new AuthorizationDecision(allowed);
-//                        })
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(AbstractHttpConfigurer::disable)
-//                .httpBasic(AbstractHttpConfigurer::disable)
-//                .oauth2ResourceServer(oauth2 -> oauth2
-//                        .jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthenticationConverter()))
-//                );
-//
-//        return http.build();
-//    }
-
-
 
     //Admin creation at start
     @Bean
