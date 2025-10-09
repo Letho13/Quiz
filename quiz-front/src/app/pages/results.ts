@@ -24,7 +24,7 @@ export class ResultsComponent implements OnInit {
     this.quizId = Number(this.route.snapshot.paramMap.get('quizId'));
 
     const isLoggedIn = this.authService.getUserId() !== null;
-    if (isLoggedIn) {
+    if (!isLoggedIn) {
       console.error("Utilisateur non connecté !");
       this.router.navigate(['/auth/login']);
       return;

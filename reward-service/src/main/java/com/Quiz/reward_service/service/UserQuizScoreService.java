@@ -144,45 +144,6 @@ public class UserQuizScoreService {
 
 
 
-//    public List<UserQuizScoreDto> getBestScoresByUser(Integer userId) {
-//        List<UserQuizScore> bestScores = userQuizScoreRepository.findBestScoresByUser(userId);
-//
-//        List<UserQuizScoreDto> dtos = new ArrayList<>();
-//        for (UserQuizScore best : bestScores) {
-//            String quizTitle = quizClient.getQuizById(best.getQuizId()).getTitle();
-//            String username = userClient.getUserById(best.getUserId()).getUsername();
-//            dtos.add(new UserQuizScoreDto(username, best.getScore(), quizTitle));
-//        }
-//
-//        return dtos;
-//    }
-
-//    public List<UserQuizScoreDto> getBestScoresByUser(Integer userId) {
-//        List<UserQuizScore> scores = userQuizScoreRepository
-//                .findByUserIdAndCompletedAtIsNotNullOrderByCompletedAtDesc(userId);
-//
-//        // Map pour stocker le meilleur score par quiz
-//        Map<Integer, UserQuizScore> bestByQuiz = new HashMap<>();
-//
-//        for (UserQuizScore s : scores) {
-//            bestByQuiz.merge(
-//                    s.getQuizId(),
-//                    s,
-//                    (oldScore, newScore) -> newScore.getScore() > oldScore.getScore() ? newScore : oldScore
-//            );
-//        }
-//
-//        List<UserQuizScoreDto> dtos = new ArrayList<>();
-//        for (UserQuizScore best : bestByQuiz.values()) {
-//            String quizTitle = quizClient.getQuizById(best.getQuizId()).getTitle();
-//            String username = userClient.getUserById(best.getUserId()).getUsername();
-//            dtos.add(new UserQuizScoreDto(username, best.getScore(), quizTitle));
-//        }
-//
-//        return dtos;
-//    }
-
-
 }
 
 

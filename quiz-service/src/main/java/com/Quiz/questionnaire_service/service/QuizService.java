@@ -16,6 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,6 +26,8 @@ import java.util.stream.Collectors;
 public class QuizService {
 
     private final QuizRepository quizRepository;
+    private static final int MAX_QUESTIONS_PER_QUIZ = 10;
+
 
     public Page<QuizDto> findAllQuiz(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
@@ -35,6 +38,23 @@ public class QuizService {
     public QuizDto findQuizById(Integer id) {
         Quiz quiz = quizRepository.findById(id)
                 .orElseThrow(() -> new QuizNotFoundException(String.format("Le quiz %s n'existe pas!", id)));
+
+        // Logique de sélection aléatoire des questions
+        List<Question> allQuestions = quiz.getQuestions();
+
+        if (allQuestions != null && allQuestions.size() > MAX_QUESTIONS_PER_QUIZ) {
+
+            // 1. Mélanger toutes les questions disponibles
+            Collections.shuffle(allQuestions);
+
+            // 2. Sélectionner seulement les 10 premières (le tirage aléatoire)
+            List<Question> selectedQuestions = allQuestions.subList(0, MAX_QUESTIONS_PER_QUIZ);
+
+            // 3. Remplacer la liste complète par la liste réduite et mélangée
+            quiz.setQuestions(selectedQuestions);
+        }
+
+        // Le mapper convertira la liste réduite (max 10 questions).
         return  QuizMapper.toDto(quiz);
     }
 
