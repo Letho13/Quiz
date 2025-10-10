@@ -1,0 +1,66 @@
+.ranking-page {
+  background: #f8f9fa;
+  max-width: 1400px;
+  margin: 0 auto;
+
+  .quiz-row {
+    display: flex;
+    flex-wrap: wrap;      // permet aux cartes de passer à la ligne
+    gap: 1.5rem;          // espace horizontal et vertical entre cartes
+    justify-content: flex-start;
+  }
+
+  .quiz-card {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 2rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+    flex: 1 1 calc(33% - 1.5rem); // 3 cartes par ligne
+    min-width: 280px;              // minimum pour mobile
+    max-width: 350px;              // maximum sur grand écran
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+
+    .quiz-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #343a40;
+    }
+
+    .my-score {
+      border-radius: 0.75rem;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      justify-content: center;
+    }
+
+    table {
+      border-radius: 0.5rem;
+      overflow: hidden;
+
+
+      thead th {
+        font-size: 0.85rem;
+        letter-spacing: 0.5px;
+
+      }
+
+      .position-badge {
+        display: flex;           // active flex
+        justify-content: center; // centre horizontalement
+        align-items: center;     // centre verticalement
+        width: 32px;             // largeur fixe
+        height: 32px;            // hauteur fixe
+        border-radius: 50%;      // cercle
+        font-weight: 700;
+        font-size: 1.1rem;
+        background: #e9ecef;
+      }
+    }
+  }
+}

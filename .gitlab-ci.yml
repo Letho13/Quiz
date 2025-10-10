@@ -5,7 +5,7 @@ stages:
   - test
   - docker-build
   - docker-push
-  - deploy
+
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -55,52 +55,18 @@ docker-build:
   script:
     - echo "Building Docker images..."
     - docker build -t $REGISTRY_URL/quiz-service:latest ./quiz-service
-    - docker build -t $REGISTRY_URL/user-service:latest ./user-service
-    - docker build -t $REGISTRY_URL/reward-service:latest ./reward-service
-    - docker build -t $REGISTRY_URL/discovery-service:latest ./discovery-service
-    - docker build -t $REGISTRY_URL/gateway-service:latest ./gateway-service
-    - docker build -t $REGISTRY_URL/config-server:latest ./config-server
-    - docker build -t $REGISTRY_URL/front-service:latest ./quiz-front
-  tags:
-    - docker
-
-# ======================
-# Push Docker images to GitLab Registry
-# ======================
-docker-push:
-  stage: docker-push
-  image: docker:24.0.5
-  services:
-    - docker:24-dind
-  variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
     - docker push $REGISTRY_URL/quiz-service:latest
+    - docker build -t $REGISTRY_URL/user-service:latest ./user-service
     - docker push $REGISTRY_URL/user-service:latest
+    - docker build -t $REGISTRY_URL/reward-service:latest ./reward-service
     - docker push $REGISTRY_URL/reward-service:latest
+    - docker build -t $REGISTRY_URL/discovery-service:latest ./discovery-service
     - docker push $REGISTRY_URL/discovery-service:latest
+    - docker build -t $REGISTRY_URL/gateway-service:latest ./gateway-service
     - docker push $REGISTRY_URL/gateway-service:latest
+    - docker build -t $REGISTRY_URL/config-server:latest ./config-server
     - docker push $REGISTRY_URL/config-server:latest
+    - docker build -t $REGISTRY_URL/front-service:latest ./quiz-front
     - docker push $REGISTRY_URL/front-service:latest
-  only:
-    - master
-  tags:
-    - docker
-
-# ======================
-# Deploy to server via docker-compose
-# ======================
-deploy:
-  stage: deploy
-  image: docker:24.0.5
-  services:
-    - docker:24-dind
-  script:
-    - echo "$CI_REGISTRY_PASSWORD" | docker login -u "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY
-    - docker-compose -f $DOCKER_COMPOSE_FILE pull
-    - docker-compose -f $DOCKER_COMPOSE_FILE up -d
-  only:
-    - master
   tags:
     - docker
