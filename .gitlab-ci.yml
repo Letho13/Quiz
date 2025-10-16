@@ -54,6 +54,8 @@ docker-build:
     - echo "Logging in to GitLab Container Registry..."
 
     - echo "Building Docker images..."
+
+    # Microservices Java (contexte la racine pour les dépendances entre modules)
     - docker build -t $REGISTRY_URL/quiz-service:latest -f quiz-service/Dockerfile .
     - docker push $REGISTRY_URL/quiz-service:latest
 
@@ -63,14 +65,18 @@ docker-build:
     - docker build -t $REGISTRY_URL/reward-service:latest -f reward-service/Dockerfile .
     - docker push $REGISTRY_URL/reward-service:latest
 
-    - docker build -t $REGISTRY_URL/discovery-service:latest -f discovery-service/Dockerfile .
+    # Services d'infrastructure INDÉPENDANTS
+    # Utilisez le nom du dossier comme contexte (dernière partie de la commande)
+    - docker build -t $REGISTRY_URL/discovery-service:latest -f discovery-service/Dockerfile discovery-service
     - docker push $REGISTRY_URL/discovery-service:latest
 
-    - docker build -t $REGISTRY_URL/gateway-service:latest -f gateway-service/Dockerfile .
+    - docker build -t $REGISTRY_URL/gateway-service:latest -f gateway-service/Dockerfile gateway-service
     - docker push $REGISTRY_URL/gateway-service:latest
 
-    - docker build -t $REGISTRY_URL/config-server:latest -f config-server/Dockerfile .
+    - docker build -t $REGISTRY_URL/config-server:latest -f config-server/Dockerfile config-server
     - docker push $REGISTRY_URL/config-server:latest
 
-    - docker build -t $REGISTRY_URL/front-service:latest -f quiz-front/Dockerfile .
+    # FRONT-END (contexte: le dossier du service)
+    - docker build -t $REGISTRY_URL/front-service:latest -f quiz-front/Dockerfile quiz-front
     - docker push $REGISTRY_URL/front-service:latest
+
