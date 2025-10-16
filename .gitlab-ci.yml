@@ -68,5 +68,3 @@ docker-build:
     - docker push $REGISTRY_URL/config-server:latest
     - docker build -t $REGISTRY_URL/front-service:latest ./quiz-front
     - docker push $REGISTRY_URL/front-service:latest
-  tags:
-    - docker
