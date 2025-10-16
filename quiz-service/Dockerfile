@@ -24,7 +24,7 @@ RUN mvn clean install -pl quiz-shared-dto -DskipTests
 RUN mvn package -pl quiz-service -DskipTests
 
 # Stage 2: runtime
-FROM amazoncorretto:21-jre
+FROM amazoncorretto:21-jre-alpine
 WORKDIR /app
 
 # Récupérer le nom du JAR à partir de l'étape de compilation
