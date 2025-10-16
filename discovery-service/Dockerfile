@@ -18,11 +18,7 @@ COPY reward-service ./reward-service
 COPY user-service ./user-service
 
 # 3. Installer les artefacts partagés (DTO) dans le répertoire local Maven du conteneur
-
-RUN mvn clean install -pl quiz-shared-dto -DskipTests
-
-# 4. Compiler et packager le module cible (discovery-service)
-RUN mvn package -pl discovery-service -DskipTests
+RUN mvn clean install -pl discovery-service -am -DskipTests
 
 # Stage 2: runtime
 FROM eclipse-temurin:21-jre-alpine

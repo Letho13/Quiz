@@ -16,12 +16,10 @@ COPY quiz-shared-dto ./quiz-shared-dto
 COPY reward-service ./reward-service
 COPY user-service ./user-service
 
-# 3. Installer les artefacts partagés (DTO) dans le répertoire local Maven du conteneur
-
-RUN mvn clean install -pl quiz-shared-dto -DskipTests
-
-# 4. Compiler et packager le module cible (quiz-service)
-RUN mvn package -pl quiz-service -DskipTests
+# 3. Compiler et installer le module cible (quiz-service) ET toutes ses dépendances amont.
+# Le flag '-am' (also make) va forcer l'installation de 'quiz-shared-dto' (sa seule dépendance interne)
+# et du POM parent avant de compiler le quiz-service lui-même.
+RUN mvn clean install -pl quiz-service -am -DskipTests
 
 # Stage 2: runtime
 FROM eclipse-temurin:21-jre-alpine

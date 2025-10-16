@@ -18,10 +18,7 @@ COPY user-service ./user-service
 
 # 3. Installer les artefacts partagés (DTO) dans le répertoire local Maven du conteneur
 
-RUN mvn clean install -pl quiz-shared-dto -DskipTests
-
-# 4. Compiler et packager le module cible (gateway-service)
-RUN mvn package -pl gateway-service -DskipTests
+RUN mvn clean install -pl gateway-service -am -DskipTests
 
 # Stage 2: runtime
 FROM eclipse-temurin:21-jre-alpine
