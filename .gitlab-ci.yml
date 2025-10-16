@@ -18,7 +18,7 @@ variables:
 # ======================
 build:
   stage: build
-  image: maven:4.0.0-rc-4-amazoncorretto-21
+  image: maven:3.9.4-amazoncorretto-21
   script:
     - mvn $MAVEN_CLI_OPTS clean compile
   artifacts:
@@ -30,7 +30,7 @@ build:
 # ======================
 test:
   stage: test
-  image: maven:4.0.0-rc-4-amazoncorretto-21
+  image: maven:3.9.4-amazoncorretto-21
   script:
     - mvn $MAVEN_CLI_OPTS test
   artifacts:
