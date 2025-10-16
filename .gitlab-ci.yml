@@ -54,17 +54,23 @@ docker-build:
     - echo "Logging in to GitLab Container Registry..."
 
     - echo "Building Docker images..."
-    - docker build -t $REGISTRY_URL/quiz-service:latest ./quiz-service
+    - docker build -t $REGISTRY_URL/quiz-service:latest -f quiz-service/Dockerfile .
     - docker push $REGISTRY_URL/quiz-service:latest
-    - docker build -t $REGISTRY_URL/user-service:latest ./user-service
+
+    - docker build -t $REGISTRY_URL/user-service:latest -f user-service/Dockerfile .
     - docker push $REGISTRY_URL/user-service:latest
-    - docker build -t $REGISTRY_URL/reward-service:latest ./reward-service
+
+    - docker build -t $REGISTRY_URL/reward-service:latest -f reward-service/Dockerfile .
     - docker push $REGISTRY_URL/reward-service:latest
-    - docker build -t $REGISTRY_URL/discovery-service:latest ./discovery-service
+
+    - docker build -t $REGISTRY_URL/discovery-service:latest -f discovery-service/Dockerfile .
     - docker push $REGISTRY_URL/discovery-service:latest
-    - docker build -t $REGISTRY_URL/gateway-service:latest ./gateway-service
+
+    - docker build -t $REGISTRY_URL/gateway-service:latest -f gateway-service/Dockerfile .
     - docker push $REGISTRY_URL/gateway-service:latest
-    - docker build -t $REGISTRY_URL/config-server:latest ./config-server
+
+    - docker build -t $REGISTRY_URL/config-server:latest -f config-server/Dockerfile .
     - docker push $REGISTRY_URL/config-server:latest
-    - docker build -t $REGISTRY_URL/front-service:latest ./quiz-front
+
+    - docker build -t $REGISTRY_URL/front-service:latest -f quiz-front/Dockerfile .
     - docker push $REGISTRY_URL/front-service:latest
