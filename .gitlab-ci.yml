@@ -10,7 +10,7 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   MAVEN_CLI_OPTS: "-B --batch-mode --fail-at-end"
-  REGISTRY_URL: registry.gitlab.com/theoLeb/quiz
+  REGISTRY_URL: registry.gitlab.com/theoleb/quiz
   DOCKER_COMPOSE_FILE: docker-compose.yml
 
 # ======================
