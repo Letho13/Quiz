@@ -18,6 +18,8 @@ COPY user-service ./user-service
 # 3. Installer les artefacts partagés (DTO) dans le répertoire local Maven du conteneur
 
 RUN mvn clean install -pl quiz-shared-dto -DskipTests
+RUN mvn clean install -pl quiz-service -DskipTests
+RUN mvn clean install -pl user-service -DskipTests
 
 # 4. Compiler et packager le module cible (reward-service)
 RUN mvn package -pl reward-service -DskipTests
