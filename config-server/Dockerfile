@@ -16,7 +16,11 @@ COPY quiz-shared-dto ./quiz-shared-dto
 COPY reward-service ./reward-service
 COPY user-service ./user-service
 
-RUN mvn clean install -pl config-server -am -DskipTests
+# 2. SE DÉPLACER DANS LE DOSSIER DU MICROSERVICE
+WORKDIR /app/config-server
+
+# 3. Compiler le module config-server
+RUN mvn clean package -DskipTests
 
 # Stage 2: runtime
 FROM eclipse-temurin:21-jre-alpine
