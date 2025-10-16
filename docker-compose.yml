@@ -26,8 +26,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./quiz-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: quiz-service/Dockerfile
     container_name: quiz-service
     ports:
       - "8080:8080"
@@ -67,8 +67,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./user-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: user-service/Dockerfile
     container_name: user-service
     ports:
       - "8081:8081"
@@ -108,8 +108,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./reward-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: reward-service/Dockerfile
     container_name: reward-service
     ports:
       - "8082:8082"
@@ -128,8 +128,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./discovery-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: discovery-service/Dockerfile
     container_name: discovery-service
     ports:
       - "8761:8761"
@@ -150,8 +150,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: ./gateway-service
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: gateway-service/Dockerfile
     container_name: gateway-service
     depends_on:
       config-server:
@@ -167,8 +167,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: native
     build:
-      context: ./config-server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: config-server/Dockerfile
     container_name: config-server
     ports:
       - "8888:8888"
@@ -182,8 +182,8 @@ services:
 
   front-service:
     build:
-      context: ./quiz-front
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: quiz-front/Dockerfile
     container_name: front-service
     ports:
       - "4200:80"
