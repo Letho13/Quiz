@@ -1,23 +1,12 @@
-
+# Stage 1: builder
 FROM maven:3.9.4-amazoncorretto-21 AS builder
 
-
-WORKDIR /app
-
-COPY pom.xml .
-COPY config-server ./config-server
-COPY discovery-service ./discovery-service
-COPY gateway-service ./gateway-service
-COPY quiz-front ./quiz-front
-COPY quiz-service ./quiz-service
-COPY quiz-shared-dto ./quiz-shared-dto
-COPY reward-service ./reward-service
-COPY user-service ./user-service
-
-# 2. SE DÉPLACER DANS LE DOSSIER DU MICROSERVICE
+# 1. Copier le module cible
+# Nous sommes dans le contexte 'discovery-service'
 WORKDIR /app/discovery-service
+COPY . . 
 
-# 3. Compiler le module discovery-service
+# 2. Compiler le module discovery-service
 RUN mvn clean package -DskipTests
 
 # Stage 2: runtime
