@@ -2,22 +2,34 @@
 FROM maven:3.9.4-amazoncorretto-21 AS builder
 WORKDIR /app
 
-# Copier les fichiers Maven
-# POM racine
-COPY pom.xml ./
-# POM du module
-COPY quiz-service/pom.xml ./quiz-service/
-COPY quiz-service/src ./quiz-service/src
+# 1. Copier le POM parent
+COPY pom.xml .
 
-# Compiler et packager le module
-RUN mvn -pl quiz-service clean package -DskipTests
+# 2. Copier tous les modules listés dans le POM parent
+COPY config-server ./config-server
+COPY discovery-service ./discovery-service
+COPY gateway-service ./gateway-service
+COPY quiz-front ./quiz-front
+
+COPY quiz-service ./quiz-service
+COPY quiz-shared-dto ./quiz-shared-dto
+COPY reward-service ./reward-service
+COPY user-service ./user-service
+
+# 3. Installer les artefacts partagés (DTO) dans le répertoire local Maven du conteneur
+
+RUN mvn clean install -pl quiz-shared-dto -DskipTests
+
+# 4. Compiler et packager le module cible (quiz-service)
+RUN mvn package -pl quiz-service -DskipTests
 
 # Stage 2: runtime
-FROM amazoncorretto:21
+FROM amazoncorretto:21-jre
 WORKDIR /app
 
-# Copier le JAR depuis le builder
-COPY --from=builder /app/quiz-service/target/quiz-service-0.0.1-SNAPSHOT.jar quiz-service.jar
+# Récupérer le nom du JAR à partir de l'étape de compilation
+ARG JAR_FILE=/app/quiz-service/target/*.jar
+COPY --from=builder ${JAR_FILE} quiz-service.jar
 
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "quiz-service.jar"]
