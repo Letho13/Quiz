@@ -20,9 +20,6 @@ build:
   stage: build
   image: maven:4.0.0-rc-4-amazoncorretto-21
   script:
-    - apt-get update -y
-    - apt-get install -y maven
-    - mvn -B clean compile
     - mvn $MAVEN_CLI_OPTS clean compile
   artifacts:
     paths:
