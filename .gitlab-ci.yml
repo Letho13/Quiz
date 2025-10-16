@@ -9,8 +9,8 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  MAVEN_CLI_OPTS: "-B -s .m2/settings.xml --batch-mode --fail-at-end"
-  REGISTRY_URL: registry.gitlab.com/<votre-namespace>/<votre-repo>
+  MAVEN_CLI_OPTS: "-B --batch-mode --fail-at-end"
+  REGISTRY_URL: registry.gitlab.com/TheoLeb/Quiz
   DOCKER_COMPOSE_FILE: docker-compose.yml
 
 # ======================
@@ -24,8 +24,6 @@ build:
   artifacts:
     paths:
       - target/
-  tags:
-    - docker
 
 # ======================
 # Run unit tests
@@ -39,8 +37,6 @@ test:
     when: always
     reports:
       junit: "**/target/surefire-reports/*.xml"
-  tags:
-    - docker
 
 # ======================
 # Build Docker images
@@ -53,6 +49,10 @@ docker-build:
   variables:
     DOCKER_TLS_CERTDIR: "/certs"
   script:
+
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin $REGISTRY_URL
+    - echo "Logging in to GitLab Container Registry..."
+
     - echo "Building Docker images..."
     - docker build -t $REGISTRY_URL/quiz-service:latest ./quiz-service
     - docker push $REGISTRY_URL/quiz-service:latest
