@@ -72,8 +72,8 @@ Pour lancer le projet en local, suivez ces étapes :
 
 1.  Clonez le dépôt :
     ```sh
-    git clone [https://github.com/VOTRE_NOM/VOTRE_REPO.git](https://github.com/VOTRE_NOM/VOTRE_REPO.git)
-    cd VOTRE_REPO
+    git clone https://github.com/Letho13/Quiz.git
+    cd Quiz
     ```
 
 2.  Lancez l'environnement (exemple avec Docker Compose) :
@@ -89,13 +89,23 @@ Pour lancer le projet en local, suivez ces étapes :
     ```
 ---
 
+### Utilisateurs par défaut
+
+Un utilisateur administrateur est créé par défaut pour tester l'application :
+
+- **Username** : admin
+- **Mot de passe** : Admin123!
+- **Rôle** : ADMIN
+
+Vous pouvez vous connecter avec cet utilisateur et gérer les quiz, les utilisateurs et les récompenses.
+
+---
+
 ## 🚀 Intéressé(e) ?
 
 Je suis activement à la recherche d'opportunités ! Si ce projet vous a plu ou si vous souhaitez simplement échanger, n'hésitez pas à me contacter.
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/th%C3%A9otime-lebreton-5ba87368/)
-
----
 
 ---
 
