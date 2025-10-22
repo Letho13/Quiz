@@ -72,8 +72,8 @@ Pour lancer le projet en local, suivez ces étapes :
 
 1.  Clonez le dépôt :
     ```sh
-    git clone [https://github.com/VOTRE_NOM/VOTRE_REPO.git](https://github.com/VOTRE_NOM/VOTRE_REPO.git)
-    cd VOTRE_REPO
+    git clone https://github.com/Letho13/Quiz.git
+    cd Quiz
     ```
 
 2.  Lancez l'environnement (exemple avec Docker Compose) :
@@ -87,6 +87,18 @@ Pour lancer le projet en local, suivez ces étapes :
     npm install
     ng serve
     ```
+---
+
+### Utilisateurs par défaut
+
+Un utilisateur administrateur est créé par défaut pour tester l'application :
+
+- **Username** : admin
+- **Mot de passe** : Admin123!
+- **Rôle** : ADMIN
+
+Vous pouvez vous connecter avec cet utilisateur et gérer les quiz, les utilisateurs et les récompenses.
+
 ---
 
 ## 🚀 Intéressé(e) ?
