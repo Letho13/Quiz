@@ -4,7 +4,7 @@ stages:
   - build
   - test
   - docker-build
-  - docker-push
+  - deploy
 
 
 variables:
