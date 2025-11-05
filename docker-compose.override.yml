@@ -1,0 +1,211 @@
+services:
+
+  questionnaire-db:
+    container_name: question_base_de_donnee
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: question_db
+    volumes:
+      - questionnaire-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - quiz-net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  quiz-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: .
+      dockerfile: quiz-service/Dockerfile
+    container_name: quiz-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      questionnaire-db:
+        condition: service_healthy
+    networks:
+      - quiz-net
+
+  user-db:
+    container_name: user_base_de_donnee
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: user_db
+    volumes:
+      - user-data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - quiz-net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  user-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: .
+      dockerfile: user-service/Dockerfile
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      user-db:
+        condition: service_healthy
+    networks:
+        - quiz-net
+
+  reward-db:
+    container_name: reward_base_de_donnee
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: reward_db
+    volumes:
+      - reward-data:/var/lib/postgresql/data
+    ports:
+      - "5434:5432"
+    networks:
+      - quiz-net
+    restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  reward-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: .
+      dockerfile: reward-service/Dockerfile
+    container_name: reward-service
+    ports:
+      - "8082:8082"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      reward-db:
+        condition: service_healthy
+    networks:
+      - quiz-net
+
+  discovery-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: .
+      dockerfile: discovery-service/Dockerfile
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - quiz-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  gateway-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    build:
+      context: .
+      dockerfile: gateway-service/Dockerfile
+    container_name: gateway-service
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+    ports:
+      - "9001:8222"
+    networks:
+      - quiz-net
+
+  config-server:
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+    build:
+      context: .
+      dockerfile: config-server/Dockerfile
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - quiz-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  front-service:
+    build:
+      context: .
+      dockerfile: quiz-front/Dockerfile
+    container_name: front-service
+    ports:
+      - "9000:80"
+    depends_on:
+      - gateway-service
+    networks:
+      - quiz-net
+
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - quiz-net
+
+networks:
+  quiz-net:
+    driver: bridge
+
+volumes:
+  questionnaire-data:
+  user-data:
+  reward-data:
