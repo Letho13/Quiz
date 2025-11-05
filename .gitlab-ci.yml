@@ -50,8 +50,8 @@ docker-build:
     DOCKER_TLS_CERTDIR: "/certs"
   script:
 
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin $REGISTRY_URL
     - echo "Logging in to GitLab Container Registry..."
-    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin registry.gitlab.com
 
     - echo "Building Docker images..."
 
