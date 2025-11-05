@@ -81,3 +81,62 @@ docker-build:
     - docker push $REGISTRY_URL/front-service:latest
 
 
+# ======================
+# Deploy to Hetzner Server
+# ======================
+deploy:
+  stage: deploy
+  image: alpine/ssh:latest # Image légère avec SSH et SCP
+  environment:
+    name: Production
+    url: http://$SERVER_HOST:9000/
+  before_script:
+    # 1. Configuration des clés SSH (nécessite SSH_PRIVATE_KEY, SERVER_HOST)
+    - apk add openssh-client git base64 # Ajout de 'base64' pour le décodage
+    - eval $(ssh-agent -s)
+
+    # --- DECODAGE DE LA CLE BASE64 ED25519 DANS UN FICHIER TEMPORAIRE ---
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > /tmp/id_ed25519
+    - chmod 600 /tmp/id_ed25519
+
+    # 2. Ajout de la clé temporaire à l'agent SSH
+    - ssh-add /tmp/id_ed25519
+
+    # 3. Préparation des clés du serveur hôte
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    # 1. Transfert du docker-compose.yml vers le répertoire cible sur le serveur
+    - scp $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
+
+    - echo "--- Déploiement sur le serveur Hetzner ---"
+    # 2. Se connecter au serveur et exécuter les commandes Docker
+    - |
+      ssh $SERVER_USER@$SERVER_HOST "
+        set -e # Quitter si une commande échoue
+      
+        echo 'Navigating to deployment directory...'
+        cd $PROJECT_PATH
+      
+        echo 'Logging into GitLab Container Registry (using CI token)...'
+        # Authentification pour le 'docker compose pull'
+        docker login registry.gitlab.com -u gitlab-ci-token -p $CI_JOB_TOKEN
+      
+        echo 'Starting Docker Compose...'
+        # 1. Tirer les dernières images (les versions construites par 'docker-build')
+        docker compose pull         
+      
+        # 2. Démarrer/Mettre à jour les services
+        docker compose -f ./docker-compose.yml up -d --force-recreate --remove-orphans 
+      
+        echo 'Logging out of GitLab Container Registry...'
+        # Déconnexion pour nettoyer la session temporaire
+        docker logout registry.gitlab.com
+      
+        echo 'Deployment complete!'
+      "
+  only:
+    - main # Déploie uniquement sur la branche principale
+
