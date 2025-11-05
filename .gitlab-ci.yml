@@ -80,3 +80,49 @@ docker-build:
     - docker build -t $REGISTRY_URL/front-service:latest -f quiz-front/Dockerfile quiz-front
     - docker push $REGISTRY_URL/front-service:latest
 
+# Deploy to Hetzner Server
+# ======================
+deploy:
+  stage: deploy
+  image: alpine/ssh:latest # Image légère avec SSH
+  environment:
+    name: Production
+    url: http://$SERVER_HOST:9000/ # URL de votre frontend
+  before_script:
+    # 1. Installer la clé privée SSH
+    - chmod og= $SSH_PRIVATE_KEY
+    - apk add openssh-client # S'assurer que le client SSH est là
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    # Cette ligne permet d'éviter l'avertissement de clé inconnue, mais doit être utilisée avec précaution.
+    - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    # 2. Se connecter au serveur et exécuter les commandes de déploiement
+    - |
+      ssh $SERVER_USER@$SERVER_HOST "
+        set -e # Quitter si une commande échoue
+
+        echo 'Pulling latest code from Gitlab...'
+        cd /chemin/vers/votre/projet/sur/le/serveur # <-- Mettez le chemin réel ici
+        git pull origin main # Ou le nom de votre branche principale
+
+        echo 'Logging into GitLab Container Registry...'
+        # Utiliser un jeton d'accès Personnel (PAT) dédié au pull est plus sûr que CI_JOB_TOKEN ici
+        # Je laisse un placeholder, vous devrez le configurer en variable CI/CD (ex: DOCKER_PULL_TOKEN)
+        docker login registry.gitlab.com -u gitlab-ci-token -p $CI_JOB_TOKEN
+
+        echo 'Starting Docker Compose...'
+        # --force-recreate garantit que les nouveaux services avec les nouvelles images démarrent
+        # --remove-orphans supprime les anciens conteneurs si des noms ont changé
+        docker compose pull # Tire les images récentes
+        docker compose up -d --force-recreate --remove-orphans
+
+        echo 'Deployment complete!'
+      "
+  # Le job deploy ne devrait s'exécuter que si la branche est 'main' (ou 'master')
+  only:
+    - main
+
