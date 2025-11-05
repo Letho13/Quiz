@@ -24,6 +24,9 @@ dist/
 .env.test.local
 .env.production.local
 
+# Docker-compose Override pour local
+docker-compose.override.yml
+
 # Vite cache
 .vite/
 
