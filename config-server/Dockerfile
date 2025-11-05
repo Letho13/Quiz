@@ -12,6 +12,8 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
+RUN apk add --no-cache curl
+
 # Récupérer le nom du JAR à partir de l'étape de compilation
 ARG JAR_FILE=/app/config-server/target/*.jar
 
