@@ -1,4 +1,73 @@
+version: '3.8'
+
 services:
+
+  # --- INFRASTRUCTURE SERVICES ---
+
+  config-server:
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+    image: registry.gitlab.com/theoleb/quiz/config-server:latest # UTILISE IMAGE DU REGISTRE
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - quiz-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  discovery-service:
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    image: registry.gitlab.com/theoleb/quiz/discovery-service:latest # UTILISE IMAGE DU REGISTRE
+    container_name: discovery-service
+    ports:
+      - "8761:8761"
+    depends_on:
+      config-server:
+        condition: service_healthy
+    networks:
+      - quiz-net
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
+
+  gateway-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    image: registry.gitlab.com/theoleb/quiz/gateway-service:latest # UTILISE IMAGE DU REGISTRE
+    container_name: gateway-service
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+    ports:
+      - "9001:8222"
+    networks:
+      - quiz-net
+    restart: unless-stopped
+
+  zipkin:
+    container_name: zipkin
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"
+    networks:
+      - quiz-net
+    restart: unless-stopped
+
+  # --- DATABASE SERVICES ---
 
   questionnaire-db:
     container_name: question_base_de_donnee
@@ -20,27 +89,6 @@ services:
       timeout: 5s
       retries: 5
 
-  quiz-service:
-    environment:
-      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    build:
-      context: .
-      dockerfile: quiz-service/Dockerfile
-    container_name: quiz-service
-    ports:
-      - "8080:8080"
-    depends_on:
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-      questionnaire-db:
-        condition: service_healthy
-    networks:
-      - quiz-net
-
   user-db:
     container_name: user_base_de_donnee
     image: postgres
@@ -60,27 +108,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
-  user-service:
-    environment:
-      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    build:
-      context: .
-      dockerfile: user-service/Dockerfile
-    container_name: user-service
-    ports:
-      - "8081:8081"
-    depends_on:
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-      user-db:
-        condition: service_healthy
-    networks:
-        - quiz-net
 
   reward-db:
     container_name: reward_base_de_donnee
@@ -102,14 +129,54 @@ services:
       timeout: 5s
       retries: 5
 
+  # --- APPLICATION SERVICES ---
+
+  quiz-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    image: registry.gitlab.com/theoleb/quiz/quiz-service:latest # UTILISE IMAGE DU REGISTRE
+    container_name: quiz-service
+    ports:
+      - "8080:8080"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      questionnaire-db:
+        condition: service_healthy
+    networks:
+      - quiz-net
+    restart: unless-stopped
+
+  user-service:
+    environment:
+      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
+      SPRING_PROFILES_ACTIVE: docker
+      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+    image: registry.gitlab.com/theoleb/quiz/user-service:latest # UTILISE IMAGE DU REGISTRE
+    container_name: user-service
+    ports:
+      - "8081:8081"
+    depends_on:
+      config-server:
+        condition: service_healthy
+      discovery-service:
+        condition: service_healthy
+      user-db:
+        condition: service_healthy
+    networks:
+      - quiz-net
+    restart: unless-stopped
+
   reward-service:
     environment:
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    build:
-      context: .
-      dockerfile: reward-service/Dockerfile
+    image: registry.gitlab.com/theoleb/quiz/reward-service:latest # UTILISE IMAGE DU REGISTRE
     container_name: reward-service
     ports:
       - "8082:8082"
@@ -122,84 +189,18 @@ services:
         condition: service_healthy
     networks:
       - quiz-net
-
-  discovery-service:
-    environment:
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    build:
-      context: .
-      dockerfile: discovery-service/Dockerfile
-    container_name: discovery-service
-    ports:
-      - "8761:8761"
-    depends_on:
-      config-server:
-        condition: service_healthy
-    networks:
-      - quiz-net
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8761/actuator/health" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
-
-  gateway-service:
-    environment:
-      EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
-      SPRING_PROFILES_ACTIVE: docker
-      SPRING_CLOUD_CONFIG_URI: http://config-server:8888
-    build:
-      context: .
-      dockerfile: gateway-service/Dockerfile
-    container_name: gateway-service
-    depends_on:
-      config-server:
-        condition: service_healthy
-      discovery-service:
-        condition: service_healthy
-    ports:
-      - "8222:8222"
-    networks:
-      - quiz-net
-
-  config-server:
-    environment:
-      SPRING_PROFILES_ACTIVE: native
-    build:
-      context: .
-      dockerfile: config-server/Dockerfile
-    container_name: config-server
-    ports:
-      - "8888:8888"
-    networks:
-      - quiz-net
-    healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:8888/actuator/health" ]
-      interval: 5s
-      timeout: 3s
-      retries: 5
+    restart: unless-stopped
 
   front-service:
-    build:
-      context: .
-      dockerfile: quiz-front/Dockerfile
+    image: registry.gitlab.com/theoleb/quiz/front-service:latest # UTILISE IMAGE DU REGISTRE
     container_name: front-service
     ports:
-      - "4200:80"
+      - "9000:80"
     depends_on:
       - gateway-service
     networks:
       - quiz-net
-
-
-  zipkin:
-    container_name: zipkin
-    image: openzipkin/zipkin
-    ports:
-      - "9411:9411"
-    networks:
-      - quiz-net
+    restart: unless-stopped
 
 networks:
   quiz-net:
