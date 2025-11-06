@@ -142,12 +142,12 @@ deploy:
 
 
     # 2. Transfert du docker-compose.yml vers le répertoire cible sur le serveur
-    - scp -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
+    - scp -i $SSH_PRIVATE_KEY ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
 
     - echo "--- Déploiement sur le serveur Hetzner ---"
     # 3. Se connecter au serveur et exécuter les commandes Docker
     - |
-      ssh -i $SSH_PRIVATE_KEY -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $SERVER_USER@$SERVER_HOST "
+      ssh -i $SSH_PRIVATE_KEY ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts $SERVER_USER@$SERVER_HOST "
         set -e # Quitter si une commande échoue
       
         echo 'Navigating to deployment directory...'
