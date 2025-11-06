@@ -95,7 +95,7 @@ deploy:
     # 0. INSTALLATION DES DÉPENDANCES ET MISE À JOUR POUR UBUNTU
     # Ajout de 'base64' si non présent
     - apt-get update -qq
-    - apt-get install -y openssh-client git base64
+    - apt-get install -y openssh-client git coreutils
     - eval $(ssh-agent -s)
 
     # 1. CONFIGURATION DES CLÉS SSH
