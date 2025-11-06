@@ -50,7 +50,7 @@ public class SecurityConfig {
                         .anyExchange().authenticated()
                 )
                 // Filtre JWT **après la configuration des endpoints publics**
-                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHORIZATION);
+                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
 
         return http.build();
     }
