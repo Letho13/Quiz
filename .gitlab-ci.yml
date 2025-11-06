@@ -1,9 +1,9 @@
 # .gitlab-ci.yml - ProjetQuiz
 
 stages:
-#  - build
-#  - test
-#  - docker-build
+  #  - build
+  #  - test
+  #  - docker-build
   - deploy
 
 
@@ -86,81 +86,60 @@ variables:
 # ======================
 deploy:
   stage: deploy
-  image: ubuntu:latest
+  image: docker:24.0.5
   environment:
     name: Production
     url: https://$SERVER_HOST/
   before_script:
+    # 0. Installation des outils nécessaires (apk est le gestionnaire de paquets d'Alpine)
+    - apk update && apk add openssh-client bash
+    - apk clean
 
-    - apt-get update -qq
-    - apt-get install -y openssh-client coreutils git
-    - apt-get clean
+    # 1. Démarrer l'Agent SSH (gestion de la clé en mémoire)
+    - eval $(ssh-agent -s)
 
+    # 2. Décodage et sécurisation de la clé privée Base64
+    - echo "Décodage Base64 de la clé privée..."
+    # La chaîne Base64 PURE doit être dans $SSH_PRIVATE_KEY
     - printf "%s" "$SSH_PRIVATE_KEY" | base64 -d > /tmp/id_rsa_ci
-
-    #Attribution des permissions 0600 (lecture/écriture pour l'utilisateur seulement)
     - chmod 600 /tmp/id_rsa_ci
 
-    # -N "" supprime le besoin de phrase de passe (déjà non chiffrée)
-    # -m PEM force l'ancien format compatible
-    - ssh-keygen -p -N "" -f /tmp/id_rsa_ci -m PEM
+    # 3. Ajout de la clé à l'agent (permet à SSH/SCP de l'utiliser automatiquement)
+    - ssh-add /tmp/id_rsa_ci
 
-    # 2. PRÉPARATION DU KNOWN_HOSTS
+    # 4. Préparation du Known_Hosts (vérification de l'identité du serveur)
     - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
     - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
 
   script:
     # --- DÉBUT LOGIQUE DE DÉPLOIEMENT ---
 
-    # 1. VÉRIFICATION DE LA CLÉ PUBLIQUE SUR LE SERVEUR
-      #echo "Vérification de l'existence de la clé publique sur le serveur..."
-#
-#      # Tente de se connecter au serveur et de vérifier si la clé est présente dans authorized_keys.
-#      KEY_EXISTS=$(ssh -o BatchMode=yes $SERVER_USER@$SERVER_HOST "grep -q \"$CI_PUBLIC_KEY\" ~/.ssh/authorized_keys" 2>/dev/null; echo $?)
-#
-#      if [ "$KEY_EXISTS" -eq 0 ]; then
-#        echo "Clé publique déjà présente. Aucune action nécessaire."
-#      else
-#        echo "Clé publique absente. Ajout en cours..."
-#        # Crée le dossier .ssh si nécessaire et ajoute la clé
-#        ssh -o BatchMode=yes $SERVER_USER@$SERVER_HOST "mkdir -p ~/.ssh && echo \"$CI_PUBLIC_KEY\" >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
-#        echo "Clé publique ajoutée avec succès."
-#      fi
-
-
-
-    # 2. Transfert du docker-compose.yml vers le répertoire cible sur le serveur
-    - scp -i /tmp/id_rsa_ci $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
-
-    - scp -i $SSH_PRIVATE_KEY ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
+    # 1. Transfert du docker-compose.yml (l'agent SSH gère l'authentification)
+    - scp $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
 
     - echo "--- Déploiement sur le serveur Hetzner ---"
-    # 3. Se connecter au serveur et exécuter les commandes Docker
+
+    # 2. Se connecter au serveur et exécuter les commandes Docker (l'agent SSH gère l'authentification)
     - |
-      ssh -i /tmp/id_rsa_ci $SERVER_USER@$SERVER_HOST "
+      ssh $SERVER_USER@$SERVER_HOST "
         set -e # Quitter si une commande échoue
-      
+
         echo 'Navigating to deployment directory...'
         cd $PROJECT_PATH
-      
+
         echo 'Logging into GitLab Container Registry (using CI token)...'
-        # Authentification pour le 'docker compose pull'
         docker login registry.gitlab.com -u gitlab-ci-token -p $CI_JOB_TOKEN
-      
+
         echo 'Starting Docker Compose...'
-        # 1. Tirer les dernières images (les versions construites par 'docker-build')
+        # Tirer et démarrer les services
         docker compose pull         
-      
-        # 2. Démarrer/Mettre à jour les services
         docker compose -f ./docker-compose.yml up -d --force-recreate --remove-orphans 
-      
+
         echo 'Logging out of GitLab Container Registry...'
-        # Déconnexion pour nettoyer la session temporaire
         docker logout registry.gitlab.com
-      
+
         echo 'Deployment complete!'
       "
   only:
-    - master
+      - master
