@@ -93,7 +93,6 @@ deploy:
   before_script:
     # 0. Installation des outils nécessaires (apk est le gestionnaire de paquets d'Alpine)
     - apk update && apk add openssh-client bash
-    - apk clean
 
     # 1. Démarrer l'Agent SSH (gestion de la clé en mémoire)
     - eval $(ssh-agent -s)
