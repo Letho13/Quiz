@@ -10,7 +10,9 @@ stages:
 variables:
   DOCKER_DRIVER: overlay2
   MAVEN_CLI_OPTS: "-B --batch-mode --fail-at-end"
+
   REGISTRY_URL: registry.gitlab.com/theoleb/quiz
+
   DOCKER_COMPOSE_FILE: docker-compose.yml
 
 # ======================
@@ -50,37 +52,36 @@ docker-build:
     DOCKER_TLS_CERTDIR: "/certs"
   script:
 
+    - echo "Logging in to GitLab Container Registry..."
 
-    - echo "Logging in to GitLab Container Registry..."
     - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin registry.gitlab.com
-    - echo "Logging in to GitLab Container Registry..."
 
     - echo "Building Docker images..."
 
     # Microservices Java (contexte la racine pour les dépendances entre modules)
-    - docker build -t $REGISTRY_URL/quiz-service:latest -f quiz-service/Dockerfile .
-    - docker push $REGISTRY_URL/quiz-service:latest
 
-    - docker build -t $REGISTRY_URL/user-service:latest -f user-service/Dockerfile .
-    - docker push $REGISTRY_URL/user-service:latest
+    - docker build -t $CI_REGISTRY_IMAGE/quiz-service:latest -f quiz-service/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE/quiz-service:latest
 
-    - docker build -t $REGISTRY_URL/reward-service:latest -f reward-service/Dockerfile .
-    - docker push $REGISTRY_URL/reward-service:latest
+    - docker build -t $CI_REGISTRY_IMAGE/user-service:latest -f user-service/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE/user-service:latest
+
+    - docker build -t $CI_REGISTRY_IMAGE/reward-service:latest -f reward-service/Dockerfile .
+    - docker push $CI_REGISTRY_IMAGE/reward-service:latest
 
     # Services d'infrastructure INDÉPENDANTS
-    # Utilisez le nom du dossier comme contexte (dernière partie de la commande)
-    - docker build -t $REGISTRY_URL/discovery-service:latest -f discovery-service/Dockerfile discovery-service
-    - docker push $REGISTRY_URL/discovery-service:latest
+    - docker build -t $CI_REGISTRY_IMAGE/discovery-service:latest -f discovery-service/Dockerfile discovery-service
+    - docker push $CI_REGISTRY_IMAGE/discovery-service:latest
 
-    - docker build -t $REGISTRY_URL/gateway-service:latest -f gateway-service/Dockerfile gateway-service
-    - docker push $REGISTRY_URL/gateway-service:latest
+    - docker build -t $CI_REGISTRY_IMAGE/gateway-service:latest -f gateway-service/Dockerfile gateway-service
+    - docker push $CI_REGISTRY_IMAGE/gateway-service:latest
 
-    - docker build -t $REGISTRY_URL/config-server:latest -f config-server/Dockerfile config-server
-    - docker push $REGISTRY_URL/config-server:latest
+    - docker build -t $CI_REGISTRY_IMAGE/config-server:latest -f config-server/Dockerfile config-server
+    - docker push $CI_REGISTRY_IMAGE/config-server:latest
 
-    # FRONT-END (contexte: le dossier du service)
-    - docker build -t $REGISTRY_URL/front-service:latest -f quiz-front/Dockerfile quiz-front
-    - docker push $REGISTRY_URL/front-service:latest
+    # FRONT-END
+    - docker build -t $CI_REGISTRY_IMAGE/front-service:latest -f quiz-front/Dockerfile quiz-front
+    - docker push $CI_REGISTRY_IMAGE/front-service:latest
 
 
 # ======================
@@ -88,10 +89,10 @@ docker-build:
 # ======================
 deploy:
   stage: deploy
-  image: alpine/ssh:latest # Image légère avec SSH et SCP
+  image: alpine/ssh:latest
   environment:
     name: Production
-    url: http://$SERVER_HOST:9000/
+    url: https://$SERVER_HOST/ # Utilisateur en HTTPS, port à ignorer dans l'URL de l'environnement
   before_script:
     # 1. Configuration des clés SSH (nécessite SSH_PRIVATE_KEY, SERVER_HOST)
     - apk add openssh-client git base64 # Ajout de 'base64' pour le décodage
@@ -140,5 +141,4 @@ deploy:
         echo 'Deployment complete!'
       "
   only:
-    - master # Déploie uniquement sur la branche principale
-
+    - master # Déploie uniquement sur la branche 'master'
