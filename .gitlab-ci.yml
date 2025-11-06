@@ -90,12 +90,12 @@ deploy:
   environment:
     name: Production
     url: https://$SERVER_HOST/
-#  before_script:
+  before_script:
 
-#    # 0. INSTALLATION DES DÉPENDANCES ET MISE À JOUR POUR UBUNTU
-#    # Ajout de 'base64' si non présent
-#    - apt-get update -qq
-#    - apt-get install -y openssh-client git coreutils
+
+
+    - apt-get update -qq
+    - apt-get install -y openssh-client
 #    - eval $(ssh-agent -s)
 #
 #    # 1. CONFIGURATION DES CLÉS SSH
@@ -142,7 +142,7 @@ deploy:
 
 
     # 2. Transfert du docker-compose.yml vers le répertoire cible sur le serveur
-    - scp $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
+    - scp -i $SSH_PRIVATE_KEY $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
 
     - echo "--- Déploiement sur le serveur Hetzner ---"
     # 3. Se connecter au serveur et exécuter les commandes Docker
