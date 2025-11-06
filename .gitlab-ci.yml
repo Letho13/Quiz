@@ -86,18 +86,21 @@ docker-build:
 # ======================
 deploy:
   stage: deploy
-  image: alpine:latest
+  image: ubuntu/ssh:latest # Changement d'image pour une meilleure compatibilité SSH
   environment:
     name: Production
-    url: https://$SERVER_HOST/ # Utilisateur en HTTPS, port à ignorer dans l'URL de l'environnement
+    url: https://$SERVER_HOST/
   before_script:
-    # 0. INSTALLATION DES DÉPENDANCES MANQUANTES (ssh, git, base64)
-    - apk add --no-cache openssh-client git base64
 
-    # 1. Configuration des clés SSH (nécessite SSH_PRIVATE_KEY, SERVER_HOST)
+    # 0. INSTALLATION DES DÉPENDANCES ET MISE À JOUR POUR UBUNTU
+    # Ajout de 'base64' si non présent
+    - apt-get update -qq && apt-get install -y openssh-client git base64
     - eval $(ssh-agent -s)
 
-    # --- DECODAGE DE LA CLE BASE64 ED25519 DANS UN FICHIER TEMPORAIRE ---
+    # 1. CONFIGURATION DES CLÉS SSH
+
+    # Décodage de la clé privée Base64 (mise sur une seule ligne)
+    - echo "Clé privée détectée. Décodage Base64 et écriture dans /tmp/id_ed25519..."
     - echo "$SSH_PRIVATE_KEY" | base64 -d > /tmp/id_ed25519
     - chmod 600 /tmp/id_ed25519
 
@@ -109,12 +112,37 @@ deploy:
     - chmod 700 ~/.ssh
     - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
+
+    # 4. GÉNÉRATION DE LA CLÉ PUBLIQUE DU RUNNER POUR VÉRIFICATION
+    - echo "Génération de la clé publique correspondante pour la vérification sur le serveur..."
+    - ssh-keygen -y -f /tmp/id_ed25519 > /tmp/id_ed25519.pub
+    - CI_PUBLIC_KEY=$(cat /tmp/id_ed25519.pub)
+    - echo "Clé publique générée."
+
   script:
-    # 1. Transfert du docker-compose.yml vers le répertoire cible sur le serveur
+    # --- DÉBUT LOGIQUE DE DÉPLOIEMENT ---
+
+    # 1. VÉRIFICATION DE LA CLÉ PUBLIQUE SUR LE SERVEUR
+    - |
+      echo "Vérification de l'existence de la clé publique sur le serveur..."
+      
+      # Tente de se connecter au serveur et de vérifier si la clé est présente dans authorized_keys.
+      KEY_EXISTS=$(ssh -o BatchMode=yes $SERVER_USER@$SERVER_HOST "grep -q \"$CI_PUBLIC_KEY\" ~/.ssh/authorized_keys" 2>/dev/null; echo $?)
+      
+      if [ "$KEY_EXISTS" -eq 0 ]; then
+        echo "Clé publique déjà présente. Aucune action nécessaire."
+      else
+        echo "Clé publique absente. Ajout en cours..."
+        # Crée le dossier .ssh si nécessaire et ajoute la clé
+        ssh -o BatchMode=yes $SERVER_USER@$SERVER_HOST "mkdir -p ~/.ssh && echo \"$CI_PUBLIC_KEY\" >> ~/.ssh/authorized_keys && chmod 700 ~/.ssh && chmod 600 ~/.ssh/authorized_keys"
+        echo "Clé publique ajoutée avec succès."
+      fi
+
+    # 2. Transfert du docker-compose.yml vers le répertoire cible sur le serveur
     - scp $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
 
     - echo "--- Déploiement sur le serveur Hetzner ---"
-    # 2. Se connecter au serveur et exécuter les commandes Docker
+    # 3. Se connecter au serveur et exécuter les commandes Docker
     - |
       ssh $SERVER_USER@$SERVER_HOST "
         set -e # Quitter si une commande échoue
