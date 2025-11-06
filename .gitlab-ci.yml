@@ -52,7 +52,7 @@ docker-build:
 
 
     - echo "Logging in to GitLab Container Registry..."
-    - echo "$CI_JOB_TOKEN" | docker login -u "$CI_REGISTRY_USER" --password-stdin "$CI_REGISTRY"
+    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin registry.gitlab.com
     - echo "Logging in to GitLab Container Registry..."
 
     - echo "Building Docker images..."
