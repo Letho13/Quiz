@@ -92,39 +92,25 @@ deploy:
     url: https://$SERVER_HOST/
   before_script:
 
-
-
     - apt-get update -qq
-    - apt-get install -y openssh-client
-#    - eval $(ssh-agent -s)
-#
-#    # 1. CONFIGURATION DES CLÉS SSH
-#
-#    # Décodage de la clé privée Base64 (mise sur une seule ligne)
-#    - echo "Clé privée détectée. Décodage Base64 et écriture dans /tmp/id_ed25519..."
-#    - printf "%s" "$SSH_PRIVATE_KEY" | base64 -d > /tmp/id_ed25519
-#    - chmod 600 /tmp/id_ed25519
-#
-#    # 2. Ajout de la clé temporaire à l'agent SSH
-#    - ssh-add /tmp/id_ed25519
-#
-#    # 3. Préparation des clés du serveur hôte
-#    - mkdir -p ~/.ssh
-#    - chmod 700 ~/.ssh
-#    - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
-#    - chmod 644 ~/.ssh/known_hosts
-#
-#    # 4. GÉNÉRATION DE LA CLÉ PUBLIQUE DU RUNNER POUR VÉRIFICATION
-#    - echo "Génération de la clé publique correspondante pour la vérification sur le serveur..."
-#    - ssh-keygen -y -f /tmp/id_ed25519 > /tmp/id_ed25519.pub
-#    - CI_PUBLIC_KEY=$(cat /tmp/id_ed25519.pub)
-#    - echo "Clé publique générée."
+    - apt-get install -y openssh-client coreutils git
+    - apt-get clean
+
+    - printf "%s" "$SSH_PRIVATE_KEY" | base64 -d > /tmp/id_rsa_ci
+
+    #Attribution des permissions 0600 (lecture/écriture pour l'utilisateur seulement)
+    - chmod 600 /tmp/id_rsa_ci
+
+    # 2. PRÉPARATION DU KNOWN_HOSTS
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $SERVER_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
 
   script:
     # --- DÉBUT LOGIQUE DE DÉPLOIEMENT ---
 
     # 1. VÉRIFICATION DE LA CLÉ PUBLIQUE SUR LE SERVEUR
-    - |
       #echo "Vérification de l'existence de la clé publique sur le serveur..."
 #
 #      # Tente de se connecter au serveur et de vérifier si la clé est présente dans authorized_keys.
@@ -142,12 +128,14 @@ deploy:
 
 
     # 2. Transfert du docker-compose.yml vers le répertoire cible sur le serveur
+    - scp -i /tmp/id_rsa_ci $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
+
     - scp -i $SSH_PRIVATE_KEY ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts $DOCKER_COMPOSE_FILE $SERVER_USER@$SERVER_HOST:$PROJECT_PATH/$DOCKER_COMPOSE_FILE
 
     - echo "--- Déploiement sur le serveur Hetzner ---"
     # 3. Se connecter au serveur et exécuter les commandes Docker
     - |
-      ssh -i $SSH_PRIVATE_KEY ssh-keyscan -H "$REMOTE_HOST" >> ~/.ssh/known_hosts $SERVER_USER@$SERVER_HOST "
+      ssh -i /tmp/id_rsa_ci $SERVER_USER@$SERVER_HOST "
         set -e # Quitter si une commande échoue
       
         echo 'Navigating to deployment directory...'
@@ -171,4 +159,4 @@ deploy:
         echo 'Deployment complete!'
       "
   only:
-    - master # Déploie uniquement sur la branche 'master'
+    - master
