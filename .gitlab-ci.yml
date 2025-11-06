@@ -101,6 +101,10 @@ deploy:
     #Attribution des permissions 0600 (lecture/écriture pour l'utilisateur seulement)
     - chmod 600 /tmp/id_rsa_ci
 
+    # -N "" supprime le besoin de phrase de passe (déjà non chiffrée)
+    # -m PEM force l'ancien format compatible
+    - ssh-keygen -p -N "" -f /tmp/id_rsa_ci -m PEM
+
     # 2. PRÉPARATION DU KNOWN_HOSTS
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
