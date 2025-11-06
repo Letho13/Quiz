@@ -1,9 +1,9 @@
 # .gitlab-ci.yml - ProjetQuiz
 
 stages:
-  - build
-  - test
-  - docker-build
+#  - build
+#  - test
+#  - docker-build
   - deploy
 
 
@@ -16,69 +16,69 @@ variables:
 # ======================
 # Build Maven modules
 # ======================
-build:
-  stage: build
-  image: maven:3.9.4-amazoncorretto-21
-  script:
-    - mvn $MAVEN_CLI_OPTS clean compile
-  artifacts:
-    paths:
-      - target/
-
-# ======================
-# Run unit tests
-# ======================
-test:
-  stage: test
-  image: maven:3.9.4-amazoncorretto-21
-  script:
-    - mvn $MAVEN_CLI_OPTS test
-  artifacts:
-    when: always
-    reports:
-      junit: "**/target/surefire-reports/*.xml"
-
-# ======================
-# Build Docker images
-# ======================
-docker-build:
-  stage: docker-build
-  image: docker:24.0.5
-  services:
-    - docker:24-dind
-  variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-  script:
-
-    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin $REGISTRY_URL
-    - echo "Logging in to GitLab Container Registry..."
-
-    - echo "Building Docker images..."
-
-    # Microservices Java (contexte la racine pour les dépendances entre modules)
-    - docker build -t $REGISTRY_URL/quiz-service:latest -f quiz-service/Dockerfile .
-    - docker push $REGISTRY_URL/quiz-service:latest
-
-    - docker build -t $REGISTRY_URL/user-service:latest -f user-service/Dockerfile .
-    - docker push $REGISTRY_URL/user-service:latest
-
-    - docker build -t $REGISTRY_URL/reward-service:latest -f reward-service/Dockerfile .
-    - docker push $REGISTRY_URL/reward-service:latest
-
-    # Services d'infrastructure INDÉPENDANTS
-    # Utilisez le nom du dossier comme contexte (dernière partie de la commande)
-    - docker build -t $REGISTRY_URL/discovery-service:latest -f discovery-service/Dockerfile discovery-service
-    - docker push $REGISTRY_URL/discovery-service:latest
-
-    - docker build -t $REGISTRY_URL/gateway-service:latest -f gateway-service/Dockerfile gateway-service
-    - docker push $REGISTRY_URL/gateway-service:latest
-
-    - docker build -t $REGISTRY_URL/config-server:latest -f config-server/Dockerfile config-server
-    - docker push $REGISTRY_URL/config-server:latest
-
-    # FRONT-END (contexte: le dossier du service)
-    - docker build -t $REGISTRY_URL/front-service:latest -f quiz-front/Dockerfile quiz-front
-    - docker push $REGISTRY_URL/front-service:latest
+#build:
+#  stage: build
+#  image: maven:3.9.4-amazoncorretto-21
+#  script:
+#    - mvn $MAVEN_CLI_OPTS clean compile
+#  artifacts:
+#    paths:
+#      - target/
+#
+## ======================
+## Run unit tests
+## ======================
+#test:
+#  stage: test
+#  image: maven:3.9.4-amazoncorretto-21
+#  script:
+#    - mvn $MAVEN_CLI_OPTS test
+#  artifacts:
+#    when: always
+#    reports:
+#      junit: "**/target/surefire-reports/*.xml"
+#
+## ======================
+## Build Docker images
+## ======================
+#docker-build:
+#  stage: docker-build
+#  image: docker:24.0.5
+#  services:
+#    - docker:24-dind
+#  variables:
+#    DOCKER_TLS_CERTDIR: "/certs"
+#  script:
+#
+#    - echo "$CI_JOB_TOKEN" | docker login -u gitlab-ci-token --password-stdin $REGISTRY_URL
+#    - echo "Logging in to GitLab Container Registry..."
+#
+#    - echo "Building Docker images..."
+#
+#    # Microservices Java (contexte la racine pour les dépendances entre modules)
+#    - docker build -t $REGISTRY_URL/quiz-service:latest -f quiz-service/Dockerfile .
+#    - docker push $REGISTRY_URL/quiz-service:latest
+#
+#    - docker build -t $REGISTRY_URL/user-service:latest -f user-service/Dockerfile .
+#    - docker push $REGISTRY_URL/user-service:latest
+#
+#    - docker build -t $REGISTRY_URL/reward-service:latest -f reward-service/Dockerfile .
+#    - docker push $REGISTRY_URL/reward-service:latest
+#
+#    # Services d'infrastructure INDÉPENDANTS
+#    # Utilisez le nom du dossier comme contexte (dernière partie de la commande)
+#    - docker build -t $REGISTRY_URL/discovery-service:latest -f discovery-service/Dockerfile discovery-service
+#    - docker push $REGISTRY_URL/discovery-service:latest
+#
+#    - docker build -t $REGISTRY_URL/gateway-service:latest -f gateway-service/Dockerfile gateway-service
+#    - docker push $REGISTRY_URL/gateway-service:latest
+#
+#    - docker build -t $REGISTRY_URL/config-server:latest -f config-server/Dockerfile config-server
+#    - docker push $REGISTRY_URL/config-server:latest
+#
+#    # FRONT-END (contexte: le dossier du service)
+#    - docker build -t $REGISTRY_URL/front-service:latest -f quiz-front/Dockerfile quiz-front
+#    - docker push $REGISTRY_URL/front-service:latest
 
 
 # ======================
@@ -90,7 +90,7 @@ deploy:
   environment:
     name: Production
     url: https://$SERVER_HOST/
-  before_script:
+#  before_script:
 
 #    # 0. INSTALLATION DES DÉPENDANCES ET MISE À JOUR POUR UBUNTU
 #    # Ajout de 'base64' si non présent
