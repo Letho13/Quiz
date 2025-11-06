@@ -86,7 +86,7 @@ docker-build:
 # ======================
 deploy:
   stage: deploy
-  image: ubuntu/ssh:latest # Changement d'image pour une meilleure compatibilité SSH
+  image: ubuntu:latest
   environment:
     name: Production
     url: https://$SERVER_HOST/
@@ -94,7 +94,8 @@ deploy:
 
     # 0. INSTALLATION DES DÉPENDANCES ET MISE À JOUR POUR UBUNTU
     # Ajout de 'base64' si non présent
-    - apt-get update -qq && apt-get install -y openssh-client git base64
+    - apt-get update -qq
+    - apt-get install -y openssh-client git base64
     - eval $(ssh-agent -s)
 
     # 1. CONFIGURATION DES CLÉS SSH
