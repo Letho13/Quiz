@@ -47,10 +47,13 @@ public class SecurityConfig {
                         .pathMatchers("/actuator/health/**").permitAll()
 
                         // --- PROTÉGÉ (tous les autres endpoints passent par JWT) ---
-                        .anyExchange().authenticated()
-                )
+//                        .anyExchange().authenticated()
+                        // tout permettre pour test
+                        .anyExchange().permitAll()
+                );
                 // Filtre JWT **après la configuration des endpoints publics**
-                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+                // commenter pour test
+//                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
 
         return http.build();
     }
