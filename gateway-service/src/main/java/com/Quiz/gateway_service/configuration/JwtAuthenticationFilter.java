@@ -32,11 +32,7 @@ public class JwtAuthenticationFilter implements WebFilter {
             return chain.filter(exchange);
         }
 
-        String path = exchange.getRequest().getPath().value();
-
-        if (path.startsWith("/USER-SERVICE/api/auth") || path.startsWith("/actuator/health") || path.startsWith("/USER-SERVICE/api/user/add")) {
-            return chain.filter(exchange);
-        }
+        // Le SecurityWebFilterChain est maintenant seul responsable des chemins permitAll()
 
         // Extraire le JWT
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");
@@ -54,6 +50,8 @@ public class JwtAuthenticationFilter implements WebFilter {
             String role = jwtUtil.getRoleFromToken(jwt);
             Integer userId = jwtUtil.getUserIdFromToken(jwt);
 
+            // NOTE: Assurez-vous que la classe CustomPrincipal est accessible
+            // Si vous n'avez pas cette classe, utilisez directement String pour le principal
             CustomPrincipal principal = new CustomPrincipal(userId, username, role);
 
             List<GrantedAuthority> authorities = new ArrayList<>();
