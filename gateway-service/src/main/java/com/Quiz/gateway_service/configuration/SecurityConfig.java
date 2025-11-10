@@ -42,8 +42,8 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeExchange(ex -> ex
                         // --- PUBLIC ENDPOINTS ---
-                        .pathMatchers(HttpMethod.POST, "/USER-SERVICE/api/user/register").permitAll()
-                        .pathMatchers("/USER-SERVICE/api/auth/**").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/user/register").permitAll()
+                        .pathMatchers("/api/auth/**").permitAll()
                         .pathMatchers("/actuator/health/**").permitAll()
 
                         // --- PROTÉGÉ (tous les autres endpoints passent par JWT) ---
