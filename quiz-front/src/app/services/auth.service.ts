@@ -45,7 +45,7 @@ export class AuthService {
 
   register(user: { username: string; email: string; password: string }) {
     return this.http.post(
-      `${environment.gatewayUrl}${environment.userApi}/user/register`, user
+      `${environment.gatewayUrl}${environment.userApi}/register`, user
     );
   }
 
@@ -97,7 +97,7 @@ export class AuthService {
   getUser(): Observable<UserInfo> {
     const userId = this.getUserId();
     if (!userId) throw new Error('User not logged in');
-    return this.http.get<UserInfo>(`${environment.gatewayUrl}${environment.userApi}/user/${userId}`);
+    return this.http.get<UserInfo>(`${environment.gatewayUrl}${environment.userApi}/${userId}`);
   }
 
   updateUser(userUpdate: UserUpdateDto): Observable<void> {
@@ -105,7 +105,7 @@ export class AuthService {
     if (!userId) throw new Error('User not logged in');
     // s'assurer que l'id dans le path et le body soit le bon
     userUpdate.id = userId;
-    return this.http.put<void>(`${environment.gatewayUrl}${environment.userApi}/user/${userId}`, userUpdate);
+    return this.http.put<void>(`${environment.gatewayUrl}${environment.userApi}/${userId}`, userUpdate);
   }
 
   getRole(): string | null {

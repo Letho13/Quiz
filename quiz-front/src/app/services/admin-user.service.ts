@@ -13,7 +13,7 @@ export interface UserDto {
 @Injectable({ providedIn: 'root' })
 export class AdminUserService {
   private http = inject(HttpClient);
-  private baseUrl = `${environment.gatewayUrl}${environment.userApi}/user`;
+  private baseUrl = `${environment.gatewayUrl}${environment.userApi}`;
 
   getUsers(page: number, size: number): Observable<UserDto[]> {
     return this.http.get<UserDto[]>(`${this.baseUrl}?page=${page}&size=${size}`);
