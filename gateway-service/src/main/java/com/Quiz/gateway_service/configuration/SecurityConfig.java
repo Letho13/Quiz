@@ -22,11 +22,11 @@ import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final JwtUtil jwtUtil;
-    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+//    private final JwtUtil jwtUtil;
+//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
