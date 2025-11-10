@@ -49,7 +49,7 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/auth/**", "/actuator/**").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/api/user/add").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/user/register").permitAll()
                         .requestMatchers("/api/user/search").hasRole("ADMIN") // Recherche réservée aux admins
 
                         // Appliquer la nouvelle règle unifiée et complète

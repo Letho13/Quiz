@@ -158,6 +158,9 @@ services:
       EUREKA_SERVER_URL: http://discovery-service:8761/eureka/
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
+      DB_URL: jdbc:postgresql://user-db:5432/user_db
+      DB_USER: postgres
+      DB_PASS: password
     image: registry.gitlab.com/theoleb/quiz/user-service:latest # UTILISE IMAGE DU REGISTRE
     container_name: user-service
     ports:
