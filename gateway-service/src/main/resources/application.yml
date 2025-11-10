@@ -34,6 +34,27 @@ spring:
       discovery:
         locator:
           enabled: true
+      routes:
+        - id: user_route
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/user/** # Capture le chemin envoyé par le frontend
+          filters:
+            # Retire /api (1) et /user (2) pour que le service cible reçoive /register
+            - StripPrefix=2
+        # Ajoutez les autres routes (quiz, reward) de la même manière
+        - id: quiz_route
+          uri: lb://QUIZ-SERVICE
+          predicates:
+            - Path=/api/quiz/**
+          filters:
+            - StripPrefix=2
+        - id: reward_route
+          uri: lb://REWARD-SERVICE
+          predicates:
+            - Path=/api/reward/**
+          filters:
+            - StripPrefix=2
   security:
     user:
       name: ""
@@ -44,6 +65,11 @@ security:
   jwt:
     secret: "MaCleSuperSecreteQuiFaitPlusDe32Caractères1234"
     expiration: 3600000
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.cloud.gateway: DEBUG
 
 
 

@@ -1,9 +1,8 @@
 export const environment = {
   production: false,
   gatewayUrl: 'https://qlture.dewal.fr',
-  // gatewayUrl: 'http://localhost:8222',
-  quizApi: '/QUIZ-SERVICE/api',
-  userApi: '/USER-SERVICE/api',
-  rewardApi: '/REWARD-SERVICE/api',
+  // Utiliser les préfixes qui seront capturés par les routes du Gateway
+  quizApi: '/api/quiz',   // Le Gateway mappera '/api/quiz/**' vers QUIZ-SERVICE
+  userApi: '/api/user',   // Le Gateway mappera '/api/user/**' vers USER-SERVICE
+  rewardApi: '/api/reward', // Le Gateway mappera '/api/reward/**' vers REWARD-SERVICE
 };
-
