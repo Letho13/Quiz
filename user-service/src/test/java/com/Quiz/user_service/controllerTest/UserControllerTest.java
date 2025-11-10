@@ -113,12 +113,12 @@ class UserControllerTest {
                 .id(2)
                 .username("newuser")
                 .email("new@quiz.com") // L'email doit être là
-                .role("USER") // Le rôle doit être là après l'enregistrement
+                .role("USER") // Le rôle doit être là après l'enregistrement.
                 .build();
         when(userService.register(any(UserDto.class))).thenReturn(savedUserDto);
 
         // When & Then
-        mockMvc.perform(post(BASE_URL + "/add")
+        mockMvc.perform(post(BASE_URL + "/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(rawJsonPayload)
                         .with(csrf()))

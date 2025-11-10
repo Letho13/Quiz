@@ -45,7 +45,7 @@ export class AuthService {
 
   register(user: { username: string; email: string; password: string }) {
     return this.http.post(
-      `${environment.gatewayUrl}${environment.userApi}/user/add`, user
+      `${environment.gatewayUrl}${environment.userApi}/user/register`, user
     );
   }
 
