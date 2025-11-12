@@ -22,11 +22,11 @@ import java.util.List;
 
 @Configuration
 @EnableWebFluxSecurity
-//@RequiredArgsConstructor
+@RequiredArgsConstructor
 public class SecurityConfig {
 
-//    private final JwtUtil jwtUtil;
-//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final JwtUtil jwtUtil;
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -35,6 +35,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityWebFilterChain springSecurityFilterChain(ServerHttpSecurity http) {
+
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtil);
+
         http
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
                 .formLogin(ServerHttpSecurity.FormLoginSpec::disable)
@@ -42,19 +45,17 @@ public class SecurityConfig {
                 .exceptionHandling(ex -> ex.authenticationEntryPoint(new HttpStatusServerEntryPoint(HttpStatus.UNAUTHORIZED)))
                 .authorizeExchange(ex -> ex
                         // --- PUBLIC ENDPOINTS ---
-//                        .pathMatchers(HttpMethod.POST, "/api/user/register").permitAll()
-                        .pathMatchers("/api/user/register","/api/user/register/").permitAll()
+                        .pathMatchers(HttpMethod.POST, "/api/user/register").permitAll()
                         .pathMatchers("/api/auth/**").permitAll()
                         .pathMatchers("/actuator/health/**").permitAll()
 
                         // --- PROTÉGÉ (tous les autres endpoints passent par JWT) ---
-//                        .anyExchange().authenticated()
-                        // tout permettre pour test
-                        .anyExchange().permitAll()
-                );
+                        .anyExchange().authenticated()
+
+
+                )
                 // Filtre JWT **après la configuration des endpoints publics**
-                // commenter pour test
-//                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
+                .addFilterAt(jwtAuthenticationFilter, SecurityWebFiltersOrder.AUTHENTICATION);
 
         return http.build();
     }
@@ -66,7 +67,11 @@ public class SecurityConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public CorsWebFilter corsWebFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOriginPatterns(List.of("https://qlture.dewal.fr","http://localhost:4200", "http://quiz-front","http://192.168.1.157:4200"));
+        config.setAllowedOriginPatterns(List.of(
+                "https://qlture.dewal.fr",
+                "http://localhost:4200",
+                "http://quiz-front",
+                "http://192.168.1.157:4200"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

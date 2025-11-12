@@ -19,7 +19,6 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
-//@Component
 @RequiredArgsConstructor
 public class JwtAuthenticationFilter implements WebFilter {
 
@@ -50,8 +49,6 @@ public class JwtAuthenticationFilter implements WebFilter {
             String role = jwtUtil.getRoleFromToken(jwt);
             Integer userId = jwtUtil.getUserIdFromToken(jwt);
 
-            // NOTE: Assurez-vous que la classe CustomPrincipal est accessible
-            // Si vous n'avez pas cette classe, utilisez directement String pour le principal
             CustomPrincipal principal = new CustomPrincipal(userId, username, role);
 
             List<GrantedAuthority> authorities = new ArrayList<>();

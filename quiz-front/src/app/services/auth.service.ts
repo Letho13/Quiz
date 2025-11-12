@@ -51,7 +51,7 @@ export class AuthService {
 
   login(credentials: LoginRequest) {
     return this.http.post<JwtResponse>(
-      `${environment.gatewayUrl}${environment.userApi}/auth/login`,
+      `${environment.gatewayUrl}api/auth/login`,
       credentials
     ).pipe(
       tap((res: JwtResponse) => {
