@@ -1,65 +1,245 @@
+@use "../../styles.scss";
+
+/* ===========================
+   WRAPPER GLOBAL DE LA PAGE DE CLASSEMENT
+   =========================== */
 .ranking-page {
   background: #f8f9fa;
-  max-width: 1400px;
+  padding: 2rem 1.5rem;
+  max-width: 100%;
   margin: 0 auto;
 
   .quiz-row {
     display: flex;
-    flex-wrap: wrap;      // permet aux cartes de passer à la ligne
-    gap: 1.5rem;          // espace horizontal et vertical entre cartes
-    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    justify-content: center;
   }
 
+  /* ===========================
+     CARTE DE QUIZ (CONTENEUR DE CLASSEMENT)
+     =========================== */
   .quiz-card {
     background: #fff;
     border-radius: 1rem;
     padding: 2rem;
     transition: transform 0.3s, box-shadow 0.3s;
-    flex: 1 1 calc(33% - 1.5rem); // 3 cartes par ligne
-    min-width: 280px;              // minimum pour mobile
-    max-width: 350px;              // maximum sur grand écran
-    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-
+    flex: 1 1 300px;
+    min-width: 300px;
+    max-width: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    display: flex;
+    flex-direction: column;
 
     &:hover {
       transform: translateY(-5px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    }
+
+    .header-container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
     }
 
     .quiz-title {
-      font-size: 1.3rem;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #007bff;
+      text-align: left;
+      flex-grow: 1;
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      margin: 0;
+      transition: all 0.2s;
+
+      &:hover {
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+        z-index: 10;
+        position: relative;
+        width: 100%;
+        background-color: #fff;
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+        padding: 0 5px;
+        text-align: left;
+      }
+    }
+
+    .player-count {
+      font-size: 0.9rem;
       font-weight: 600;
-      color: #343a40;
+      color: #6c757d;
+      padding-left: 1rem;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .my-score {
       border-radius: 0.75rem;
       font-size: 1.1rem;
       margin-bottom: 1rem;
-      justify-content: center;
+      text-align: center;
+      background-color: #e0f7fa;
+      border: 1px solid #00bcd4;
+      color: #007bff;
+      padding: 0.75rem 1rem;
     }
 
-    table {
-      border-radius: 0.5rem;
+    .ranking-table-container {
+      border-radius: 0.75rem;
+      /* overflow-x: auto si le tableau doit être plus large,
+         mais on préfère la troncature sur mobile */
       overflow: hidden;
+      border: 1px solid #dee2e6;
+    }
 
+    .ranking-table {
+      margin-bottom: 0;
+      table-layout: auto;
+
+      thead th, tbody td { text-align: center; }
+      thead th:nth-child(2) { text-align: left; }
+
+      /* La colonne Participant sur Desktop peut s'étendre si l'espace le permet */
+      tbody td:nth-child(2) {
+        /* Assurer que le texte s'affiche en entier par défaut (Desktop) */
+        overflow: visible;
+        white-space: normal;
+        text-align: left;
+      }
+
+      .ranking-body {
+        .ranked-row:nth-child(odd) { background-color: #f8f9fa; }
+        .ranked-row:nth-child(even) { background-color: #ffffff; }
+        .ranked-row:hover {
+          background-color: #e9ecef;
+          cursor: pointer;
+        }
+      }
 
       thead th {
-        font-size: 0.85rem;
-        letter-spacing: 0.5px;
+        font-size: 0.8rem;
+        letter-spacing: 0.8px;
+        text-transform: uppercase;
+        color: #fff;
+        background-color: #343a40;
+        padding: 0.75rem 0.5rem;
+      }
 
+      /* Colonnes de taille (Desktop/Large Mobile) */
+      .col-rank { width: 10%; }
+      .col-score { width: 20%; }
+
+      .position-badge {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        font-weight: 700;
+        font-size: 1.2rem;
+        background: #e9ecef;
+        border: 2px solid transparent;
+        transition: all 0.2s;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        &.position-1 { background-color: #ffeb3b; border-color: #ffc107; }
+        &.position-2 { background-color: #cfd8dc; border-color: #9e9e9e; }
+        &.position-3 { background-color: #ffccbc; border-color: #ff5722; }
+      }
+
+      .top-rank { font-size: 1.1rem; font-weight: 600; }
+    }
+  }
+}
+
+/* ===========================
+   📱 MEDIA QUERIES (MOBILE) -
+   =========================== */
+@media (max-width: 650px) {
+
+  .ranking-page {
+
+    padding: 1.5rem 1rem; /* Padding horizontal réduit à 1rem */
+    padding-top: 1.5rem;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box; /* CLÉ: Inclure le padding dans la largeur */
+  }
+
+  .quiz-row {
+    gap: 1rem;
+    justify-content: center;
+    width: 100%; /* S'assurer que le flex-container respecte la largeur */
+  }
+
+  .quiz-card {
+    flex: 1 1 100%;
+    min-width: unset;
+    max-width: 100%;
+    padding: 1rem;
+    box-sizing: border-box; /* CLÉ: Inclure le padding dans la largeur de la carte */
+
+    .quiz-title {
+      font-size: 1.2rem;
+      flex-basis: 70%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .player-count {
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .my-score {
+      font-size: 1rem;
+      padding: 0.5rem 0.8rem;
+    }
+
+    .ranking-table-container {
+      overflow-x: hidden;
+      width: 100%;
+    }
+
+    .ranking-table {
+      font-size: 0.8rem;
+      /* CLÉ: Forcer le tableau à respecter la largeur de la carte */
+      table-layout: fixed;
+      width: 100%;
+
+      thead th {
+        padding: 0.5rem 0.2rem;
+        font-size: 0.65rem;
+      }
+
+      tbody td {
+        padding: 0.4rem 0.2rem;
       }
 
       .position-badge {
-        display: flex;           // active flex
-        justify-content: center; // centre horizontalement
-        align-items: center;     // centre verticalement
-        width: 32px;             // largeur fixe
-        height: 32px;            // hauteur fixe
-        border-radius: 50%;      // cercle
-        font-weight: 700;
-        font-size: 1.1rem;
-        background: #e9ecef;
+        width: 20px;
+        height: 20px;
+        font-size: 0.8rem;
+      }
+
+      .col-rank { width: 15%; }
+      .col-score { width: 15%; }
+
+      /* CLÉ MOBILE: S'assurer que le nom du participant est tronqué */
+      tbody td:nth-child(2) {
+        max-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        text-align: left;
       }
     }
   }

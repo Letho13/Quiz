@@ -1,9 +1,16 @@
+@use "../../styles.scss";
+
 /* ===========================
    ADMIN - LISTE UTILISATEURS
    =========================== */
 
 .admin-container {
+  /* MODIFICATION CLÉ : Augmenter la largeur maximale à 1600px pour un maximum d'espace sur PC */
+  max-width: 1600px;
+  margin: 0 auto;    /* Ajout de margin auto pour centrer sur grand écran */
   padding-top: 2rem; /* Espace en haut */
+  padding-left: 2rem; /* Padding par défaut pour desktop */
+  padding-right: 2rem; /* Padding par défaut pour desktop */
 }
 
 .page-title {
@@ -22,6 +29,7 @@
 
 .text-input {
   /* Reprise du style des inputs que vous devriez avoir globalement */
+  /* flex-grow: 1 garantit qu'il prend l'espace supplémentaire */
   flex-grow: 1;
   padding: 0.6rem;
   border: 1px solid #ccc;
@@ -37,7 +45,8 @@
 
 /* --- Tableau Utilisateurs --- */
 .user-list-card {
-  padding: 0; /* Retire le padding intérieur pour que le tableau remplisse la carte */
+  /* Rétabli à 1rem, mais nous allons donner plus de place au tableau via les colonnes */
+  padding: 1rem;
   overflow-x: auto; /* Permet le défilement horizontal sur petits écrans */
   margin-bottom: 2rem;
 }
@@ -45,11 +54,13 @@
 .user-table {
   width: 100%;
   border-collapse: separate;
-  border-spacing: 0; /* Supprime l'espace par défaut */
+  /* Espacement vertical entre les lignes pour respirer */
+  border-spacing: 0 5px;
 
   /* Lignes alternées (striped) */
   tbody tr:nth-child(even) {
-    background-color: var(--light-bg); /* Utilisation de votre couleur de fond léger */
+    /* Utilisation de votre couleur de fond léger */
+    background-color: var(--light-bg);
   }
 }
 
@@ -59,7 +70,8 @@
   padding: 1rem 1.5rem;
   text-align: center;
   font-weight: 700;
-
+  /* Ajouter de la marge en bas du header pour séparer du corps */
+  margin-bottom: 0.5rem;
 }
 
 /* Coins arrondis pour le header du tableau */
@@ -72,7 +84,8 @@
 
 
 .user-table td {
-  padding: 1rem 1.5rem;
+  /* Réduire légèrement le padding vertical et conserver le padding horizontal */
+  padding: 0.75rem 1.5rem;
   border-bottom: 1px solid #eee;
   vertical-align: middle;
 }
@@ -100,7 +113,8 @@
 }
 
 .role-header, .role-cell {
-  width: 150px; /* Largeur fixe pour la colonne de rôle */
+  /* NOUVELLE MODIFICATION : Augmentation pour laisser beaucoup d'espace sur PC (140px vs 130px) */
+  width: 140px;
 }
 
 /* --- Pagination --- */
@@ -108,10 +122,80 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  /* Adapter le padding pour qu'il soit cohérent avec la carte */
   padding: 0 1rem;
 }
 
 .current-page-display {
   font-weight: 600;
   color: var(--secondary-color);
+}
+
+/* ===========================
+   📱 MEDIA QUERIES (MOBILE)
+   =========================== */
+@media (max-width: 650px) {
+
+  .admin-container {
+    padding-top: 1rem;
+    /* Ajouter un padding horizontal pour le mobile */
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    /* Supprimer les marges de centrage pour le mobile pour maximiser l'espace */
+    margin: 0;
+  }
+
+  .page-title {
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
+  }
+
+  /* --- Contrôles de Recherche --- */
+  .search-controls {
+    /* Passer en colonne sur mobile */
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem; /* Assurer que le padding de la carte est correct */
+  }
+
+  .text-input {
+    /* Prend toute la largeur en mode colonne */
+    width: 100%;
+  }
+
+  .search-btn {
+    /* Prend toute la largeur en mode colonne */
+    width: 100%;
+  }
+
+  /* --- Tableau Utilisateurs --- */
+  .user-list-card {
+    /* Réduire le padding sur mobile */
+    padding: 0.75rem;
+  }
+
+  .user-table th,
+  .user-table td {
+    padding: 0.5rem 1rem; /* Réduire le padding vertical sur mobile */
+  }
+
+  .role-select {
+    /* Réduire légèrement la taille du select de rôle */
+    padding: 0.3rem;
+    font-size: 0.9rem;
+  }
+
+  .role-header, .role-cell {
+    /* Règle spécifique pour mobile pour être plus compact */
+    width: 120px;
+  }
+
+  /* --- Pagination --- */
+  .pagination-controls {
+    /* Rendre les contrôles de pagination plus compacts */
+    font-size: 0.9rem;
+    /* Conserver un petit padding pour les boutons */
+    padding: 0 0.5rem;
+  }
 }

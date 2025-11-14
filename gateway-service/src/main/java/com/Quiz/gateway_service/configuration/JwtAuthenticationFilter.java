@@ -31,7 +31,10 @@ public class JwtAuthenticationFilter implements WebFilter {
             return chain.filter(exchange);
         }
 
-        // Le SecurityWebFilterChain est maintenant seul responsable des chemins permitAll()
+        String path = exchange.getRequest().getPath().value();
+        if (path.startsWith("/api/auth/") || path.equals("/api/user/register")) {
+            return chain.filter(exchange); // Laisse passer sans vérifier le JWT
+        }
 
         // Extraire le JWT
         String authHeader = exchange.getRequest().getHeaders().getFirst("Authorization");

@@ -2,6 +2,7 @@
   <form (ngSubmit)="onLogin()" class="login-form">
     <h2>Connexion</h2>
 
+    <!-- Champ Nom d'utilisateur -->
     <input
       type="text"
       [(ngModel)]="username"
@@ -10,20 +11,42 @@
       required
     />
 
-    <input
-      type="password"
-      [(ngModel)]="password"
-      name="password"
-      placeholder="Mot de passe"
-      required
-    />
+    <!-- Champ Mot de passe avec bascule de visibilité -->
+    <label>
+      <div class="password-wrapper">
+        <input
+          [type]="showPassword ? 'text' : 'password'"
+          [(ngModel)]="password"
+          name="password"
+          placeholder="Mot de passe"
+          required
+        />
+        <!-- Bouton pour basculer la visibilité (appelle togglePasswordVisibility du composant) -->
+        <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+          <!-- Utilisation du bloc @if d'Angular pour l'icône appropriée -->
+          @if (showPassword) {
+            <!-- Oeil ouvert (Visible) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+          } @else {
+            <!-- Oeil barré (Masqué) -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.11 13.11 0 0 0 4 12s3 7 10 7c.76 0 1.5-1.5 2.5-3"/><line x1="2" x2="22" y1="2" y2="22"/></svg>
+          }
+        </button>
+      </div>
+    </label>
 
+    <!-- Bouton de soumission -->
     <button type="submit">Se connecter</button>
 
+    <!-- Affichage des erreurs -->
     @if (error) {
       <div class="error-message">{{ error }}</div>
     }
+
+
   </form>
+
+  <!-- Lien vers l'inscription (Register) -->
 
   <p class="register-text">
     Vous n’avez pas de compte ?

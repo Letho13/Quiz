@@ -19,6 +19,11 @@ export interface QuizRanking {
   myScore?: number;
 }
 
+export interface QuizScoreResult {
+  score: number;
+  totalQuestions: number; // Ajout du nombre total de questions
+}
+
 @Injectable({ providedIn: 'root' })
 export class RewardService {
   private http = inject(HttpClient);
@@ -28,30 +33,31 @@ export class RewardService {
   /** Démarre une nouvelle tentative */
   createAttempt(quizId: number): Observable<UserQuizScore> {
     return this.http.post<UserQuizScore>(
-      `${this.baseUrl}/score/new?quizId=${quizId}`, {}
+      `${this.baseUrl}/new?quizId=${quizId}`, {}
     );
   }
 
   finalizeQuiz(quizId: number, userAnswers: ReponseTempsDto[]): Observable<UserQuizScore> {
     return this.http.post<UserQuizScore>(
-      `${this.baseUrl}/score/finalize?quizId=${quizId}`,
+      `${this.baseUrl}/finalize?quizId=${quizId}`,
       userAnswers
     );
   }
 
-  getLastScore(quizId: number): Observable<{score: number}> {
-    return this.http.get<{score: number}>(`${this.baseUrl}/score/last/${quizId}`);
+  getLastScore(quizId: number): Observable<QuizScoreResult> {
+    return this.http.get<QuizScoreResult>(`${this.baseUrl}/last/${quizId}`);
   }
+
 
   /** Top 10 pour un quiz */
   getRanking(quizId: number): Observable<UserQuizScore[]> {
-    return this.http.get<UserQuizScore[]>(`${this.baseUrl}/score/ranking`, {
+    return this.http.get<UserQuizScore[]>(`${this.baseUrl}/ranking`, {
       params: { quizId }
     });
   }
 
   getAllRankings(): Observable<QuizRanking[]> {
-    return this.http.get<QuizRanking[]>(`${this.baseUrl}/score/ranking/all`);
+    return this.http.get<QuizRanking[]>(`${this.baseUrl}/ranking/all`);
   }
 
 }

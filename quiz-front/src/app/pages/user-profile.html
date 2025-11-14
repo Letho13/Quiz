@@ -1,6 +1,16 @@
 <div class="profile-container container">
   <h1 class="page-title">Mon Profil</h1>
 
+  <!-- CONTENEUR DE NOTIFICATION -->
+  @if (successMessage || errorMessage) {
+    <div
+      class="notification"
+      [ngClass]="{'notification-success': successMessage, 'notification-error': errorMessage}"
+    >
+      {{ successMessage || errorMessage }}
+    </div>
+  }
+
   <div class="profile-layout">
 
     <section class="user-info card">
@@ -32,7 +42,8 @@
           <thead>
           <tr>
             <th>Quiz</th>
-            <th>Score Obtenu</th>
+            <!-- Ajout d'une flèche pour indiquer le tri -->
+            <th>Score Obtenu (↓)</th>
           </tr>
           </thead>
           <tbody>

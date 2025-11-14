@@ -1,25 +1,61 @@
 .app-container {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  /* Aligne le contenu en haut du conteneur verticalement, permettant le centrage horizontal des éléments */
+  justify-content: flex-start;
   align-items: center;
+  background: transparent;
+  min-height: 80vh;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto; /* Centrage de l'app-container */
+  padding-top: 0.5rem; /* Espace au-dessus du titre principal */
 
-  min-height: 80vh; // prend presque tout l'écran (en laissant la navbar)
-  text-align: center;
+  /* --- STYLES DU LOGO IMAGE  */
 
-  .quiz-title {
-    font-size: 3.5rem; /* Augmentation significative de la taille */
-    font-weight: 900; /* Rendre le texte très gras */
-    margin-bottom: 2.5rem; /* Augmenter l'espace en dessous */
-
-    /* Utilisation d'une couleur plus vive ou d'une couleur d'accentuation */
-    color: #0b4983; /* Utilisation de votre bleu d'accentuation (pour la dynamique) */
-
-    letter-spacing: 2px; /* Espacement accru pour un look plus élégant */
-
-    /* AJOUT CLÉ : Ombre portée pour donner du relief et de l'impact */
-    text-shadow:
-      //2px 2px 0px rgba(255, 255, 255, 0.5); /* Légère ombre blanche pour l'effet 3D */
-      4px 4px 6px rgba(0, 0, 0, 0.2); /* Ombre douce pour le faire flotter */
+  .app-logo-link {
+    display: block; /* S'assurer que le lien peut contenir l'image et être centré */
+    background: transparent;
+    margin-bottom: 0.5rem; /* Espace sous le logo */
   }
+
+  .app-logo {
+    /* Taille par défaut du logo sur desktop - AUGMENTÉE */
+    width: 350px; /* Augmenté de 250px à 350px */
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease;
+
+    /* Pour simuler le "Glow" du texte, nous appliquons une ombre à l'image */
+    filter:
+      drop-shadow(0 0 12px rgba(100, 150, 255, 0.6))
+      drop-shadow(0 0 24px rgba(90, 120, 255, 0.4));
+  }
+}
+
+/* Ajustement pour les petits écrans */
+@media (max-width: 600px) {
+  .app-container {
+    padding-top: 1.5rem;
+  }
+
+  .app-logo-link {
+    background: transparent;
+    margin-bottom: 1.5rem;
+  }
+
+  .app-logo {
+    /* Taille pour les petits écrans - AUGMENTÉE */
+    width: 250px; /* Augmenté de 180px à 250px */
+
+    filter:
+      drop-shadow(0 0 8px rgba(100, 150, 255, 0.5))
+      drop-shadow(0 0 16px rgba(90, 120, 255, 0.3));
+  }
+
+}
+
+router-outlet + * {
+  background: transparent !important; /* Force la suppression du fond blanc */
+  box-shadow: none !important;      /* Supprime l'ombre (glow bleu/coins étranges) */
 }

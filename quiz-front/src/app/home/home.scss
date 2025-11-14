@@ -6,5 +6,178 @@
 
   min-height: 80vh; // centre vertical (sans prendre toute la navbar)
   text-align: center;
+  padding: 1.5rem; // Assure un espacement sur mobile
 
+  .home-title {
+    width: 100%;
+    text-align: center;
+    margin: 0 auto 2.5rem auto; /* S'assurer qu'il est centré et bien espacé */
+  }
+}
+
+/* ===========================
+   ENCART DE PRÉSENTATION (GitHub & LinkedIn) - AMÉLIORÉ
+   =========================== */
+.presentation-card {
+  width: 100%;
+  max-width: 500px; /* Aligné avec la largeur du conteneur */
+  margin-bottom: 4rem; /* Plus d'espace pour séparer du bouton "Commencer" */
+  padding: 2rem 2rem; /* Plus AÉRÉ */
+  border-radius: 16px; /* Coins plus arrondis */
+
+  /* COULEURS CHALEUREUSES ET VISIBLES */
+  background-color: #FFFDF7; /* Très léger Off-White/Crème pour la chaleur */
+  border: 2px solid #FFCC80; /* Bordure Ambre clair et visible */
+  box-shadow: 0 8px 20px rgba(255, 179, 0, 0.15); /* Ombre plus présente et chaude */
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.presentation-text {
+  font-size: 1.1rem; /* Texte légèrement plus grand pour la lisibilité */
+  color: #34495E;
+  margin-bottom: 1.8rem; /* Plus d'espace après le texte */
+
+  strong {
+    font-weight: 800;
+    color: #E65100; /* Orange plus chaud pour le texte important */
+  }
+}
+
+.links-container {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem; /* Espace entre les deux liens */
+}
+
+/* Styles de base pour tous les liens sociaux */
+.social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  padding: 8px 15px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.social-icon svg {
+  display: block;
+  transition: fill 0.3s ease;
+}
+
+/* --- Style spécifique GitHub --- */
+.github-link {
+  color: #2C3E50; /* Couleur sombre */
+  border: 2px solid #2C3E50;
+
+  &:hover {
+    background-color: #2C3E50;
+    color: #fff;
+    transform: translateY(-3px); /* Plus de lift */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  &:hover .social-icon svg {
+    fill: #fff;
+  }
+}
+
+/* --- Style spécifique LinkedIn --- */
+.linkedin-link {
+  --linkedin-blue: #0A66C2;
+  color: var(--linkedin-blue);
+  border: 2px solid var(--linkedin-blue);
+
+  &:hover {
+    background-color: var(--linkedin-blue);
+    color: #fff;
+    transform: translateY(-3px); /* Plus de lift */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+  }
+  &:hover .social-icon svg {
+    fill: #fff;
+  }
+}
+
+/* ===========================
+   BOUTON COMMENCER (CTA) - STYLE HARMONISÉ
+   =========================== */
+
+.btn-start {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+
+  /* Harmonisation avec un bouton primaire standard */
+  padding: 1.2rem 1.5rem; /* Réduction du padding */
+  font-size: 1.3rem; /* Réduction de la taille de la police */
+  font-weight: 700;
+
+  /* Couleur et forme */
+  background: #0ea5e9; /* Bleu clair */
+  color: white;
+  border: none;
+  border-radius: 8px; /* Coins plus petits */
+
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px; /* Réduction de l'espacement */
+  cursor: pointer;
+
+  /* Ombre et transition */
+  box-shadow: 0 4px 8px rgba(14, 165, 233, 0.3);
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: #0891b2; /* Bleu plus foncé au survol */
+    transform: translateY(-2px); /* Léger lift au survol */
+    box-shadow: 0 6px 12px rgba(14, 165, 233, 0.4);
+  }
+
+  &:active {
+    transform: translateY(0); /* Simulation de pression */
+    box-shadow: 0 2px 5px rgba(14, 165, 233, 0.4);
+  }
+}
+
+
+/* ===========================
+   📱 MEDIA QUERIES (MOBILE)
+   =========================== */
+@media (max-width: 600px) {
+
+  .presentation-card {
+    padding: 1.2rem 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .presentation-text {
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+  }
+
+  .links-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .social-link {
+    font-size: 0.9rem;
+    padding: 8px 15px;
+    width: 100%;
+    justify-content: center;
+  }
+
+  .social-icon svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .btn-start {
+    font-size: 1.1rem;
+    padding: 1rem;
+    max-width: 90%;
+  }
 }

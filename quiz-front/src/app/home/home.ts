@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import {CommonModule} from '@angular/common';
-import QuizSelectionComponent from '../pages/type-selection';
+import {RouterModule} from '@angular/router';
 
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, QuizSelectionComponent],
+  imports: [CommonModule, RouterModule],
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })

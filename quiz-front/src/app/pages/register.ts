@@ -26,6 +26,9 @@ export class RegisterComponent {
   registerForm: FormGroup;
   error: string | null = null;
 
+  showPassword = false;
+  showConfirmPassword = false;
+
   PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   constructor() {
@@ -38,6 +41,14 @@ export class RegisterComponent {
       },
       { validators: this.passwordsMatchValidator }
     );
+  }
+
+  togglePasswordVisibility(field: 'password' | 'confirmPassword') {
+    if (field === 'password') {
+      this.showPassword = !this.showPassword;
+    } else if (field === 'confirmPassword') {
+      this.showConfirmPassword = !this.showConfirmPassword;
+    }
   }
 
   onRegister() {

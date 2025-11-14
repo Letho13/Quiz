@@ -1,12 +1,53 @@
-<div class="results">
-  <h2>Résultats du Quiz</h2>
+@if (score !== null && totalQuestions !== null) {
+  <div class="results-container">
+    <div class="card results-card">
 
-  <div *ngIf="score !== null; else loading">
-    <p>Ton score final : <strong>{{ score }}</strong></p>
-    <button (click)="goHome()">Retour à l’accueil</button>
+      <!-- Zone de Célébration -->
+      <div class="header-section">
+        <h2 class="title">🎉 Quiz terminé ! 🎉</h2>
+        <p class="subtitle">Félicitations pour votre participation.</p>
+      </div>
+
+      <!-- Affichage du Score -->
+      <div class="score-display">
+        <span class="score-label">Score final</span>
+
+        <!-- NOUVEAU WRAPPER POUR ALIGNER SCORE ET TOTAL SUR LA MÊME LIGNE -->
+        <div class="score-value-wrapper">
+          <!-- Puisque nous sommes dans le @if, les valeurs sont garanties non-nulles -->
+          <strong class="final-score">{{ score }}</strong>
+          <span class="score-unit"> / 50</span>
+        </div>
+      </div>
+
+      <!-- Messages de feedback (conditionnel avec @if/@else if) -->
+      @if (score >= 40) {
+        <p class="feedback-message">
+          Phénoménal ! Un score presque parfait, vous êtes un expert !
+        </p>
+      } @else if (score >= 25) {
+        <p class="feedback-message">
+          Excellent travail ! Vous avez démontré de grandes connaissances.
+        </p>
+      } @else {
+        <p class="feedback-message">
+          Aïe ! Vous pouvez mieux faire, continuez à apprendre pour améliorer votre score.
+        </p>
+      }
+
+      <!-- Bouton de retour -->
+      <button class="btn-primary home-button" (click)="goHome()">
+        Retour à l’accueil
+      </button>
+    </div>
   </div>
+} @else {
+  <!-- Message de chargement -->
+  <div class="results-container">
+    <div class="loading-message">
+      <div class="spinner"></div>
+      <p>Chargement des résultats...</p>
+    </div>
+  </div>
+}
 
-  <ng-template #loading>
-    <p>Chargement des résultats...</p>
-  </ng-template>
-</div>

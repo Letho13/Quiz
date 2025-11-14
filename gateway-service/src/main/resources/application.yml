@@ -35,6 +35,10 @@ spring:
         locator:
           enabled: true
       routes:
+        - id: auth_route
+          uri: lb://USER-SERVICE
+          predicates:
+            - Path=/api/auth/**
         - id: user_route
           uri: lb://USER-SERVICE
           predicates:
@@ -47,7 +51,7 @@ spring:
         - id: reward_route
           uri: lb://REWARD-SERVICE
           predicates:
-            - Path=/api/reward/**
+            - Path=/api/score/**
   security:
     user:
       name: ""

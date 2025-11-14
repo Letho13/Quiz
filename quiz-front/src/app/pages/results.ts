@@ -19,6 +19,7 @@ export class ResultsComponent implements OnInit {
 
   quizId!: number;
   score: number | null = null;
+  totalQuestions: number | null = null;
 
   ngOnInit(): void {
     this.quizId = Number(this.route.snapshot.paramMap.get('quizId'));
@@ -32,11 +33,16 @@ export class ResultsComponent implements OnInit {
 
     this.rewardService.getLastScore(this.quizId).subscribe({
       next: (result) => {
+        // ASSIGNATION DES DEUX PROPRIÉTÉS
         this.score = result.score;
+        this.totalQuestions = result.totalQuestions;
+
+        // Supprime la valeur TEMPORAIRE
       },
       error: (err) => console.error("Erreur récupération score", err)
     });
   }
+
 
   goHome() {
     this.router.navigate(['/home']);

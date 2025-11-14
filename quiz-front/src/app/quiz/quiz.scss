@@ -1,7 +1,24 @@
+
 /* ===========================
-   🎯 LAYOUT DU QUIZ
+   NOUVEAU WRAPPER DE LA PAGE QUIZ
+   (Permet d'ajouter de l'espace avec la barre de navigation)
    =========================== */
-/* ... (autres styles) ... */
+.quiz-page-wrapper {
+  // Ajout de marge supérieure pour aérer l'espace avec la barre de navigation
+  margin-top: 3rem;
+  // Ajout de marge inférieure pour l'esthétique générale
+  margin-bottom: 3rem;
+
+  /* Adapter si l'écran est petit pour éviter une marge trop grande */
+  @media (max-width: 768px) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+/* ===========================
+   LAYOUT DU QUIZ
+   =========================== */
 
 /* --- ESPACEMENT AJOUTÉ --- */
 /* Style pour le bouton principal de navigation (Question suivante / Terminer le quiz) */
@@ -15,7 +32,7 @@
 
 
 /* ===========================
-   🏁 HEADER DU QUIZ
+   HEADER DU QUIZ
    =========================== */
 .quiz-header {
   display: flex;
@@ -33,7 +50,7 @@
 }
 
 /* ===========================
-   📝 QUESTION
+   QUESTION
    =========================== */
 .quiz-question {
   font-size: 1.2rem;
@@ -42,17 +59,22 @@
 }
 
 /* ===========================
-   🔲 LISTE DES RÉPONSES
+    LISTE DES RÉPONSES
    =========================== */
+
 .answers-grid {
   display: grid;
+  /* VALEUR PC : Conserver 2 colonnes pour PC */
   grid-template-columns: 1fr 1fr;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
-  /* Assurez-vous que le <ul> n'a pas de style de liste */
+  /* Augmenter l'espace entre les cartes de réponse */
+  gap: 1.5rem;
+
+  /* Suppression de margin-bottom: 1.5rem; */
+
   list-style: none; /* Supprime les puces */
   padding: 0;      /* Supprime le padding par défaut des ul */
-  margin: 0 0 1.5rem 0; /* Ajuste la marge */
+  /* Conserver uniquement la propriété raccourcie 'margin' */
+  margin: 0 0 1.5rem 0; /* Haut Droite Bas Gauche */
 }
 
 /* Assurez-vous que le <li> ne cause pas de problème */
@@ -94,7 +116,7 @@
 
 
 /* ===========================
-   🎯 FEEDBACK
+   FEEDBACK
    =========================== */
 .correct-msg, .wrong-msg {
   padding: 0.8rem 1rem; /* Augmenter légèrement le padding pour donner plus d'air au message */
@@ -112,4 +134,23 @@
 .wrong-msg {
   background-color: #ffcdd2;
   color: #c62828;
+}
+
+/* ===========================
+   MEDIA QUERIES (MOBILE PORTRAIT)
+   =========================== */
+@media (max-width: 600px) {
+
+  /* Force le conteneur des réponses à n'avoir qu'une seule colonne en mode portrait */
+  .answers-grid {
+    /* LIGNE CLÉ : Passe à 1 colonne sur téléphone */
+    grid-template-columns: 1fr;
+    /* MODIFICATION OPTIONNELLE : Réduire le gap sur mobile pour gagner de la place */
+    gap: 1rem;
+  }
+
+  /* Optionnel : Rendre la question un peu plus petite sur mobile */
+  .quiz-question {
+    font-size: 1.1rem;
+  }
 }

@@ -27,6 +27,9 @@ dist/
 # Docker-compose Override pour local
 docker-compose.override.yml
 
+#
+authorized_keys
+
 # Vite cache
 .vite/
 

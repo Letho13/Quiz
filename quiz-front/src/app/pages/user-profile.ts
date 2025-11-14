@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { UserProfileService, UserQuizScore } from '../services/user-profile.service';
 import {AuthService, UserInfo} from '../services/auth.service';
-import {Observable, take} from 'rxjs';
+import {Observable, take, map} from 'rxjs';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
 
@@ -21,7 +21,18 @@ export class UserProfileComponent {
 
   userId: number = this.auth.getUserId()!;
   user$: Observable<UserInfo> = this.auth.getUser();
-  scores$: Observable<UserQuizScore[]> = this.profile.getBestUserScores(this.userId);
+
+  scores$: Observable<UserQuizScore[]> = this.profile.getBestUserScores(this.userId).pipe(
+    map(scores => {
+      // Tri des scores du plus grand au plus petit (descendant)
+      return scores.sort((a, b) => b.score - a.score);
+    })
+  );
+
+  // GESTION DES NOTIFICATIONS
+  successMessage: string | null = null;
+  errorMessage: string | null = null;
+  private notificationTimeout: any;
 
   // modal / form
   showEditModal = false;
@@ -39,7 +50,30 @@ export class UserProfileComponent {
     }, { validators: this.passwordsMatchValidator });
   }
 
+  // Affiche un message de notification pendant 5 secondes
+  private showNotification(type: 'success' | 'error', message: string): void {
+    clearTimeout(this.notificationTimeout);
+
+    if (type === 'success') {
+      this.successMessage = message;
+      this.errorMessage = null;
+    } else {
+      this.errorMessage = message;
+      this.successMessage = null;
+    }
+
+    this.notificationTimeout = setTimeout(() => {
+      this.successMessage = null;
+      this.errorMessage = null;
+    }, 5000);
+  }
+
   openEditModal(): void {
+    // Efface les notifications précédentes lors de l'ouverture du modal
+    this.successMessage = null;
+    this.errorMessage = null;
+    clearTimeout(this.notificationTimeout);
+
     this.auth.getUser().pipe(take(1)).subscribe(u => {
       this.originalUser = u;
       this.editForm.patchValue({
@@ -67,6 +101,7 @@ export class UserProfileComponent {
     if (vals.password) payload.password = vals.password;
 
     if (Object.keys(payload).length === 0) {
+      this.showNotification('success', 'Aucune modification à enregistrer.');
       this.showEditModal = false;
       return;
     }
@@ -74,21 +109,23 @@ export class UserProfileComponent {
 
     this.auth.updateUser(payload).subscribe({
       next: () => {
-        // rafraîchir l'observable user$
         this.user$ = this.auth.getUser();
         this.showEditModal = false;
 
         if (payload.username) {
-          alert('Votre nom d’utilisateur a été modifié : reconnectez-vous.');
+          // Remplacement de alert()
+          this.showNotification('error', 'Nom d’utilisateur modifié : veuillez vous reconnecter.');
           this.auth.logout();
           this.router.navigate(['/auth/login']);
         } else {
-          alert('Modifications enregistrées.');
+          // Remplacement de alert()
+          this.showNotification('success', 'Modifications enregistrées avec succès !');
         }
       },
       error: (err) => {
         console.error(err);
-        alert('Erreur lors de la mise à jour : ' + (err?.message ?? 'voir console'));
+        // Remplacement de alert()
+        this.showNotification('error', 'Erreur lors de la mise à jour : ' + (err?.message ?? 'Vérifiez la console.'));
       }
     });
   }
@@ -104,6 +141,4 @@ export class UserProfileComponent {
 
     return null;
   }
-
-
 }

@@ -3,6 +3,10 @@ import { RewardService, UserQuizScore, QuizRanking } from '../services/reward.se
 import { ActivatedRoute } from '@angular/router';
 import { ChartConfiguration } from 'chart.js';
 
+export interface EnhancedQuizRanking extends QuizRanking {
+  uniquePlayerCount: number;
+}
+
 @Component({
   selector: 'app-ranking',
   templateUrl: './ranking.html',
@@ -13,7 +17,7 @@ export class RankingComponent implements OnInit {
   private route = inject(ActivatedRoute);
   private rewardService = inject(RewardService);
 
-  allRankings: QuizRanking[] = [];
+  allRankings: EnhancedQuizRanking[] = [];
 
   ranking: UserQuizScore[] = [];
   quizTitle: string = '';
@@ -31,10 +35,29 @@ export class RankingComponent implements OnInit {
 
   ngOnInit(): void {
     this.rewardService.getAllRankings().subscribe({
-      next: (data) => this.allRankings = data,
+      next: (data: QuizRanking[]) => {
+        // Traitement des données pour calculer le nombre de joueurs uniques
+        this.allRankings = data.map(quiz => ({
+          ...quiz,
+          uniquePlayerCount: this.getUniquePlayerCount(quiz.ranking)
+        }));
+      },
       error: (err) => console.error('Erreur récupération rankings', err)
     });
   }
+
+  /**
+   * Calcule le nombre de joueurs uniques dans un classement.
+   * @param scores Le tableau complet des scores (un score par tentative).
+   * @returns Le nombre d'utilisateurs uniques.
+   */
+  private getUniquePlayerCount(scores: UserQuizScore[]): number {
+    const usernames = scores.map(s => s.username);
+    // Utilise un Set pour obtenir uniquement les valeurs distinctes (uniques)
+    const uniqueUsernames = new Set(usernames);
+    return uniqueUsernames.size;
+  }
+
 
   loadRanking(): void {
     this.rewardService.getRanking(this.quizId).subscribe({

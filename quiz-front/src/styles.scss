@@ -1,5 +1,5 @@
 /* ===========================
-   🌍 RESET + BASE
+    RESET + BASE
    =========================== */
 * {
   margin: 0;
@@ -13,13 +13,13 @@ html, body {
 
 body {
   font-family: 'Roboto', sans-serif;
-  background-color: #f7f7f7;
+  background-color: #f7f9fc;
   color: #0b4983;
   line-height: 1.5;
 }
 
 /* ===========================
-   📝 TYPOGRAPHIE
+   TYPOGRAPHIE
    =========================== */
 h1, h2, h3, h4 {
   font-weight: 600;
@@ -32,7 +32,7 @@ p {
 }
 
 /* ===========================
-   🎨 COULEURS GLOBALES
+    COULEURS GLOBALES
    =========================== */
 :root {
   --primary-color: #2C3E50;
@@ -45,7 +45,7 @@ p {
 }
 
 /* ===========================
-   💳 CARTES GÉNÉRIQUES
+    CARTES GÉNÉRIQUES
    =========================== */
 .card {
   background: var(--card-bg);
@@ -55,7 +55,7 @@ p {
 }
 
 /* ===========================
-   🔘 BOUTONS GLOBAUX
+    BOUTONS GLOBAUX
    =========================== */
 button {
   padding: 0.8rem 1.2rem;
@@ -96,7 +96,7 @@ button:disabled {
 }
 
 /* ===========================
-   ⏳ TIMER CIRCULAIRE
+    TIMER CIRCULAIRE
    =========================== */
 .timer-wrapper {
   position: relative;
@@ -133,7 +133,7 @@ button:disabled {
 }
 
 /* ===========================
-   📊 BARRE DE PROGRESSION
+    BARRE DE PROGRESSION
    =========================== */
 .progress-bar {
   height: 6px;
@@ -149,24 +149,70 @@ button:disabled {
 }
 
 /* ===========================
-   📦 LAYOUT DE BASE
+    LAYOUT DE BASE
    =========================== */
 .container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 1rem;
 }
 
 /* ===========================
-   🎯 FEEDBACK GLOBAL
+    FEEDBACK GLOBAL
    =========================== */
 .correct-msg {
   color: var(--success-color);
   font-weight: bold;
+  /* AJOUT: S'assurer qu'il est bien visible */
+  z-index: 100;
 }
 
 .wrong-msg {
   color: var(--danger-color);
   font-weight: bold;
+  /* AJOUT: S'assurer qu'il est bien visible */
+  z-index: 100;
 }
 
+/* ===========================
+    MEDIA QUERIES (MOBILE) - Ajustements Globaux
+   =========================== */
+@media (max-width: 600px) {
+
+  /* 1. Ajuster le padding du conteneur global */
+  .container {
+    padding: 0.5rem; /* Réduire l'espace blanc autour du contenu sur téléphone */
+  }
+
+  /* Règle pour réduire la taille du titre sur téléphone pour éviter le débordement */
+  .app-container .quiz-title {
+    font-size: 2rem; /* Réduction de la taille de 3.5rem à 2rem */
+    margin-bottom: 1.5rem;
+  }
+
+  /* 2. Ajuster l'espacement vertical (si nécessaire) */
+  .app-container {
+    /* Rétablir le text-align à gauche si le quiz n'est pas bien centré */
+    text-align: left;
+    /* Peut être utile de réduire la hauteur minimale pour éviter les problèmes */
+    min-height: 60vh;
+  }
+
+  /* Réduire la taille des titres pour les composants de quiz/question */
+  h2, h3 {
+    font-size: 1.3rem;
+  }
+
+}
+
+
+/* ===========================
+ CENTRAGE DE LA CARTE DU QUIZ
+   =========================== */
+.app-container .card {
+  /* Limiter la largeur de la carte du quiz pour qu'elle soit bien centrée sur grand écran */
+  max-width: 500px;
+  width: 95%;
+  /* Ligne clé : Centre la carte à l'intérieur de l'app-container */
+  margin: 0 auto;
+}

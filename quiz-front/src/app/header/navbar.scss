@@ -1,10 +1,11 @@
 .navbar {
   display: flex;
   align-items: center;
-  padding: 0.8rem 1.5rem;
+  /* MODIFICATION CLÉ : Réduire le padding vertical de 0.8rem à 0.5rem */
+  padding: 0.5rem 1.5rem; /* Anciennement 0.8rem 1.5rem */
   background: #f8fafc; // gris clair moderne
   border-bottom: 1px solid #e2e8f0;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   border-radius: 0 0 12px 12px;
 }
 
@@ -20,7 +21,7 @@
   font-size: 1rem;
   padding: 0.4rem 0.6rem;
   border-radius: 6px;
-  transition: background 0.2s ease, color 0.2s ease, border-bottom 0.2s ease; /* Ajout de la transition pour la bordure */
+  transition: background 0.2s ease, color 0.2s ease, border-bottom 0.2s ease;
 
   /* Bordure transparente pour maintenir la hauteur et la cohérence de la ligne */
   border-bottom: 3px solid transparent;
@@ -28,8 +29,8 @@
 
 /* Règle pour l'état ACTIF : Plus spécifique que 'a' seul */
 .navbar a.active {
-  background: none; /* Annule le background potentiel */
-  color: #0369a1; // Bleu foncé
+  background: none;
+  color: #0369a1;
   font-weight: 600;
 
   /* LIGNE CLÉ : Bordure pour marquer l'activité */
@@ -38,14 +39,12 @@
 }
 
 /* Règle pour l'état HOVER des liens NON-ACTIFS */
-/* Utilisation de :not(.active) pour éviter le conflit */
 .navbar a:not(.active):hover {
-  background: #e2e8f0; // hover clair
-  color: #0ea5e9; // bleu accent
+  background: #e2e8f0;
+  color: #0ea5e9;
 }
 
 /* Règle pour l'état ACTIF AU SURVOL (Garantie de persistance) */
-/* Ce sélecteur (a.active:hover) est plus spécifique que a:hover et a.active */
 .navbar a.active:hover {
   background: none;
   color: #0369a1;
@@ -58,10 +57,8 @@
 }
 
 .navbar-right {
-  /* Assurons-nous que le contenu est bien aligné */
   display: flex;
-  align-items: center; /* Centrage vertical du bouton */
-  /* Ajout d'une petite marge à gauche si vous voulez un peu d'air entre le spacer et le bouton */
+  align-items: center;
   margin-left: 1.5rem;
 }
 
@@ -79,4 +76,43 @@
 .logout-btn:hover {
   background: #dc2626;
   transform: translateY(-2px);
+}
+
+/* ===========================
+   📱 MEDIA QUERIES (MOBILE) - Bar de Navigation
+   =========================== */
+@media (max-width: 600px) {
+
+  /* Règle 1: Rendre la barre elle-même plus compacte */
+  .navbar {
+    padding: 0.5rem 0.5rem; /* Moins de padding latéral */
+    /* CORRECTION CLÉ : Empêche le bouton de déconnexion de passer à la ligne */
+    flex-wrap: nowrap;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Règle 2: Réduire l'espacement entre les liens */
+  .navbar-left {
+    gap: 0.4rem; /* Réduire le gap de 1.5rem à 0.4rem (plus compact) */
+    /* CORRECTION : Empêche les liens de passer à la ligne, ce qui était la cause indirecte du problème */
+    flex-wrap: nowrap;
+  }
+
+  /* Règle 3: Compresser les liens (taille encore plus réduite) */
+  .navbar a {
+    font-size: 0.65rem; /* Réduit à 0.65rem (de 0.7rem) pour gagner de l'espace */
+    padding: 0.2rem 0.4rem;
+    white-space: nowrap;
+  }
+
+  /* Règle 4: Assurer que le bouton de déconnexion soit aligné correctement en haut à droite */
+  .navbar-right {
+    margin-left: auto; /* Pousse à droite */
+  }
+
+  /* Règle 5: Compresser le bouton de déconnexion */
+  .logout-btn {
+    font-size: 0.7rem; /* Réduit à 0.7rem (de 0.75rem) */
+    padding: 0.3rem 0.5rem; /* Padding encore réduit pour gagner de l'espace */
+  }
 }

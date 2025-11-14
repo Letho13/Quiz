@@ -6,40 +6,37 @@
     @for (quiz of allRankings; track quiz.quizId) {
       <div class="quiz-card p-3 shadow-sm rounded">
 
-        <!-- Titre quiz + nb joueurs -->
-        <div class="d-flex justify-content-between align-items-center mb-2">
+        <!-- Conteneur du titre et du nombre de joueurs -->
+        <div class="header-container">
           <h3 class="quiz-title">{{ quiz.quizTitle }}</h3>
-          <span class="badge bg-info fs-6 px-2 py-1">
-            {{ quiz.ranking.length }} joueur(s)
+          <!-- Utilisation de la classe 'player-count' pour le style SCSS -->
+          <span class="player-count">
+            {{ quiz.uniquePlayerCount }} joueur(s)
           </span>
         </div>
 
         <!-- Mon score -->
-        @if (quiz.myScore != null) {
-          <div class="my-score alert alert-primary fw-bold text-center mb-2">
-            ⭐ Mon score : <span class="fs-6">{{ quiz.myScore }}</span>
-          </div>
-        } @else {
-          <div class="alert alert-secondary text-center mb-2">
-            ⭐ Mon score : 0
-          </div>
-        }
+        <div class="my-score fw-bold mb-2">
+          ⭐ Mon score : <span class="fs-6">{{ quiz.myScore != null ? quiz.myScore : 0 }}</span>
+        </div>
 
         <!-- Classement -->
-        <div class="table-responsive">
-          <table class="table table-hover align-middle text-center mb-0">
+        <div class="table-responsive ranking-table-container">
+          <table class="table align-middle text-center mb-0 ranking-table">
             <thead class="table-dark">
             <tr>
-              <th>#</th>
-              <th>Participant</th>
-              <th>Score</th>
+              <th class="col-rank">#</th>
+              <th class="text-start">Participant</th>
+              <th class="col-score">Score</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody class="ranking-body">
               @for (score of quiz.ranking; track score.username; let i = $index) {
-                <tr>
+                <!-- Ajout de la classe 'ranked-row' pour le style zébré et de 'top-rank' pour les 3 premiers -->
+                <tr class="ranked-row {{ i < 3 ? 'top-rank' : '' }}">
                   <td>
-                    <span class="position-badge">
+                    <!-- Le badge est maintenant stylisé par le SCSS pour les 3 premières places -->
+                    <span class="position-badge position-{{ i + 1 }}">
                       @switch (i) {
                         @case (0) { 🥇 }
                         @case (1) { 🥈 }
@@ -48,7 +45,8 @@
                       }
                     </span>
                   </td>
-                  <td class="fw-semibold">{{ score.username }}</td>
+                  <!-- attribut title ici pour l'info-bulle (tooltip) -->
+                  <td class="fw-semibold text-start" title="{{ score.username }}">{{ score.username }}</td>
                   <td class="fw-bold">{{ score.score }}</td>
                 </tr>
               }

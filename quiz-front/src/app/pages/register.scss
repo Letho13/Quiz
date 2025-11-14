@@ -1,17 +1,39 @@
+@use "../../styles.scss";
+
+/* Conteneur principal (Mobile-First) */
+.register-container {
+  padding: 1.5rem;
+  max-width: 450px; /* Limite la largeur sur les grands écrans */
+  margin: 0 auto; /* Centre le formulaire */
+  /* AJOUT: Petit espace pour les très petits mobiles */
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+/* Titre */
+h2 {
+  font-size: 1.8rem;
+  color: #1a1a1a;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
 label {
   display: block;
+  /* Légèrement réduit pour les petits écrans sans perdre l'accessibilité tactile */
   margin-bottom: 1rem;
   position: relative;
   font-weight: 500;
   color: #333;
+  font-size: 0.95rem;
 }
 
 input {
   display: block;
   width: 100%;
-  padding: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
   border: 1px solid #ccc;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   background: #fff;
   transition: all 0.2s ease;
@@ -20,19 +42,72 @@ input {
 /* Effet focus moderne */
 input:focus {
   border-color: #007bff;
-  box-shadow: 0 0 6px rgba(0, 123, 255, 0.25);
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
   outline: none;
-  background: #fdfefe;
+  background: #f8faff;
 }
+
+/* =============================== */
+/* STYLES DE VISIBILITÉ DU MOT DE PASSE */
+/* =============================== */
+
+.password-wrapper {
+  position: relative;
+  display: flex;
+}
+
+.password-wrapper input {
+  flex-grow: 1;
+  padding-right: 3rem; /* Espace pour l'icône */
+}
+
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: #666;
+  transition: color 0.2s, transform 0.1s;
+  line-height: 0;
+  z-index: 10;
+}
+
+.toggle-password:hover {
+  color: #007bff;
+}
+
+.toggle-password:active {
+  transform: translateY(-50%) scale(0.95);
+}
+
 
 /* Erreurs */
 .error {
-  min-height: 1.5rem; /* un peu plus d'espace pour aérer */
+  min-height: 1.5rem;
   transition: all 0.3s ease;
   font-size: 0.85rem;
   color: #d9534f;
-  margin-top: 0.4rem;
+  /* Ajusté pour être plus compact sur mobile */
+  margin-top: -0.7rem;
+  margin-bottom: 0.8rem;
   line-height: 1.3;
+  padding-left: 0.5rem;
+}
+
+/* Styles pour le message d'erreur global (si utilisé) */
+.error-message {
+  padding: 0.75rem;
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+  text-align: center;
 }
 
 /* Liste des règles */
@@ -56,4 +131,68 @@ input:focus {
   font-size: 0.8rem;
 }
 
+/* Bouton de soumission */
+.actions button[type="submit"] {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  background-color: #28a745;
+  color: white;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s, opacity 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 6px rgba(40, 167, 69, 0.2);
+}
 
+.actions button[type="submit"]:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.actions button[type="submit"]:disabled {
+  background-color: #a4d2ae;
+  cursor: not-allowed;
+  opacity: 0.7;
+  box-shadow: none;
+}
+
+/* Lien de connexion */
+.actions a {
+  display: block;
+  text-align: center;
+  margin-top: 1rem;
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.actions a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Media Query pour les écrans plus grands (Tablette/Desktop) */
+@media (min-width: 768px) {
+  .register-container {
+    padding: 2.5rem 3rem;
+    margin-top: 2rem;
+    /* Ombre pour l'effet d'encart sur PC */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 12px;
+    background: #ffffff;
+    /* Réinitialisation du padding pour le PC */
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+
+  h2 {
+    font-size: 2rem;
+  }
+
+  /* Ajustement de l'espacement sur desktop */
+  label {
+    margin-bottom: 1.5rem;
+  }
+}

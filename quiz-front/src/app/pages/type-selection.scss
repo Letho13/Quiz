@@ -1,62 +1,200 @@
+@use "../../styles.scss";
+
 /* ===========================
-   🎯 CONTAINER PRINCIPAL
+   Wrapper Principal
    =========================== */
-.quiz-container {
-  max-width: 800px;
-  margin: 2rem auto;
-  padding: 2rem;
+.quiz-selection-page-wrapper {
+
+  margin-top: 3rem;
+
+  margin-bottom: 3rem;
+
+  //  Padding horizontal par défaut pour éviter de coller aux bords de l'écran
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+
+  /* Adapter si l'écran est petit pour éviter une marge trop grande */
+  @media (max-width: 768px) {
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
+    // Sur mobile, réduire le padding latéral si 1.5rem est trop grand, ou le garder.
+
+  }
+}
+
+
+/* ===========================
+   1. ENCART DES RÈGLES
+   =========================== */
+
+/* Wrapper pour l'alignement et l'espacement */
+.rules-block-wrapper {
+  width: 100%;
+  margin-bottom: 2.5rem; /* Espacement avec le bloc des thèmes */
+}
+
+.quiz-rules-card {
+  width: 100%;
+  max-width: 600px; /* Limite la largeur du bloc des règles pour le centrage */
+  margin: 0 auto; /* Centrage du bloc (DEMANDE DE L'UTILISATEUR) */
+
+  padding: 1.5rem;
+  border-radius: 12px;
+  background-color: #e3f2fd; /* Bleu clair subtil pour le fond */
+  border: 1px solid #90caf9;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+  .rules-title {
+    // Centrage du titre
+    text-align: center;
+
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #1e88e5;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px dashed #bbdefb;
+  }
+}
+
+.rules-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+
+  li {
+    text-align: left;
+    margin-bottom: 0.8rem; /* Augmentation de l'espace entre les règles */
+    font-size: 1rem;
+    line-height: 1.4;
+    color: #455a64;
+
+    // Ajout d'un conteneur pour gérer l'alignement vertical de la puce
+    display: flex;
+    align-items: flex-start; /* Aligne le contenu en haut (important si le texte saute une ligne) */
+
+    // Style de la puce
+    &::before {
+      content: '⚡'; /* Icône éclair thématique */
+      margin-right: 0.8rem; /* Plus d'espace */
+      font-size: 1.1rem;
+      line-height: 1.4;
+      flex-shrink: 0;
+    }
+  }
+}
+
+.rule-point {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: bold;
+  color: #fff;
+  background-color: #4CAF50; /* Vert pour les points */
+  margin-right: 0.5rem;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+.rule-tip {
+  font-style: italic;
+  color: #607d8b;
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
   text-align: center;
 }
 
-/* ===========================
-   🏷️ TITRE
-   =========================== */
-.quiz-title {
-  font-size: 1.8rem;
-  font-weight: 600;
-  margin-bottom: 2rem;
-  color: #1e293b; // proche slate-800
-}
 
 /* ===========================
-   🔲 GRILLE DES TYPES
+   2. SÉLECTION DES THÈMES
    =========================== */
+
+.quiz-container {
+  width: 100%;
+  max-width: 600px; /* Limite la largeur du bloc de sélection des thèmes pour le centrage */
+  margin: 0 auto; /* Centrage du bloc */
+  padding: 1.5rem;
+
+  .quiz-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #34495E;
+  }
+}
+
 .quiz-types-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
-/* ===========================
-   📦 CARTE TYPE DE QUIZ
-   =========================== */
 .quiz-type-card {
-  display: block;
-  background: #ecf0f1;
-  padding: 1.2rem;
-  border-radius: 10px;
-  font-size: 1.1rem;
-  font-weight: 500;
-  text-align: center;
-  color: #2c3e50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 120px;
+  border-radius: 12px;
   text-decoration: none;
-  cursor: pointer;
-  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+  color: white;
+  font-weight: 700;
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  }
 }
 
-.quiz-type-card:hover {
-  background: #dcdde1;
-  transform: translateY(-3px);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+/* Couleurs spécifiques aux types */
+.type-actualite {
+  background-color: #64B5F6; /* Bleu */
+  box-shadow: 0 4px 6px rgba(100, 181, 246, 0.4);
 }
 
-/* Responsive : une colonne sur mobile */
+.type-scolaire {
+  background-color: #FFB74D; /* Orange */
+  box-shadow: 0 4px 6px rgba(255, 183, 77, 0.4);
+}
+
+.type-loisir {
+  background-color: #BA68C8; /* Violet */
+  box-shadow: 0 4px 6px rgba(186, 104, 200, 0.4);
+}
+
+/* Mobile adjustments */
 @media (max-width: 600px) {
+  .quiz-rules-card {
+    max-width: 100%;
+    padding: 1rem;
+
+    .rules-title {
+      font-size: 1.2rem;
+    }
+  }
+
+  .quiz-container {
+    max-width: 100%;
+  }
+
+  .rules-list {
+    li {
+      font-size: 0.95rem;
+    }
+  }
+
   .quiz-types-grid {
     grid-template-columns: 1fr;
+  }
+
+  .quiz-type-card {
+    height: 100px;
+    font-size: 1.1rem;
   }
 }

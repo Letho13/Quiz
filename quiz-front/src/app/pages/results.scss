@@ -1,0 +1,137 @@
+/* ===========================
+   RÉSULTATS DU QUIZ
+   =========================== */
+
+.results-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh; /* Centrage sur la page */
+  /* Utilisation d'un fond d'écran légèrement plus texturé pour la page de résultats */
+  background: #eef2f7;
+  padding: 2rem 1rem;
+}
+
+.results-card {
+  max-width: 450px;
+  width: 95%;
+  text-align: center;
+  padding: 3rem 2rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Ombre plus prononcée */
+  animation: fadeIn 0.8s ease-out; /* Animation à l'arrivée */
+}
+
+/* Animation d'apparition */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-section {
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--primary-color, #2C3E50);
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  color: #7f8c8d;
+  font-size: 1rem;
+}
+
+/* --- Affichage du Score --- */
+.score-display {
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  background-color: #f0f8ff; /* Bleu très léger */
+  border: 2px solid #0ea5e9; /* Bordure bleue plus accentuée */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  color: #34495E;
+  margin-bottom: 0.5rem;
+  text-transform: uppercase;
+}
+
+.final-score {
+  font-size: 4rem; /* Très grand pour l'impact */
+  font-weight: 900;
+  color: #0ea5e9; /* Couleur primaire */
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.final-score:hover {
+  transform: scale(1.05); /* Petit effet au survol (ou au toucher) */
+}
+
+.score-unit {
+  font-size: 1.5rem;
+  color: #7f8c8d;
+  font-weight: 600;
+  margin-top: 0.2rem;
+}
+
+/* --- Bouton --- */
+.home-button {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.1rem;
+  margin-top: 2rem;
+}
+
+/* --- Messages de Chargement --- */
+.loading-message {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  color: #7f8c8d;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #0ea5e9;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* --- Mobile (Rendre encore plus compact) --- */
+@media (max-width: 450px) {
+  .results-card {
+    padding: 2rem 1rem;
+  }
+
+  .title {
+    font-size: 1.6rem;
+  }
+
+  .final-score {
+    font-size: 3rem;
+  }
+}

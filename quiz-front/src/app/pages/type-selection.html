@@ -1,15 +1,46 @@
-<div class="quiz-container card">
+<!-- Wrapper général pour ajouter de l'espace en haut et en bas de la page -->
+<div class="quiz-selection-page-wrapper">
 
-  <h2 class="quiz-title">Choisis un type de Quiz</h2>
+  <!-- Encart des règles, désormais SEPARÉ du bloc des thèmes -->
+  <div class="rules-block-wrapper">
+    <!-- La classe 'card' donne l'aspect visuel de bloc -->
+    <div class="quiz-rules-card card">
+      <h2 class="rules-title">Les règles ?</h2>
+      <ul class="rules-list">
+        <li>
+          <span class="rule-point">5 pts</span> si vous répondez dans les 4 premières secondes.
+        </li>
+        <li>
+          <span class="rule-point">4 pts</span> si vous répondez dans les 4 secondes suivantes et ainsi desuite.
+        </li>
+        <li>
+          <span class="rule-point">0 pt</span> si la réponse est incorrecte ou le temps écoulé.
+        </li>
+      </ul>
+      <p class="rule-tip">La vitesse compte, mais la justesse est la clé !</p>
+    </div>
+  </div>
 
-  <ul class="quiz-types-grid">
-    @for (type of quizTypes(); track type) {
-      <li>
-        <a [routerLink]="['/quizzes/type', type]" class="quiz-type-card">
-          {{ type }}
-        </a>
-      </li>
-    }
-  </ul>
+  <!-- Bloc de sélection des thèmes (conteneur existant) -->
+  <div class="quiz-container card">
+    <h2 class="quiz-title">Choisis un thème</h2>
+
+    <ul class="quiz-types-grid">
+      @for (type of quizTypes(); track type) {
+        <li>
+          <a [routerLink]="['/quizzes/type', type]"
+             class="quiz-type-card"
+             [ngClass]="{
+               'type-actualite': type.toUpperCase() === 'ACTUALITE',
+               'type-scolaire': type.toUpperCase() === 'SCOLAIRE',
+               'type-loisir': type.toUpperCase() === 'LOISIR'
+             }">
+            <!-- Le span assure que le texte s'affiche en majuscule grâce au SCSS -->
+            <span class="quiz-type-name">{{ type }}</span>
+          </a>
+        </li>
+      }
+    </ul>
+  </div>
 
 </div>
