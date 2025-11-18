@@ -8,6 +8,7 @@
   /* AJOUT: Petit espace pour les très petits mobiles */
   padding-left: 0.75rem;
   padding-right: 0.75rem;
+  position: relative;
 }
 
 /* Titre */
@@ -16,6 +17,25 @@ h2 {
   color: #1a1a1a;
   margin-bottom: 2rem;
   text-align: center;
+}
+
+/* =============================== */
+/* INFO DÉMONSTRATION */
+/* =============================== */
+
+.demo-info-box {
+  background-color: #e6f7ff;
+  border-left: 5px solid #007bff;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  color: #0056b3;
+}
+
+.demo-info-box p {
+  margin: 0;
+  line-height: 1.4;
 }
 
 label {
@@ -185,6 +205,20 @@ input:focus {
     /* Réinitialisation du padding pour le PC */
     padding-left: 3rem;
     padding-right: 3rem;
+    max-width: 700px;
+  }
+
+  /* Positionnement latéral sur les grands écrans */
+  .demo-info-box {
+    position: absolute;
+    top: 50%; /* Centre verticalement par rapport au conteneur */
+    left: 100%; /* Déplace juste après le conteneur */
+    transform: translateY(-50%) translateX(20px); /* Ajuste le centrage et l'espace */
+    width: 250px; /* Largeur fixe pour l'encart */
+    z-index: 50;
+    margin: 0;
+    /* Ombre subtile pour le faire ressortir davantage */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   }
 
   h2 {

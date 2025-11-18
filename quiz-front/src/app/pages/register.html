@@ -1,6 +1,11 @@
 <div class="register-container">
   <h2>Créer un compte</h2>
 
+  <div class="demo-info-box">
+    <p>
+      Note de démonstration : L'adresse e-mail n'a pas besoin d'être valide ou réelle. Elle est uniquement utilisée pour la gestion des utilisateurs dans cette démo.</p>
+  </div>
+
   <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
 
     <!-- Username -->

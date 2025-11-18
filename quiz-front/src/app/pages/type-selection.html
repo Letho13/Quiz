@@ -11,7 +11,7 @@
           <span class="rule-point">5 pts</span> si vous répondez dans les 4 premières secondes.
         </li>
         <li>
-          <span class="rule-point">4 pts</span> si vous répondez dans les 4 secondes suivantes et ainsi desuite.
+          <span class="rule-point">4 pts</span> si vous répondez dans les 4 secondes suivantes et ainsi de suite.
         </li>
         <li>
           <span class="rule-point">0 pt</span> si la réponse est incorrecte ou le temps écoulé.
@@ -23,7 +23,7 @@
 
   <!-- Bloc de sélection des thèmes (conteneur existant) -->
   <div class="quiz-container card">
-    <h2 class="quiz-title">Choisis un thème</h2>
+    <h2 class="quiz-title">Choix du thème</h2>
 
     <ul class="quiz-types-grid">
       @for (type of quizTypes(); track type) {
@@ -33,7 +33,7 @@
              [ngClass]="{
                'type-actualite': type.toUpperCase() === 'ACTUALITE',
                'type-scolaire': type.toUpperCase() === 'SCOLAIRE',
-               'type-loisir': type.toUpperCase() === 'LOISIR'
+               'type-loisirs': type.toUpperCase() === 'LOISIRS'
              }">
             <!-- Le span assure que le texte s'affiche en majuscule grâce au SCSS -->
             <span class="quiz-type-name">{{ type }}</span>

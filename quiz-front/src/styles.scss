@@ -216,3 +216,36 @@ button:disabled {
   /* Ligne clé : Centre la carte à l'intérieur de l'app-container */
   margin: 0 auto;
 }
+
+/* ===========================
+ RÈGLE pour les GRANDS ÉCRANS
+   =========================== */
+@media (min-width: 768px) {
+  .app-container .card {
+
+    max-width: 800px;
+  }
+}
+
+/* écran tres large */
+@media (min-width: 1200px) {
+  .app-container .card {
+    max-width: 1000px;
+  }
+}
+
+/* ===========================
+ Ajustement de la Navigation
+   =========================== */
+.main-nav {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+@media (min-width: 768px) {
+  .main-nav {
+    /* Augmenter l'espace entre les éléments de navigation sur grand écran */
+    gap: 20px;
+  }
+}
