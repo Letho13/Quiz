@@ -29,7 +29,7 @@ export class UserProfileComponent {
     })
   );
 
-  // GESTION DES NOTIFICATIONS
+  // Gestion des notifications
   successMessage: string | null = null;
   errorMessage: string | null = null;
   private notificationTimeout: any;

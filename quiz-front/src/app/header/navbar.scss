@@ -1,7 +1,7 @@
 .navbar {
   display: flex;
   align-items: center;
-  /* MODIFICATION CLÉ : Réduire le padding vertical de 0.8rem à 0.5rem */
+  /* Réduire le padding vertical de 0.8rem à 0.5rem */
   padding: 0.5rem 1.5rem; /* Anciennement 0.8rem 1.5rem */
   background: #f8fafc; // gris clair moderne
   border-bottom: 1px solid #e2e8f0;
@@ -27,13 +27,13 @@
   border-bottom: 3px solid transparent;
 }
 
-/* Règle pour l'état ACTIF : Plus spécifique que 'a' seul */
+/* Règle pour l'état ACTIF */
 .navbar a.active {
   background: none;
   color: #0369a1;
   font-weight: 600;
 
-  /* LIGNE CLÉ : Bordure pour marquer l'activité */
+  /* Bordure pour marquer l'activité */
   border-bottom: 3px solid #0ea5e9;
   border-radius: 0;
 }
@@ -44,7 +44,7 @@
   color: #0ea5e9;
 }
 
-/* Règle pour l'état ACTIF AU SURVOL (Garantie de persistance) */
+/* Règle pour l'état ACTIF AU SURVOL */
 .navbar a.active:hover {
   background: none;
   color: #0369a1;
@@ -86,7 +86,7 @@
   /* Règle 1: Rendre la barre elle-même plus compacte */
   .navbar {
     padding: 0.5rem 0.5rem; /* Moins de padding latéral */
-    /* CORRECTION CLÉ : Empêche le bouton de déconnexion de passer à la ligne */
+    /* Empêche le bouton de déconnexion de passer à la ligne */
     flex-wrap: nowrap;
     margin-bottom: 0.8rem;
   }
@@ -94,7 +94,7 @@
   /* Règle 2: Réduire l'espacement entre les liens */
   .navbar-left {
     gap: 0.4rem; /* Réduire le gap de 1.5rem à 0.4rem (plus compact) */
-    /* CORRECTION : Empêche les liens de passer à la ligne, ce qui était la cause indirecte du problème */
+    /* Empêche les liens de passer à la ligne, ce qui était la cause indirecte du problème */
     flex-wrap: nowrap;
   }
 

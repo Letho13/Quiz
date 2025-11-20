@@ -1,12 +1,11 @@
 
 /* ===========================
-   NOUVEAU WRAPPER DE LA PAGE QUIZ
-   (Permet d'ajouter de l'espace avec la barre de navigation)
+   WRAPPER DE LA PAGE QUIZ
    =========================== */
 .quiz-page-wrapper {
-  // Ajout de marge supérieure pour aérer l'espace avec la barre de navigation
+  // marge supérieure pour aérer l'espace avec la barre de navigation
   margin-top: 3rem;
-  // Ajout de marge inférieure pour l'esthétique générale
+  // marge inférieure pour l'esthétique générale
   margin-bottom: 3rem;
 
   /* Adapter si l'écran est petit pour éviter une marge trop grande */
@@ -20,11 +19,11 @@
    LAYOUT DU QUIZ
    =========================== */
 
-/* --- ESPACEMENT AJOUTÉ --- */
+
 /* Style pour le bouton principal de navigation (Question suivante / Terminer le quiz) */
 .quiz-container > .btn-primary {
-  margin-bottom: 1.5rem; /* Ajoute de l'espace en dessous du bouton */
-  /* Assurez-vous qu'il est assez grand pour l'aligner avec l'espacement des autres éléments */
+  margin-bottom: 1.5rem;
+
   margin-top: 1rem;
   display: block; /* S'assurer qu'il prend toute la largeur pour centrer le texte */
   width: 100%; /* S'assurer qu'il prend toute la largeur de la carte */
@@ -86,15 +85,14 @@
   background: #ecf0f1;
   border-radius: 8px;
   font-size: 1rem;
-  /* CHANGEMENTS CLÉS ICI */
+
   width: 100%;       /* Force le bouton à prendre 100% de la largeur du <li> */
   text-align: left;  /* Alignement du texte à gauche pour le faire démarrer du bord */
   white-space: normal; /* Permet au texte de se sauter des lignes s'il est trop long */
-  /* FIN DES CHANGEMENTS CLÉS */
+
   cursor: pointer;
   transition: background 0.2s ease, transform 0.2s ease;
 
-  /* Nous pouvons aussi augmenter légèrement le padding si nécessaire pour donner de l'air */
   padding: 1.2rem;
 }
 
@@ -120,7 +118,7 @@
    =========================== */
 .correct-msg, .wrong-msg {
   padding: 0.8rem 1rem; /* Augmenter légèrement le padding pour donner plus d'air au message */
-  border-radius: 8px; /* Adoucir les coins */
+  border-radius: 8px;
   text-align: center; /* Centrer le texte du feedback */
   font-size: 1.1rem;
   font-weight: bold;
@@ -143,13 +141,13 @@
 
   /* Force le conteneur des réponses à n'avoir qu'une seule colonne en mode portrait */
   .answers-grid {
-    /* LIGNE CLÉ : Passe à 1 colonne sur téléphone */
+    /* Passe à 1 colonne sur téléphone */
     grid-template-columns: 1fr;
-    /* MODIFICATION OPTIONNELLE : Réduire le gap sur mobile pour gagner de la place */
+    /* Réduit le gap sur mobile pour gagner de la place */
     gap: 1rem;
   }
 
-  /* Optionnel : Rendre la question un peu plus petite sur mobile */
+  /* Rend la question un peu plus petite sur mobile */
   .quiz-question {
     font-size: 1.1rem;
   }

@@ -70,7 +70,7 @@ public class SecurityConfig {
     }
 
 
-    //Admin creation at start
+    // Creation d'admin pour acceder à l'application en premier user
     @Bean
     CommandLineRunner createAdmin(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {

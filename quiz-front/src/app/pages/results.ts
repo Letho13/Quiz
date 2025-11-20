@@ -33,11 +33,11 @@ export class ResultsComponent implements OnInit {
 
     this.rewardService.getLastScore(this.quizId).subscribe({
       next: (result) => {
-        // ASSIGNATION DES DEUX PROPRIÉTÉS
+        // assignations des 2 propriétés
         this.score = result.score;
         this.totalQuestions = result.totalQuestions;
 
-        // Supprime la valeur TEMPORAIRE
+        // Supprime la valeur temporaire
       },
       error: (err) => console.error("Erreur récupération score", err)
     });

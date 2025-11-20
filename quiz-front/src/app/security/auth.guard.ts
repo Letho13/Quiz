@@ -18,11 +18,11 @@ export class AuthGuard implements CanActivate {
     if (this.authService.isAuthenticated()) {
       return true;
     } else {
-      // 1. Déconnecte formellement (nettoyage de sécurité)
+      // Déconnecte (nettoyage de sécurité)
       this.authService.logout();
 
-      // 2. Redirige vers la page de connexion
-      // 3. Stocke l'URL d'origine (state.url) dans le paramètre de requête 'returnUrl'
+      // Redirige vers la page de connexion
+      // Stocke l'URL d'origine (state.url) dans le paramètre de requête 'returnUrl'
       this.router.navigate(['auth/login'], {
         queryParams: { returnUrl: state.url }
       });

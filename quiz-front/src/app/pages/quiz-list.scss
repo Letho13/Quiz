@@ -4,7 +4,7 @@
 .page-title {
   text-align: center;
   margin-bottom: 2.5rem;
-  font-size: 2rem; /* Plus grand que h2 */
+  font-size: 2rem;
   color: var(--primary-color);
 }
 
@@ -46,13 +46,13 @@
 
 /* Le bouton "Commencer" dans la carte */
 .quiz-card .start-btn {
-  align-self: center; /* Aligne le bouton à gauche dans la colonne */
-  padding: 0.6rem 1.5rem; /* Ajustement du padding pour qu'il ressorte */
+  align-self: center;
+  padding: 0.6rem 1.5rem;
 }
 
 /* Message si pas de quiz */
 .no-quiz-message {
-  grid-column: 1 / -1; /* Prend toute la largeur de la grille */
+  grid-column: 1 / -1;
   text-align: center;
   padding: 2rem;
   font-style: italic;

@@ -1,7 +1,7 @@
 @use "../../styles.scss";
 
 /* ===============================
-   1. CONTENEUR GLOBAL (Layout)
+   1. CONTENEUR GLOBAL
    =============================== */
 .login-container {
   display: flex;
@@ -24,7 +24,7 @@
 
 
 /* ===============================
-   2. FORMULAIRE (L'encart central)
+   2. FORMULAIRE
    =============================== */
 .login-form {
   background: var(--card-bg, #fff);
@@ -101,7 +101,6 @@
 
 /* ===============================
    4. VISIBILITÉ DU MOT DE PASSE
-   (Votre implémentation est très bonne!)
    =============================== */
 
 .password-wrapper {
@@ -126,7 +125,7 @@
   padding: 0.5rem;
   color: var(--secondary-color-light, #666);
   transition: color 0.2s, transform 0.1s;
-  line-height: 0; /* Important pour l'alignement de l'icône SVG */
+  line-height: 0;
   z-index: 10;
 }
 

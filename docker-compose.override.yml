@@ -2,13 +2,14 @@ services:
 
   questionnaire-db:
     container_name: question_base_de_donnee
-    image: postgres
+    image: postgres:16-alpine
+    user: "0"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: question_db
     volumes:
-      - questionnaire-data:/var/lib/postgresql/data
+      - questionnaire-data:/var/lib/postgresql
     ports:
       - "5432:5432"
     networks:
@@ -43,13 +44,14 @@ services:
 
   user-db:
     container_name: user_base_de_donnee
-    image: postgres
+    image: postgres:16-alpine
+    user: "0"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: user_db
     volumes:
-      - user-data:/var/lib/postgresql/data
+      - user-data:/var/lib/postgresql
     ports:
       - "5433:5432"
     networks:
@@ -84,13 +86,14 @@ services:
 
   reward-db:
     container_name: reward_base_de_donnee
-    image: postgres
+    image: postgres:16-alpine
+    user: "0"
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: reward_db
     volumes:
-      - reward-data:/var/lib/postgresql/data
+      - reward-data:/var/lib/postgresql
     ports:
       - "5434:5432"
     networks:
@@ -128,8 +131,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: .
-      dockerfile: discovery-service/Dockerfile
+      context: ./discovery-service
+      dockerfile: Dockerfile
     container_name: discovery-service
     ports:
       - "8761:8761"
@@ -150,8 +153,8 @@ services:
       SPRING_PROFILES_ACTIVE: docker
       SPRING_CLOUD_CONFIG_URI: http://config-server:8888
     build:
-      context: .
-      dockerfile: gateway-service/Dockerfile
+      context: ./gateway-service
+      dockerfile: Dockerfile
     container_name: gateway-service
     depends_on:
       config-server:
@@ -167,8 +170,8 @@ services:
     environment:
       SPRING_PROFILES_ACTIVE: native
     build:
-      context: .
-      dockerfile: config-server/Dockerfile
+      context: ./config-server
+      dockerfile: Dockerfile
     container_name: config-server
     ports:
       - "8888:8888"
@@ -182,8 +185,8 @@ services:
 
   front-service:
     build:
-      context: .
-      dockerfile: quiz-front/Dockerfile
+      context: ./quiz-front
+      dockerfile: Dockerfile
     container_name: front-service
     ports:
       - "9000:80"

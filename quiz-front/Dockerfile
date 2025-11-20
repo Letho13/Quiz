@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Construire l'application Angular en mode production
-# CORRECTION 2: Ajout de --base-href / pour s'assurer que les assets (JS/CSS) sont chargés à la racine
+# Ajout de --base-href / pour s'assurer que les assets (JS/CSS) sont chargés à la racine
 RUN npm run build -- --configuration production --base-href /
 
 

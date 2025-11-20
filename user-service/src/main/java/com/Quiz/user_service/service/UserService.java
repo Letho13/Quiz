@@ -115,7 +115,6 @@ public class UserService implements UserDetailsService {
         User user = userRepository.getUserByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("Utilisateur non trouvé : " + username));
 
-//        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(user.getRole()));
 
         log.info("Utilisateur trouvé : {} avec le rôle {}", user.getUsername(), user.getRole());
         return new UserDetailsImpl(user);

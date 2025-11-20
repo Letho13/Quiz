@@ -27,7 +27,6 @@ export const AuthInterceptor: HttpInterceptorFn = (req, next) => {
         authService.logout();
 
         //  Redirection vers la page de connexion
-
         router.navigate(['auth/login']);
 
         //  Retourne une erreur observable

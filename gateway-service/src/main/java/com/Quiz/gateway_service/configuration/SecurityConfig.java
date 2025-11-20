@@ -70,6 +70,7 @@ public class SecurityConfig {
         config.setAllowedOriginPatterns(List.of(
                 "https://quizcult.dewal.fr",
                 "http://localhost:4200",
+                "http://localhost:9000",
                 "http://quiz-front",
                 "http://192.168.1.157:4200"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));

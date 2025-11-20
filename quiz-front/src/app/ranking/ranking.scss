@@ -92,8 +92,6 @@
 
     .ranking-table-container {
       border-radius: 0.75rem;
-      /* overflow-x: auto si le tableau doit être plus large,
-         mais on préfère la troncature sur mobile */
       overflow: hidden;
       border: 1px solid #dee2e6;
     }
@@ -170,13 +168,13 @@
     padding-top: 1.5rem;
     overflow-x: hidden;
     width: 100%;
-    box-sizing: border-box; /* CLÉ: Inclure le padding dans la largeur */
+    box-sizing: border-box; /* Inclure le padding dans la largeur */
   }
 
   .quiz-row {
     gap: 1rem;
     justify-content: center;
-    width: 100%; /* S'assurer que le flex-container respecte la largeur */
+    width: 100%; /* le flex-container respecte la largeur */
   }
 
   .quiz-card {
@@ -184,7 +182,7 @@
     min-width: unset;
     max-width: 100%;
     padding: 1rem;
-    box-sizing: border-box; /* CLÉ: Inclure le padding dans la largeur de la carte */
+    box-sizing: border-box; /* Inclure le padding dans la largeur de la carte */
 
     .quiz-title {
       font-size: 1.2rem;
@@ -211,7 +209,7 @@
 
     .ranking-table {
       font-size: 0.8rem;
-      /* CLÉ: Forcer le tableau à respecter la largeur de la carte */
+      /* Forcer le tableau à respecter la largeur de la carte */
       table-layout: fixed;
       width: 100%;
 
@@ -233,7 +231,7 @@
       .col-rank { width: 15%; }
       .col-score { width: 15%; }
 
-      /* CLÉ MOBILE: S'assurer que le nom du participant est tronqué */
+      /* S'assurer que le nom du participant est tronqué */
       tbody td:nth-child(2) {
         max-width: 0;
         overflow: hidden;

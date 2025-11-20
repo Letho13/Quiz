@@ -17,7 +17,7 @@
   @media (max-width: 768px) {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
-    // Sur mobile, réduire le padding latéral si 1.5rem est trop grand, ou le garder.
+    // Sur mobile, réduire le padding latéral si 1.5rem est trop grand.
 
   }
 }
@@ -36,7 +36,7 @@
 .quiz-rules-card {
   width: 100%;
   max-width: 600px; /* Limite la largeur du bloc des règles pour le centrage */
-  margin: 0 auto; /* Centrage du bloc (DEMANDE DE L'UTILISATEUR) */
+  margin: 0 auto; /* Centrage du bloc  */
 
   padding: 1.5rem;
   border-radius: 12px;
@@ -69,9 +69,9 @@
     line-height: 1.4;
     color: #455a64;
 
-    // Ajout d'un conteneur pour gérer l'alignement vertical de la puce
+    // conteneur pour gérer l'alignement vertical de la puce
     display: flex;
-    align-items: flex-start; /* Aligne le contenu en haut (important si le texte saute une ligne) */
+    align-items: flex-start; /* Aligne le contenu en haut  */
 
     // Style de la puce
     &::before {

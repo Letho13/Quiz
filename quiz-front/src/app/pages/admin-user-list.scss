@@ -5,12 +5,12 @@
    =========================== */
 
 .admin-container {
-  /* MODIFICATION CLÉ : Augmenter la largeur maximale à 1600px pour un maximum d'espace sur PC */
+  /* a largeur maximale à 1600px pour un maximum d'espace sur PC */
   max-width: 1600px;
-  margin: 0 auto;    /* Ajout de margin auto pour centrer sur grand écran */
-  padding-top: 2rem; /* Espace en haut */
-  padding-left: 2rem; /* Padding par défaut pour desktop */
-  padding-right: 2rem; /* Padding par défaut pour desktop */
+  margin: 0 auto;    /* margin auto pour centrer sur grand écran */
+  padding-top: 2rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
 }
 
 .page-title {
@@ -28,8 +28,6 @@
 }
 
 .text-input {
-  /* Reprise du style des inputs que vous devriez avoir globalement */
-  /* flex-grow: 1 garantit qu'il prend l'espace supplémentaire */
   flex-grow: 1;
   padding: 0.6rem;
   border: 1px solid #ccc;
@@ -38,28 +36,27 @@
 }
 
 .search-btn {
-  /* Hérite du style .btn-primary */
-  white-space: nowrap; /* Empêche le bouton de se casser sur plusieurs lignes */
+  white-space: nowrap;
 }
 
 
 /* --- Tableau Utilisateurs --- */
 .user-list-card {
-  /* Rétabli à 1rem, mais nous allons donner plus de place au tableau via les colonnes */
+
   padding: 1rem;
-  overflow-x: auto; /* Permet le défilement horizontal sur petits écrans */
+  overflow-x: auto;
   margin-bottom: 2rem;
 }
 
 .user-table {
   width: 100%;
   border-collapse: separate;
-  /* Espacement vertical entre les lignes pour respirer */
+
   border-spacing: 0 5px;
 
-  /* Lignes alternées (striped) */
+
   tbody tr:nth-child(even) {
-    /* Utilisation de votre couleur de fond léger */
+
     background-color: var(--light-bg);
   }
 }
@@ -70,7 +67,7 @@
   padding: 1rem 1.5rem;
   text-align: center;
   font-weight: 700;
-  /* Ajouter de la marge en bas du header pour séparer du corps */
+
   margin-bottom: 0.5rem;
 }
 
@@ -108,12 +105,12 @@
 }
 
 .role-select:focus {
-  border-color: #0ea5e9; /* Bleu accent au focus */
+  border-color: #0ea5e9;
   outline: none;
 }
 
 .role-header, .role-cell {
-  /* NOUVELLE MODIFICATION : Augmentation pour laisser beaucoup d'espace sur PC (140px vs 130px) */
+  /* laisser beaucoup d'espace sur PC (140px vs 130px) */
   width: 140px;
 }
 
@@ -138,7 +135,7 @@
 
   .admin-container {
     padding-top: 1rem;
-    /* Ajouter un padding horizontal pour le mobile */
+    /* padding horizontal pour le mobile */
     padding-left: 0.75rem;
     padding-right: 0.75rem;
     /* Supprimer les marges de centrage pour le mobile pour maximiser l'espace */
@@ -171,17 +168,15 @@
 
   /* --- Tableau Utilisateurs --- */
   .user-list-card {
-    /* Réduire le padding sur mobile */
     padding: 0.75rem;
   }
 
   .user-table th,
   .user-table td {
-    padding: 0.5rem 1rem; /* Réduire le padding vertical sur mobile */
+    padding: 0.5rem 1rem;
   }
 
   .role-select {
-    /* Réduire légèrement la taille du select de rôle */
     padding: 0.3rem;
     font-size: 0.9rem;
   }
@@ -193,9 +188,7 @@
 
   /* --- Pagination --- */
   .pagination-controls {
-    /* Rendre les contrôles de pagination plus compacts */
     font-size: 0.9rem;
-    /* Conserver un petit padding pour les boutons */
     padding: 0 0.5rem;
   }
 }

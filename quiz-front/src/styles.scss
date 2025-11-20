@@ -163,19 +163,19 @@ button:disabled {
 .correct-msg {
   color: var(--success-color);
   font-weight: bold;
-  /* AJOUT: S'assurer qu'il est bien visible */
+  /* S'assurer qu'il est bien visible */
   z-index: 100;
 }
 
 .wrong-msg {
   color: var(--danger-color);
   font-weight: bold;
-  /* AJOUT: S'assurer qu'il est bien visible */
+  /* S'assurer qu'il est bien visible */
   z-index: 100;
 }
 
 /* ===========================
-    MEDIA QUERIES (MOBILE) - Ajustements Globaux
+    MEDIA QUERIES (MOBILE)
    =========================== */
 @media (max-width: 600px) {
 

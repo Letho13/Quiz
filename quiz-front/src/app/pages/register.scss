@@ -3,9 +3,9 @@
 /* Conteneur principal (Mobile-First) */
 .register-container {
   padding: 1.5rem;
-  max-width: 450px; /* Limite la largeur sur les grands écrans */
-  margin: 0 auto; /* Centre le formulaire */
-  /* AJOUT: Petit espace pour les très petits mobiles */
+  max-width: 450px;
+  margin: 0 auto;
+  /* Petit espace pour les très petits mobiles */
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   position: relative;
@@ -20,7 +20,7 @@ h2 {
 }
 
 /* =============================== */
-/* INFO DÉMONSTRATION */
+/* INFO DÉMO */
 /* =============================== */
 
 .demo-info-box {
@@ -118,7 +118,7 @@ input:focus {
   padding-left: 0.5rem;
 }
 
-/* Styles pour le message d'erreur global (si utilisé) */
+/* Styles pour le message d'erreur global */
 .error-message {
   padding: 0.75rem;
   background-color: #f8d7da;
@@ -151,7 +151,7 @@ input:focus {
   font-size: 0.8rem;
 }
 
-/* Bouton de soumission */
+/* Bouton Submit */
 .actions button[type="submit"] {
   width: 100%;
   padding: 1rem;
@@ -211,10 +211,10 @@ input:focus {
   /* Positionnement latéral sur les grands écrans */
   .demo-info-box {
     position: absolute;
-    top: 50%; /* Centre verticalement par rapport au conteneur */
-    left: 100%; /* Déplace juste après le conteneur */
+    top: 50%;
+    left: 100%;
     transform: translateY(-50%) translateX(20px); /* Ajuste le centrage et l'espace */
-    width: 250px; /* Largeur fixe pour l'encart */
+    width: 250px;
     z-index: 50;
     margin: 0;
     /* Ombre subtile pour le faire ressortir davantage */

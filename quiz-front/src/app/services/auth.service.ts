@@ -122,8 +122,6 @@ export class AuthService {
     );
   }
 
-  // --- Le reste de vos méthodes reste inchangé ---
-
   logout(): void {
     localStorage.removeItem('jwt');
   }

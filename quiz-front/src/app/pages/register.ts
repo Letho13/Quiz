@@ -29,7 +29,7 @@ export class RegisterComponent {
   showPassword = false;
   showConfirmPassword = false;
 
-  PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  // PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
   constructor() {
     this.registerForm = this.fb.group(

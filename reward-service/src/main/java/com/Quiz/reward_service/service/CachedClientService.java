@@ -17,6 +17,15 @@ public class CachedClientService {
     private final UserClient userClient;
     private final QuizClient quizClient;
 
+    /**
+     * Service intermédiaire (Proxy) agissant comme une couche de cache pour les appels aux microservices externes.
+     * <p>
+     * Son rôle principal est de réduire la latence réseau et la charge sur les services 'User' et 'Quiz'
+     * en stockant temporairement les données fréquemment demandées (comme les infos utilisateurs pour les classements).
+     * Utilise l'abstraction de cache de Spring.
+     * </p>
+     */
+
     @Cacheable(value = "users", key = "#id")
     public UserDto getUserById(Integer id) {
         return userClient.getUserById(id);

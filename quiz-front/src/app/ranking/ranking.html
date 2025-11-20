@@ -32,7 +32,7 @@
             </thead>
             <tbody class="ranking-body">
               @for (score of quiz.ranking; track score.username; let i = $index) {
-                <!-- Ajout de la classe 'ranked-row' pour le style zébré et de 'top-rank' pour les 3 premiers -->
+                <!-- la classe 'ranked-row' pour le style zébré et de 'top-rank' pour les 3 premiers -->
                 <tr class="ranked-row {{ i < 3 ? 'top-rank' : '' }}">
                   <td>
                     <!-- Le badge est maintenant stylisé par le SCSS pour les 3 premières places -->

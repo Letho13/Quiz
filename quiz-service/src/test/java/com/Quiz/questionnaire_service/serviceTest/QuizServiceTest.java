@@ -27,12 +27,6 @@ public class QuizServiceTest {
     @Mock
     private QuizRepository quizRepository;
 
-    // Nous devons moquer le Mapper car il est appelé à la fin.
-    // Cependant, le Mapper est statique. Pour le tester correctement,
-    // nous allons faire une vérification de la taille finale dans le cas
-    // où le mappage DTO n'est pas l'objectif du test (ce qui est le cas ici).
-    // Dans un vrai projet, on pourrait utiliser des bibliothèques pour mocker les statiques.
-    // Ici, nous allons simplement vérifier que le Quiz passé au mapper a la bonne taille.
 
     @InjectMocks
     private QuizService quizService;
@@ -56,8 +50,7 @@ public class QuizServiceTest {
     }
 
     /**
-     * Crée une liste de questions factices (Question::new n'est pas idéal, mais suffit ici
-     * pour le test de la taille de la liste).
+     * Crée une liste de questions factices.
      */
     private List<Question> createMockQuestions(int count) {
         List<Question> questions = new ArrayList<>();
@@ -81,12 +74,6 @@ public class QuizServiceTest {
         // Configuration du Mock Repository
         when(quizRepository.findById(QUIZ_ID)).thenReturn(Optional.of(mockQuiz));
 
-        // Note sur le mappeur statique :
-        // Puisque QuizMapper est statique, nous ne pouvons pas le mocker directement.
-        // L'objectif de ce test est de vérifier que la logique de sélection aléatoire
-        // du service a modifié l'entité 'mockQuiz' pour ne contenir que 10 questions.
-        // C'est cet état modifié que le QuizMapper recevra et mappera.
-
         // WHEN
         // Exécution de la méthode
         quizService.findQuizById(QUIZ_ID);
@@ -95,8 +82,7 @@ public class QuizServiceTest {
         // Vérification que le Repository a été appelé
         verify(quizRepository, times(1)).findById(QUIZ_ID);
 
-        // Vérification CRITIQUE : La liste de questions dans l'entité a été réduite à 10
-        // (La logique de tirage aléatoire a bien fonctionné)
+        // Vérification : La liste de questions dans l'entité a été réduite à 10
         assertEquals(MAX_QUESTIONS, mockQuiz.getQuestions().size(),
                 "La liste de questions devrait être réduite à " + MAX_QUESTIONS);
     }
