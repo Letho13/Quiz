@@ -1,10 +1,10 @@
-# 🧠 Projet Quiz Microservices
+#  Projet Quiz Microservices
 
 Une application Quiz de culture générale permettant aux utilisateurs de tester leurs connaissances, suivre leurs scores et se comparer aux autres joueurs.
 
 Ce projet met en avant une architecture microservices complète avec Spring Boot 3, Angular, PostgreSQL, Spring Security (JWT & OAuth2) et Docker — développée dans un but à la fois professionnel et pédagogique.
 
-## 📚 Table des matières
+##  Table des matières
 
 1. [À propos du projet](#-à-propos-du-projet)
 2. [Stack Technique](#-stack-technique)
@@ -14,7 +14,7 @@ Ce projet met en avant une architecture microservices complète avec Spring Boot
 
 ---
 
-## 🚀 À propos du projet
+##  À propos du projet
 
 Ce projet a été conçu pour :
 
@@ -24,7 +24,7 @@ Ce projet a été conçu pour :
 
 ---
 
-## 🛠️ Stack Technique
+##  Stack Technique
 
 Voici les principales technologies utilisées dans ce projet :
 
@@ -40,25 +40,25 @@ Voici les principales technologies utilisées dans ce projet :
 
 ---
 
-## 🧩 Architecture Microservices
+##  Architecture Microservices
 
 L’application repose sur plusieurs services indépendants, interconnectés via **Spring Cloud** :
 
-| Service | Rôle principal |
-| :--- | :--- |
-| 🧱 **Config Server** | Fournit la configuration centralisée à tous les services. |
-| 🔍 **Discovery Service (Eureka)** | Gère l’enregistrement et la découverte des microservices. |
-| 🌐 **Gateway Service** | Point d’entrée unique (API Gateway, filtrage, routage, sécurité). |
-| ❓ **Quiz Service** | Gestion des quiz, questions et réponses. |
-| 👤 **User Service** | Gestion des utilisateurs, rôles, authentification (JWT & OAuth2). |
-| 🏆 **Reward Service** | Calcul des scores, récompenses et classement des utilisateurs. |
-| 💻 **Front Service (Angular)** | Interface utilisateur. |
-| 🐘 **PostgreSQL** | Base de données dédiée pour chaque service (user, quiz, reward). |
-| 📈 **Zipkin** | Traçabilité et monitoring des requêtes distribuées. |
+| Service                          | Rôle principal |
+|:---------------------------------| :--- |
+| **Config Server**             | Fournit la configuration centralisée à tous les services. |
+| **Discovery Service (Eureka)** | Gère l’enregistrement et la découverte des microservices. |
+| **Gateway Service**              | Point d’entrée unique (API Gateway, filtrage, routage, sécurité). |
+| **Quiz Service**                 | Gestion des quiz, questions et réponses. |
+| **User Service**                 | Gestion des utilisateurs, rôles, authentification (JWT & OAuth2). |
+| **Reward Service**               | Calcul des scores, récompenses et classement des utilisateurs. |
+| **Front Service (Angular)**      | Interface utilisateur. |
+| **PostgreSQL**                   | Base de données dédiée pour chaque service (user, quiz, reward). |
+| **Zipkin**                       | Traçabilité et monitoring des requêtes distribuées. |
 
 ---
 
-## 🏁 Démarrage
+##  Démarrage
 
 Pour lancer le projet en local, suivez ces étapes :
 
@@ -66,6 +66,7 @@ Pour lancer le projet en local, suivez ces étapes :
 
 * Java 21
 * Docker & Docker Compose
+* Docker Desktop
 * Node.js & Angular CLI
 
 ### 2. Installation
@@ -76,17 +77,12 @@ Pour lancer le projet en local, suivez ces étapes :
     cd Quiz
     ```
 
-2.  Lancez l'environnement (exemple avec Docker Compose) :
+2.  Lancez l'environnement (le docker-compose.override) :
     ```sh
     docker-compose up -d
     ```
 
-3.  Lancez le front-end Angular :
-    ```sh
-    cd front-service
-    npm install
-    ng serve
-    ```
+
 ---
 
 ### Utilisateurs par défaut
@@ -97,11 +93,15 @@ Un utilisateur administrateur est créé par défaut pour tester l'application :
 - **Mot de passe** : Admin123!
 - **Rôle** : ADMIN
 
-Vous pouvez vous connecter avec cet utilisateur et gérer les quiz, les utilisateurs et les récompenses.
+Vous pouvez vous connecter avec cet utilisateur les utilisateurs.
+
+### Démo live disponible ici :
+
+https://quizcult.dewal.fr/auth/login
 
 ---
 
-## 🚀 Intéressé(e) ?
+### Intéressé(e) ?
 
 Je suis activement à la recherche d'opportunités ! Si ce projet vous a plu ou si vous souhaitez simplement échanger, n'hésitez pas à me contacter.
 
@@ -109,6 +109,6 @@ Je suis activement à la recherche d'opportunités ! Si ce projet vous a plu ou 
 
 ---
 
-## 📄 Licence
+##  Licence
 
 Ce projet est sous licence MIT - voir le fichier `LICENSE.md` pour plus de détails.
