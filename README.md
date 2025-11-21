@@ -93,7 +93,7 @@ Un utilisateur administrateur est créé par défaut pour tester l'application :
 - **Mot de passe** : Admin123!
 - **Rôle** : ADMIN
 
-Vous pouvez vous connecter avec cet utilisateur les utilisateurs.
+Vous pouvez vous connecter avec cet compte pour gérer les utilisateurs.
 
 ### Démo live disponible ici :
 
