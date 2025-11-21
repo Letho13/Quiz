@@ -27,7 +27,7 @@ export interface QuizScoreResult {
 @Injectable({ providedIn: 'root' })
 export class RewardService {
   private http = inject(HttpClient);
-  private baseUrl = `${environment.gatewayUrl}${environment.rewardApi}`;
+  private baseUrl = environment.rewardApi;
 
 
   /** Démarre une nouvelle tentative */

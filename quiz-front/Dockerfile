@@ -13,9 +13,8 @@ RUN npm install
 COPY . .
 
 # Construire l'application Angular en mode production
-# Ajout de --base-href / pour s'assurer que les assets (JS/CSS) sont chargés à la racine
-RUN npm run build -- --configuration production --base-href /
-
+# --base-href  pour s'assurer que les assets (JS/CSS) sont chargés à la racine
+RUN npx ng build --configuration production --base-href /
 
 # Étape de production : image Nginx
 FROM nginx:alpine

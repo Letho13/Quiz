@@ -13,7 +13,7 @@ export interface UserQuizScore {
 @Injectable({ providedIn: 'root' })
 export class UserProfileService {
   private http = inject(HttpClient);
-  private scoreUrl = `${environment.gatewayUrl}${environment.rewardApi}`;
+  private scoreUrl = environment.rewardApi;
 
   getBestUserScores(userId: number | null): Observable<UserQuizScore[]> {
     if (userId == null) return of([]);

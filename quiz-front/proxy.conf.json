@@ -1,18 +1,10 @@
 {
-  "/QUIZ-SERVICE": {
-    "target": "http://localhost:8222",
+  "/api": {
+    "target": "http://localhost:9001",
     "secure": false,
-    "changeOrigin": true
-  },
-  "/USER-SERVICE": {
-    "target": "http://localhost:8222",
-    "secure": false,
-    "changeOrigin": true
-  },
-  "/REWARD-SERVICE": {
-    "target": "http://localhost:8222",
-    "secure": false,
-    "changeOrigin": true
+    "changeOrigin": true,
+
+    "pathRewrite": { "^/api": "/api" }
   }
 }
 

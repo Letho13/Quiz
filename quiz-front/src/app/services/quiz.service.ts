@@ -29,18 +29,18 @@ export interface Quiz {
 })
 export class QuizService {
   private readonly http = inject(HttpClient);
-  private readonly apiUrl = `${environment.gatewayUrl}${environment.quizApi}`;
+  private readonly apiUrl = environment.quizApi;
 
   getQuizById(id: number): Observable<Quiz> {
-    return this.http.get<Quiz>(`${environment.gatewayUrl}${environment.quizApi}/${id}`);
+    return this.http.get<Quiz>(`${environment.quizApi}/${id}`);
   }
 
   getQuizzesByType(type: string): Observable<Quiz[]> {
-    return this.http.get<Quiz[]>(`${environment.gatewayUrl}${environment.quizApi}/type/${type}`);
+    return this.http.get<Quiz[]>(`${environment.quizApi}/type/${type}`);
   }
 
   getTypes(): Observable<string[]> {
-    return this.http.get<string[]>(`${environment.gatewayUrl}${environment.quizApi}/quiz/types`);
+    return this.http.get<string[]>(`${environment.quizApi}/quiz/types`);
   }
 
 }
